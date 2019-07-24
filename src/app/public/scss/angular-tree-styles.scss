@@ -1,0 +1,102 @@
+@import '~@skyux/theme/scss/mixins';
+@import "~@skyux/theme/scss/_compat/mixins";
+
+@import "~angular-tree-component/dist/angular-tree-component";
+
+.sky-angular-tree {
+  // Nodes
+  .node-wrapper {
+    border-left: $sky-nav-selected-border-width solid transparent;
+    padding-left: 5px !important; // TODO: Find better way to do this.
+  }
+  .tree-children .tree-node.tree-node-collapsed, .tree-children .tree-node.tree-node-expanded {
+    padding-left: 15px;
+  }
+  .node-content-wrapper {
+    padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
+  }
+  .tree-children, .tree-node-level-1.tree-node-leaf {
+    padding-left: 12px;
+  }
+
+  // Toggle
+  .toggle-children-wrapper {
+    padding: 0;
+  }
+  .toggle-children:before {
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 125%;
+    content: "+";
+  }
+  .toggle-children {
+    background-image: none;
+    background-color: #fff;
+    width: 22px;
+    height: 22px;
+    top: 8px;
+    border: 1px solid $sky-border-color-neutral-medium;
+    border-radius: 4px;
+  }
+  .toggle-children-wrapper-expanded .toggle-children {
+    transform: initial;
+  }
+  .toggle-children-wrapper-expanded .toggle-children:before {
+    content: "-";
+    top: -7px;
+    left: 6px;
+    font-size: 175%;
+  }
+
+  // Selection classes
+  .tree-node-active .node-wrapper {
+    background-color: $sky-background-color-neutral-light;
+    color: $sky-text-color-default;
+    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+  }
+  .tree-node-active .tree-children .node-wrapper {
+    background-color: inherit;
+    border-left: $sky-nav-selected-border-width solid transparent;
+  }
+  .node-content-wrapper-focused {
+    background: none;
+    box-shadow: none;
+  }
+
+  // Hover states
+  .node-content-wrapper-active:hover {
+    background: none;
+  }
+  .node-content-wrapper:hover {
+    background: none;
+    box-shadow: none;
+  }
+
+  // Custom SKY tree styles
+  .sky-tree-node-content {
+    padding: 0 0 0 5px;
+    display: inline-flex;
+    position: relative;
+    top: 2px;
+  }
+
+  // Checkboxes
+  .sky-checkbox-wrapper {
+    position: relative;
+    top: -2px;
+  }
+
+  // Dropdowns
+  .sky-dropdown {
+    display: inline-flex;
+    position: relative;
+    top: 3px;
+
+    .sky-dropdown-button-type-context-menu {
+      padding: 0 3px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

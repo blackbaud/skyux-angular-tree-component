@@ -1,0 +1,75 @@
+<h1>Tree-view</h1>
+
+<sky-toolbar>
+  <sky-toolbar-item>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="tree.treeModel.expandAll()"
+    >
+      Expand All
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="tree.treeModel.collapseAll()"
+    >
+      Collapse All
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="addNode(tree, node)"
+    >
+      Add Item to Root
+    </button>
+  </sky-toolbar-item>
+</sky-toolbar>
+
+<tree-root
+  class="sky-angular-tree"
+  [nodes]="nodes"
+  [options]="options"
+  #tree
+>
+  <ng-template
+    #treeNodeTemplate
+    let-node="node"
+    let-index="index"
+  >
+    <sky-checkbox
+      [checked]="node.data.checked"
+      [disabled]="node.data.disabled"
+      [labelledBy]="node.data.id"
+      (change)="check(node, !node.data.checked)"
+    >
+      <!-- <sky-checkbox-label>
+      </sky-checkbox-label> -->
+    </sky-checkbox>
+    <sky-dropdown
+      buttonType="context-menu"
+    >
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let item of dropdownItems">
+        <button
+          type="button"
+          [attr.disabled]="item.disabled ? '' : null"
+          (click)="actionClicked(item.name, tree, node)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+    <span
+      class="sky-tree-node-content"
+      [id]="node.data.id"
+    >
+      {{ node.data.name }}
+    </span>
+  </ng-template>
+</tree-root>
