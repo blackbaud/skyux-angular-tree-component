@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 import {
-  TreeModule
+  TreeModule, TreeModel
 } from 'angular-tree-component';
 
 import {
@@ -25,6 +25,9 @@ import {
 @NgModule({
   imports: [
     TreeModule.forRoot()
+  ],
+  providers: [
+    TreeModel
   ],
   exports: [
     MyLibrarySampleModule,

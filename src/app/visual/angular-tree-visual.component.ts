@@ -1,13 +1,25 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ViewChildren,
+  QueryList,
+  AfterContentInit
 } from '@angular/core';
 
 import {
-  IActionMapping,
-  ITreeOptions
+  ITreeOptions,
+  TreeNode,
+  TreeComponent,
+  ITreeState,
+  TreeModel,
+  TREE_ACTIONS
 } from 'angular-tree-component';
+
+import {
+  SkyCheckboxComponent,
+  SkyCheckboxChange
+} from '@skyux/forms';
 
 @Component({
   selector: 'sky-angular-grid-visual',
@@ -16,34 +28,35 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyAngularTreeVisualComponent {
+export class SkyAngularTreeVisualComponent implements AfterContentInit {
   public nodes: any[] = [
     {
       id: 1,
       name: 'United States',
+      isExpanded: true,
       children: [
         { id: 2, name: 'Alabama' },
         { id: 3, name: 'Alaska' },
-        { id: 4, name: 'Arizona' },
-        { id: 5, name: 'Arkansas' },
-        { id: 6, name: 'California' },
-        { id: 7, name: 'Colorado' },
-        { id: 8, name: 'Deleware' },
-        { id: 9, name: 'Florida', disabled: true },
-        { id: 10, name: 'Georgia' },
-        { id: 11, name: 'Hawaii' },
-        { id: 12, name: 'Idaho' },
-        { id: 13, name: 'Illinois' },
-        { id: 14, name: 'Indiana', children: [
+        // { id: 4, name: 'Arizona' },
+        // { id: 5, name: 'Arkansas' },
+        // { id: 6, name: 'California' },
+        // { id: 7, name: 'Colorado' },
+        // { id: 8, name: 'Deleware' },
+        // { id: 9, name: 'Florida', disabled: true },
+        // { id: 10, name: 'Georgia' },
+        // { id: 11, name: 'Hawaii' },
+        // { id: 12, name: 'Idaho' },
+        // { id: 13, name: 'Illinois' },
+        { id: 14, name: 'Indiana', isExpanded: true, children: [
           { id: 15, name: 'Adams' },
           { id: 16, name: 'Allen' },
           { id: 17, name: 'Bartholomew' },
-          { id: 18, name: 'Benton' },
-          { id: 19, name: 'Blackford' },
-          { id: 20, name: 'Boone' },
-          { id: 21, name: 'Brown' },
-          { id: 22, name: 'Caroll' },
-          { id: 23, name: 'Cass' }
+          // { id: 18, name: 'Benton' },
+          // { id: 19, name: 'Blackford' },
+          // { id: 20, name: 'Boone' },
+          // { id: 21, name: 'Brown' },
+          // { id: 22, name: 'Caroll' },
+          // { id: 23, name: 'Cass' }
           ]
         }
       ]
@@ -51,13 +64,14 @@ export class SkyAngularTreeVisualComponent {
     {
       id: 24,
       name: 'Canada',
+      isExpanded: true,
       children: [
         { id: 25, name: 'Alberta' },
         { id: 26, name: 'British Columbia' },
-        { id: 27, name: 'Manitoba' },
-        { id: 28, name: 'Ontario' },
-        { id: 29, name: 'Quebec' },
-        { id: 30, name: 'Saskatchewan' }
+        // { id: 27, name: 'Manitoba' },
+        // { id: 28, name: 'Ontario' },
+        // { id: 29, name: 'Quebec' },
+        // { id: 30, name: 'Saskatchewan' }
       ]
     }
   ];
@@ -73,71 +87,42 @@ export class SkyAngularTreeVisualComponent {
     { name: 'Delete', disabled: false }
   ];
 
-  public actionMapping: IActionMapping = {
-    mouse: {
-      click: (tree, node) => this.check(node, !node.data.checked)
-    }
-  };
+  // public actionMapping: IActionMapping = {
+  //   mouse: {
+  //     click: (tree, node) => this.check(node, !node.data.checked)
+  //   }
+  // };
 
   public options: ITreeOptions = {
-    // useCheckbox: true,
-    // useTriState: false
-    allowDrag: true
+    allowDrag: true,
+    useCheckbox: true,
+    useTriState: true
   };
 
-  public check(node: any, checked: any): void {
-    console.log(node, checked);
-    this.updateChildNodeCheckbox(node, checked);
-    this.updateParentNodeCheckbox(node.realParent);
+  public treeState: ITreeState;
+
+  @ViewChildren(SkyCheckboxComponent)
+  private checkboxes: QueryList<SkyCheckboxComponent> = new QueryList<SkyCheckboxComponent>();
+
+  constructor() {
   }
 
-  public updateChildNodeCheckbox(node: any, checked: any): void {
-    node.data.checked = checked;
-    node.data.indeterminate = false;
-    if (node.children) {
-      node.children.forEach((child: any) => {
-        if (child.data && !child.data.disabled) {
-          this.updateChildNodeCheckbox(child, checked);
-        }
-      });
-    }
+  public ngAfterContentInit(): void {
+    this.checkboxes.changes.subscribe(foo => {
+      console.log(foo);
+    });
   }
 
-  public updateParentNodeCheckbox(node: any): void {
-    if (!node) {
-      return;
-    }
-
-    let allChildrenChecked = true;
-    let noChildChecked = true;
-
-    for (const child of node.children) {
-      if (!child.data.checked || child.data.indeterminate) {
-        allChildrenChecked = false;
-      }
-      if (child.data.checked) {
-        noChildChecked = false;
-      }
-    }
-
-    if (allChildrenChecked) {
-      node.data.checked = true;
-      node.data.indeterminate = false;
-    } else if (noChildChecked) {
-      node.data.checked = false;
-      node.data.indeterminate = false;
-    } else {
-      node.data.checked = true;
-      node.data.indeterminate = true;
-    }
-    this.updateParentNodeCheckbox(node.parent);
+  public onCheckboxChange(tree: TreeComponent, node: TreeNode, event: SkyCheckboxChange): void {
+    // tree.treeModel.setSelectedNode(node, event.checked);
+    TREE_ACTIONS.TOGGLE_SELECTED(tree.treeModel, node, event);
   }
 
   public actionClicked(action: string, tree: any, node: any): void {
     alert('You selected ' + action);
-    if (action === 'Insert an item at this level') {
-      this.addNode(tree, node);
-    }
+    // if (action === 'Insert an item at this level') {
+    //   this.addNode(tree, node);
+    // }
   }
 
   public addNode(tree: any, node: any): void {
@@ -146,5 +131,50 @@ export class SkyAngularTreeVisualComponent {
       name: 'Mexico'
     });
     tree.treeModel.update();
+  }
+
+  public onSelect(event: any): void {
+    // const node = event.node as TreeNode;
+    // const foundCheckbox = this.getCheckboxById(node.id.toString());
+    // foundCheckbox.checked = true;
+    console.log(event);
+  }
+
+  public onDeselect(event: any): void {
+    // const node = event.node as TreeNode;
+    // const foundCheckbox = this.getCheckboxById(node.id.toString());
+    // foundCheckbox.checked = false;
+    console.log(event);
+  }
+
+  public isSelected(node: TreeNode): boolean {
+    return node.isSelected;
+  }
+
+  public isIndeterminate(node: TreeNode): boolean {
+    return node.isPartiallySelected;
+  }
+
+  public onUpdateData(event: any): void {
+    const treeModel = event.treeModel as TreeModel;
+    if (treeModel) {
+      for (let key in treeModel.selectedLeafNodeIds) {
+        if (treeModel.selectedLeafNodeIds[key]) {
+          const value = treeModel.selectedLeafNodeIds[key];
+          const checkbox = this.getCheckboxById(key);
+          checkbox.checked = value;
+        }
+      }
+    }
+  }
+
+  public onStateChange(event: any): void {
+    console.log(event);
+  }
+
+  private getCheckboxById(id: string): SkyCheckboxComponent {
+    return this.checkboxes.find(checkbox => {
+      return checkbox.id.toString() === id;
+    });
   }
 }

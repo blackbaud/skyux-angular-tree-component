@@ -34,6 +34,10 @@
   class="sky-angular-tree"
   [nodes]="nodes"
   [options]="options"
+  [state]="treeState"
+  (select)="onSelect($event)"
+  (deselect)="onDeselect($event)"
+  (updateData)="onUpdateData($event)"
   #tree
 >
   <ng-template
@@ -42,10 +46,11 @@
     let-index="index"
   >
     <sky-checkbox
-      [checked]="node.data.checked"
-      [disabled]="node.data.disabled"
-      [labelledBy]="node.data.id"
-      (change)="check(node, !node.data.checked)"
+      [checked]="isSelected(node)"
+      [id]="node.data.id"
+      [label]="node.data.name"
+      [ngClass]="{ 'sky-checkbox-indeterminate': isIndeterminate(node) }"
+      (change)="onCheckboxChange(tree, node, $event)"
     >
       <!-- <sky-checkbox-label>
       </sky-checkbox-label> -->
