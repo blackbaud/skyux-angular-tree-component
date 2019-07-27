@@ -47,6 +47,7 @@
   >
     <sky-checkbox
       [checked]="isSelected(node)"
+      [disabled]="isDisabled(node)"
       [id]="node.data.id"
       [label]="node.data.name"
       [ngClass]="{ 'sky-checkbox-indeterminate': isIndeterminate(node) }"

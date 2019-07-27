@@ -151,6 +151,11 @@ export class SkyAngularTreeVisualComponent implements AfterContentInit {
     return node.isSelected;
   }
 
+  public isDisabled(node: TreeNode): boolean {
+    const tristateEnabled = this.options.useCheckbox && this.options.useTriState;
+    return tristateEnabled ? false : node.hasChildren;
+  }
+
   public isIndeterminate(node: TreeNode): boolean {
     return node.isPartiallySelected;
   }
