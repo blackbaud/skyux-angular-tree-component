@@ -1,25 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
-  ViewChildren,
-  QueryList,
-  AfterContentInit
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
-  ITreeOptions,
-  TreeNode,
-  TreeComponent,
-  ITreeState,
-  TreeModel,
-  TREE_ACTIONS
+  ITreeOptions
 } from 'angular-tree-component';
 
 import {
-  SkyCheckboxComponent,
-  SkyCheckboxChange
-} from '@skyux/forms';
+  IDTypeDictionary
+} from 'angular-tree-component/dist/defs/api';
+
+import {
+  SkyTreeViewOptions
+} from '../public/modules/sky-tree-view/types/sky-tree-view-options';
 
 @Component({
   selector: 'sky-angular-grid-visual',
@@ -28,7 +23,17 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyAngularTreeVisualComponent implements AfterContentInit {
+export class SkyAngularTreeVisualComponent {
+  public foo: any[] = [
+    {
+      id: 1,
+      name: 'United States',
+      isExpanded: true,
+      children: [
+        { id: 2, name: 'Alabama' }
+      ]
+    }
+  ];
   public nodes: any[] = [
     {
       id: 1,
@@ -76,110 +81,80 @@ export class SkyAngularTreeVisualComponent implements AfterContentInit {
     }
   ];
 
-  public dropdownItems: any = [
-    { name: 'Insert an item at this level', disabled: false },
-    { name: 'Insert an item under this level', disabled: false },
-    { name: 'Move up', disabled: false },
-    { name: 'Move down', disabled: false },
-    { name: 'Move left', disabled: false },
-    { name: 'Move right', disabled: false },
-    { name: 'Edit', disabled: false },
-    { name: 'Delete', disabled: false }
-  ];
-
-  // public actionMapping: IActionMapping = {
-  //   mouse: {
-  //     click: (tree, node) => this.check(node, !node.data.checked)
-  //   }
-  // };
+  // public dropdownItems: any = [
+  //   { name: 'Insert an item at this level', disabled: false },
+  //   { name: 'Insert an item under this level', disabled: false },
+  //   { name: 'Move up', disabled: false },
+  //   { name: 'Move down', disabled: false },
+  //   { name: 'Move left', disabled: false },
+  //   { name: 'Move right', disabled: false },
+  //   { name: 'Edit', disabled: false },
+  //   { name: 'Delete', disabled: false }
+  // ];
 
   public options: ITreeOptions = {
     allowDrag: true,
     useCheckbox: true,
-    useTriState: true
+    useTriState: false
   };
 
-  public treeState: ITreeState;
+  public skyTreeViewExtraOptions: SkyTreeViewOptions = {
+    leafNodeSelectionOnly: true
+  };
 
-  @ViewChildren(SkyCheckboxComponent)
-  private checkboxes: QueryList<SkyCheckboxComponent> = new QueryList<SkyCheckboxComponent>();
-
-  constructor() {
-  }
-
-  public ngAfterContentInit(): void {
-    this.checkboxes.changes.subscribe(foo => {
-      console.log(foo);
-    });
-  }
-
-  public onCheckboxChange(tree: TreeComponent, node: TreeNode, event: SkyCheckboxChange): void {
-    // tree.treeModel.setSelectedNode(node, event.checked);
-    TREE_ACTIONS.TOGGLE_SELECTED(tree.treeModel, node, event);
-  }
-
-  public actionClicked(action: string, tree: any, node: any): void {
-    alert('You selected ' + action);
-    // if (action === 'Insert an item at this level') {
-    //   this.addNode(tree, node);
-    // }
-  }
-
-  public addNode(tree: any, node: any): void {
-    this.nodes.push({
-      id: 99,
-      name: 'Mexico'
-    });
-    tree.treeModel.update();
-  }
+  public selectedNodeIds: string[] = [];
 
   public onSelect(event: any): void {
-    // const node = event.node as TreeNode;
-    // const foundCheckbox = this.getCheckboxById(node.id.toString());
-    // foundCheckbox.checked = true;
-    console.log(event);
+    this.updateSelectedNodeIds(event.treeModel.selectedLeafNodeIds);
   }
 
   public onDeselect(event: any): void {
-    // const node = event.node as TreeNode;
-    // const foundCheckbox = this.getCheckboxById(node.id.toString());
-    // foundCheckbox.checked = false;
-    console.log(event);
+    this.updateSelectedNodeIds(event.treeModel.selectedLeafNodeIds);
   }
 
-  public isSelected(node: TreeNode): boolean {
-    return node.isSelected;
-  }
-
-  public isDisabled(node: TreeNode): boolean {
-    const tristateEnabled = this.options.useCheckbox && this.options.useTriState;
-    return tristateEnabled ? false : node.hasChildren;
-  }
-
-  public isIndeterminate(node: TreeNode): boolean {
-    return node.isPartiallySelected;
-  }
-
-  public onUpdateData(event: any): void {
-    const treeModel = event.treeModel as TreeModel;
-    if (treeModel) {
-      for (let key in treeModel.selectedLeafNodeIds) {
-        if (treeModel.selectedLeafNodeIds[key]) {
-          const value = treeModel.selectedLeafNodeIds[key];
-          const checkbox = this.getCheckboxById(key);
-          checkbox.checked = value;
-        }
+  private updateSelectedNodeIds(selectedLeafNodeIds: IDTypeDictionary) {
+    this.selectedNodeIds = [];
+    for (let key in selectedLeafNodeIds) {
+      if (selectedLeafNodeIds[key] && selectedLeafNodeIds[key]) {
+        this.selectedNodeIds.push(key);
       }
     }
   }
 
-  public onStateChange(event: any): void {
-    console.log(event);
-  }
+  // @ViewChildren(SkyCheckboxComponent)
+  // private checkboxes: QueryList<SkyCheckboxComponent> = new QueryList<SkyCheckboxComponent>();
 
-  private getCheckboxById(id: string): SkyCheckboxComponent {
-    return this.checkboxes.find(checkbox => {
-      return checkbox.id.toString() === id;
-    });
-  }
+  // public actionClicked(action: string, tree: any, node: any): void {
+  //   alert('You selected ' + action);
+  //   if (action === 'Insert an item at this level') {
+  //     this.addNode(tree, node);
+  //   }
+  // }
+
+  // public addNode(tree: any, node: any): void {
+  //   this.nodes.push({
+  //     id: 99,
+  //     name: 'Mexico'
+  //   });
+  //   tree.treeModel.update();
+  // }
+
+  // public onUpdateData(event: any): void {
+  //   const treeModel = event.treeModel as TreeModel;
+  //   if (treeModel) {
+  //     for (let key in treeModel.selectedLeafNodeIds) {
+  //       if (treeModel.selectedLeafNodeIds[key]) {
+  //         const value = treeModel.selectedLeafNodeIds[key];
+  //         const checkbox = this.getCheckboxById(key);
+  //         checkbox.checked = value;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // private getCheckboxById(id: string): SkyCheckboxComponent {
+  //   return this.checkboxes.find(checkbox => {
+  //     return checkbox.id.toString() === id;
+  //   });
+  // }
 }

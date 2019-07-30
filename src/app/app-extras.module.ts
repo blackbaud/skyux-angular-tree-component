@@ -3,38 +3,19 @@ import {
 } from '@angular/core';
 
 import {
-  TreeModule, TreeModel
-} from 'angular-tree-component';
-
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
-
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
-
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
-
-import {
   MyLibrarySampleModule
 } from './public';
 
+import { SkyTreeViewModule } from './public/modules/sky-tree-view/sky-tree-view.module';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/indicators';
+
 @NgModule({
-  imports: [
-    TreeModule.forRoot()
-  ],
-  providers: [
-    TreeModel
-  ],
   exports: [
     MyLibrarySampleModule,
+    SkyTreeViewModule,
     SkyCheckboxModule,
-    SkyDropdownModule,
-    SkyToolbarModule,
-    TreeModule
+    SkyIconModule
   ]
 })
 export class AppExtrasModule { }

@@ -3,7 +3,7 @@
 
 @import "~angular-tree-component/dist/angular-tree-component";
 
-.sky-angular-tree {
+.sky-tree-view {
   // Nodes
   .node-wrapper {
     border-left: $sky-nav-selected-border-width solid transparent;
@@ -20,20 +20,6 @@
   }
   .tree-children, .tree-node-level-1.tree-node-leaf {
     padding-left: 5px;
-  }
-  .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
-    box-shadow: none;
-  }
-  .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
-    background: none;
-  }
-  .node-content-wrapper-focused .sky-tree-node-content {
-    background: #beebff;
-    box-shadow: inset 0 0 1px #999;
-  }
-  .node-content-wrapper-active.node-content-wrapper-focused .sky-tree-node-content {
-    background: none;
-    box-shadow: none;
   }
 
   // Toggle
@@ -66,21 +52,35 @@
   }
 
   // Selection classes
-  .tree-node-active .node-wrapper {
-    background-color: $sky-background-color-neutral-light;
-    color: $sky-text-color-default;
-    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+  // .tree-node-active .node-wrapper {
+  //   background-color: $sky-background-color-neutral-light;
+  //   color: $sky-text-color-default;
+  //   border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+  // }
+  // .tree-node-active .tree-children .node-wrapper {
+  //   background-color: inherit;
+  //   border-left: $sky-nav-selected-border-width solid transparent;
+  // }
+
+  // &.sky-tree-view-single-select .tree-node-active .node-wrapper,
+  // &.sky-tree-view-multi-select .tree-node-active .node-wrapper {
+  //   background-color: $sky-background-color-selected;
+  //   border-left: $sky-nav-selected-border-width solid transparent;
+  // }
+  // &.sky-tree-view-single-select .tree-node-active .tree-children .node-wrapper,
+  // &.sky-tree-view-multi-select .tree-node-active .tree-children .node-wrapper {
+  //   background-color: inherit;
+  // }
+
+  .sky-tree-view-node-selected {
+    background-color: $sky-background-color-selected;
   }
-  .tree-node-active .tree-children .node-wrapper {
-    background-color: inherit;
-    border-left: $sky-nav-selected-border-width solid transparent;
-  }
+
+  // Hover/focus states
   .node-content-wrapper-focused {
     background: none;
     box-shadow: none;
   }
-
-  // Hover states
   .node-content-wrapper-active:hover {
     background: none;
   }
@@ -88,17 +88,31 @@
     background: none;
     box-shadow: none;
   }
+  .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
+    box-shadow: none;
+  }
+  .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
+    background: none;
+  }
+  .node-content-wrapper-focused .sky-tree-node-content {
+    // TODO: Cross-browser support needed!
+    outline: -webkit-focus-ring-color auto 5px;
+  }
+  .node-content-wrapper-active.node-content-wrapper-focused .sky-tree-node-content {
+    background: none;
+    box-shadow: none;
+  }
 
   // Custom SKY tree styles
   .sky-tree-node-content {
-    padding: 0 0 0 5px;
+    padding: 0 5px;
     display: inline-flex;
   }
 
   // Checkboxes
-  tree-node-checkbox, .tree-node-checkbox {
-    display:none;
-  }
+  // tree-node-checkbox, .tree-node-checkbox {
+  //   display:none;
+  // }
 
   .sky-checkbox-wrapper {
     position: relative;
@@ -119,5 +133,19 @@
     //   width: 24px;
     //   height: 24px;
     // }
+  }
+}
+
+.sky-split-view {
+  .sky-tree-view {
+    .tree-node-active .node-wrapper {
+      background-color: $sky-background-color-neutral-light;
+      color: $sky-text-color-default;
+      border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+    }
+    .tree-node-active .tree-children .node-wrapper {
+      background-color: inherit;
+      border-left: $sky-nav-selected-border-width solid transparent;
+    }
   }
 }

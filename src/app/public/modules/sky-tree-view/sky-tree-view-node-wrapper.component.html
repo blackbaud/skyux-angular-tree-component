@@ -1,0 +1,63 @@
+<div
+  class="node-wrapper"
+  [class.sky-tree-view-node-selected]="node.isSelected"
+  [style.padding-left]="node.getNodePadding()"
+>
+
+  <!-- Expander -->
+  <tree-node-expander
+    [node]="node"
+  >
+  </tree-node-expander>
+
+  <!-- Checkbox -->
+  <sky-checkbox *ngIf="node.options.useCheckbox"
+    [checked]="node.isSelected"
+    [hidden]="isHidden | async"
+    [id]="node.data.id"
+    [label]="node.data.name"
+    [ngClass]="{ 'sky-checkbox-indeterminate': node.isPartiallySelected }"
+    (change)="onCheckboxChange($event)"
+  >
+  </sky-checkbox>
+
+  <!-- Dropdown -->
+  <!-- <sky-dropdown
+    buttonType="context-menu"
+  >
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let item of dropdownItems">
+        <button
+          type="button"
+          [attr.disabled]="item.disabled ? '' : null"
+          (click)="actionClicked(item.name, tree, node)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown> -->
+
+  <div
+    class="node-content-wrapper"
+    [class.node-content-wrapper-active]="node.isActive"
+    [class.node-content-wrapper-focused]="node.isFocused"
+    (click)="node.mouseAction('click', $event)"
+    (dblclick)="node.mouseAction('dblClick', $event)"
+    (contextmenu)="node.mouseAction('contextMenu', $event)"
+    (treeDrop)="node.onDrop($event)"
+    (treeDropDragOver)="node.mouseAction('dragOver', $event)"
+    (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
+    (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
+    [treeAllowDrop]="node.allowDrop"
+    [allowDragoverStyling]="node.allowDragoverStyling()"
+    [treeDrag]="node"
+    [treeDragEnabled]="node.allowDrag()"
+  >
+    <tree-node-content
+      [node]="node"
+      [index]="index"
+    >
+    </tree-node-content>
+  </div>
+</div>
