@@ -7,14 +7,14 @@ import {
 } from '@skyux/i18n/modules/i18n/lib-resources-providers-token';
 
 import {
-  MyLibrarySampleResourcesProvider
-} from '../../plugin-resources/sample-resources-provider';
+  SkyTreeViewResourcesProvider
+} from '../../plugin-resources/sky-tree-view-resources-provider';
 
 @NgModule({
   providers: [{
     provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: MyLibrarySampleResourcesProvider,
+    useClass: SkyTreeViewResourcesProvider,
     multi: true
   }]
 })
-export class MyLibrarySampleResourcesModule { }
+export class SkyTreeViewResourcesModule { }
