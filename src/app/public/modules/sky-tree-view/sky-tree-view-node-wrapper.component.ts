@@ -3,25 +3,25 @@ import {
   Component,
   Input,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  AfterViewInit,
+  Optional
 } from '@angular/core';
 
 import {
   TREE_ACTIONS,
+  TreeModel,
   TreeNode
 } from 'angular-tree-component';
-
-import {
-  BehaviorSubject
-} from 'rxjs';
 
 import {
   SkyCheckboxChange
 } from '@skyux/forms';
 
 import {
-  SkyTreeViewService
-} from './sky-tree-view.service';
+  SkyTreeViewComponent
+} from './sky-tree-view.component';
 
 @Component({
   selector: 'sky-tree-view-node-wrapper',
@@ -29,7 +29,7 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyTreeViewNodeWrapperComponent implements OnInit {
+export class SkyTreeViewNodeWrapperComponent implements AfterViewInit, OnInit {
 
   @Input()
   public index: number;
@@ -37,33 +37,76 @@ export class SkyTreeViewNodeWrapperComponent implements OnInit {
   @Input()
   public node: TreeNode;
 
-  public isHidden: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public set isPartiallySelected(value: boolean) {
+    if (value !== this._isPartiallySelected) {
+      this._isPartiallySelected = value;
+      this.changeDetectorRef.markForCheck();
+    }
+  }
+
+  public get isPartiallySelected(): boolean {
+    return this._isPartiallySelected;
+  }
+
+  public set isSelected(value: boolean) {
+    if (value !== this._isSelected) {
+      this._isSelected = value;
+      this.changeDetectorRef.markForCheck();
+    }
+  }
+
+  public get isSelected(): boolean {
+    return this._isSelected;
+  }
+
+  // public isHidden = false;
+
+  private _isPartiallySelected: boolean;
+
+  private _isSelected: boolean;
 
   constructor(
-    private skyTreeViewService: SkyTreeViewService
+    private changeDetectorRef: ChangeDetectorRef,
+    @Optional() private skyTreeView: SkyTreeViewComponent
   ) {}
 
   public ngOnInit(): void {
-    this.skyTreeViewService.treeInitialized
-      .take(1)
-      .subscribe(() => {
-        const hidden = this.skyTreeViewService.options.leafNodeSelectionOnly && this.node.hasChildren;
-        this.isHidden.next(hidden);
+      // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
+      // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
+      this.node.treeModel.subscribeToState(() => {
+        this.isSelected = this.node.isSelected;
+        this.isPartiallySelected = this.node.isPartiallySelected;
       });
   }
 
-  public onCheckboxChange(event: SkyCheckboxChange): void {
-    this.toggleSelected(event);
-    this.node.setIsActive(event.checked);
+  public ngAfterViewInit(): void {
+    // setTimeout(() => {
+    //   this.isHidden = this.skyTreeViewService.isCheckboxHidden(this.node);
+    //   this.changeDetectorRef.markForCheck();
+    // });
   }
 
-  // public onNodeContentClick(tree: TreeComponent, node: TreeNode, event: any): void {
-  //   if (this.tree.treeModel.options.useCheckbox) {
-  //     this.toggleSelected(tree, node, event);
-  //   }
-  // }
+  public onCheckboxChange(node: TreeNode, event: SkyCheckboxChange): void {
+    this.toggleSelected(node, node.treeModel, event);
+    node.setIsActive(event.checked);
+  }
 
-  private toggleSelected(event: any) {
-    TREE_ACTIONS.TOGGLE_SELECTED(this.node.treeModel, this.node, event);
+  public onNodeContentClick(node: TreeNode, tree: TreeModel, event: any): void {
+    if (this.node.options.useCheckbox && !this.isCheckboxHidden()) {
+      this.toggleSelected(node, tree, event);
+    }
+    this.node.mouseAction('click', event);
+  }
+
+  public isCheckboxHidden(): boolean {
+    return this.skyTreeView.options.leafNodeSelectionOnly && this.node.hasChildren;
+  }
+
+  public getSelectedClass(): boolean {
+    return this.isSelected && !this.isPartiallySelected && !this.isCheckboxHidden();
+  }
+
+  private toggleSelected(node: TreeNode, tree: TreeModel, event: any) {
+    TREE_ACTIONS.TOGGLE_SELECTED(tree, node, event);
   }
 }

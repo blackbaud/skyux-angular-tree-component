@@ -3,19 +3,27 @@ import {
 } from '@angular/core';
 
 import {
-  MyLibrarySampleModule
-} from './public';
+  SkyCheckboxModule
+} from '@skyux/forms';
 
-import { SkyTreeViewModule } from './public/modules/sky-tree-view/sky-tree-view.module';
-import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
+  SkyTreeViewModule
+} from './public/modules/sky-tree-view/sky-tree-view.module';
 
 @NgModule({
   exports: [
-    MyLibrarySampleModule,
-    SkyTreeViewModule,
     SkyCheckboxModule,
-    SkyIconModule
+    SkyDropdownModule,
+    SkyIconModule,
+    SkyTreeViewModule
   ]
 })
 export class AppExtrasModule { }

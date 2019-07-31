@@ -4,13 +4,12 @@
 @import "~angular-tree-component/dist/angular-tree-component";
 
 .sky-tree-view {
-  // Nodes
+
+  // Tree & Nodes
   .node-wrapper {
-    border-left: $sky-nav-selected-border-width solid transparent;
-    padding-left: 5px !important; // TODO: Find better way to do this.
-    padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
-    display: inline-flex;
     align-items: center;
+    padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
+    border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for split-view active style.
   }
   .tree-children .tree-node.tree-node-collapsed, .tree-children .tree-node.tree-node-expanded {
     padding-left: 22px;
@@ -22,7 +21,7 @@
     padding-left: 5px;
   }
 
-  // Toggle
+  // Toggle indicator
   .toggle-children-wrapper {
     padding: 0 5px 0 0;
   }
@@ -51,32 +50,7 @@
     padding: 0 5px 0 0;
   }
 
-  // Selection classes
-  // .tree-node-active .node-wrapper {
-  //   background-color: $sky-background-color-neutral-light;
-  //   color: $sky-text-color-default;
-  //   border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
-  // }
-  // .tree-node-active .tree-children .node-wrapper {
-  //   background-color: inherit;
-  //   border-left: $sky-nav-selected-border-width solid transparent;
-  // }
-
-  // &.sky-tree-view-single-select .tree-node-active .node-wrapper,
-  // &.sky-tree-view-multi-select .tree-node-active .node-wrapper {
-  //   background-color: $sky-background-color-selected;
-  //   border-left: $sky-nav-selected-border-width solid transparent;
-  // }
-  // &.sky-tree-view-single-select .tree-node-active .tree-children .node-wrapper,
-  // &.sky-tree-view-multi-select .tree-node-active .tree-children .node-wrapper {
-  //   background-color: inherit;
-  // }
-
-  .sky-tree-view-node-selected {
-    background-color: $sky-background-color-selected;
-  }
-
-  // Hover/focus states
+  // Hover/focus/selected states
   .node-content-wrapper-focused {
     background: none;
     box-shadow: none;
@@ -102,21 +76,13 @@
     background: none;
     box-shadow: none;
   }
-
-  // Custom SKY tree styles
-  .sky-tree-node-content {
-    padding: 0 5px;
-    display: inline-flex;
+  .sky-tree-view-node-selected {
+    background-color: $sky-background-color-selected;
   }
 
   // Checkboxes
-  // tree-node-checkbox, .tree-node-checkbox {
-  //   display:none;
-  // }
-
-  .sky-checkbox-wrapper {
-    position: relative;
-    top: -5px;
+  sky-checkbox {
+    display: inline-flex;
   }
 
   // TODO: Remove me when checkboxes support indeterminate!
@@ -125,17 +91,12 @@
   }
 
   // Dropdowns
-  .sky-dropdown {
-    display: inline-flex;
-
-    // .sky-dropdown-button-type-context-menu {
-    //   padding: 0 3px;
-    //   width: 24px;
-    //   height: 24px;
-    // }
+  .sky-tree-view-context-menu {
+    margin: 0 5px 0 0;
   }
 }
 
+// Split-view "active" states
 .sky-split-view {
   .sky-tree-view {
     .tree-node-active .node-wrapper {

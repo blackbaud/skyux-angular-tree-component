@@ -1,6 +1,6 @@
 <div
   class="node-wrapper"
-  [class.sky-tree-view-node-selected]="node.isSelected"
+  [class.sky-tree-view-node-selected]="getSelectedClass()"
   [style.padding-left]="node.getNodePadding()"
 >
 
@@ -12,37 +12,23 @@
 
   <!-- Checkbox -->
   <sky-checkbox *ngIf="node.options.useCheckbox"
-    [checked]="node.isSelected"
-    [hidden]="isHidden | async"
+    [checked]="isSelected"
+    [hidden]="isCheckboxHidden()"
     [id]="node.data.id"
     [label]="node.data.name"
-    [ngClass]="{ 'sky-checkbox-indeterminate': node.isPartiallySelected }"
-    (change)="onCheckboxChange($event)"
+    [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
+    (change)="onCheckboxChange(node, $event)"
   >
   </sky-checkbox>
 
-  <!-- Dropdown -->
-  <!-- <sky-dropdown
-    buttonType="context-menu"
-  >
-    <sky-dropdown-menu>
-      <sky-dropdown-item *ngFor="let item of dropdownItems">
-        <button
-          type="button"
-          [attr.disabled]="item.disabled ? '' : null"
-          (click)="actionClicked(item.name, tree, node)"
-        >
-          {{ item.name }}
-        </button>
-      </sky-dropdown-item>
-    </sky-dropdown-menu>
-  </sky-dropdown> -->
+  <!-- Context Menu -->
+  <ng-content select="sky-tree-view-context-menu"></ng-content>
 
   <div
     class="node-content-wrapper"
     [class.node-content-wrapper-active]="node.isActive"
     [class.node-content-wrapper-focused]="node.isFocused"
-    (click)="node.mouseAction('click', $event)"
+    (click)="onNodeContentClick(node, tree, $event)"
     (dblclick)="node.mouseAction('dblClick', $event)"
     (contextmenu)="node.mouseAction('contextMenu', $event)"
     (treeDrop)="node.onDrop($event)"

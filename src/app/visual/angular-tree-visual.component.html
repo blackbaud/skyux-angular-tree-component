@@ -1,19 +1,15 @@
-<h1>Tree-view</h1>
+<h1>Sky tree view</h1>
 
-<sky-tree-view
-  [options]="skyTreeViewExtraOptions"
+<h3>Basic</h3>
+<div
+  class="sky-padding-even-default"
 >
-
+  <sky-tree-view>
     <!-- angular-tree-component native API -->
     <tree-root
       [nodes]="nodes"
-      [options]="options"
-      (select)="onSelect($event)"
-      (deselect)="onDeselect($event)"
-      (updateData)="onUpdateData($event)"
-      #tree
+      #treeBasic
     >
-
       <!--- SKYUX template -->
       <ng-template
         let-index="index"
@@ -26,12 +22,192 @@
         >
         </sky-tree-view-node-wrapper>
       </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>
+
+<h3>Context menus</h3>
+<div
+  class="sky-padding-even-default"
+>
+  <sky-tree-view>
+    <tree-root
+      [nodes]="nodes"
+      #treeContextMenus
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+          <sky-tree-view-context-menu>
+            <sky-dropdown
+              buttonType="context-menu"
+            >
+              <sky-dropdown-menu>
+                <sky-dropdown-item *ngFor="let item of dropdownItems">
+                  <button
+                    type="button"
+                    (click)="actionClicked(item.name, node)"
+                  >
+                    {{ item.name }}
+                  </button>
+                </sky-dropdown-item>
+              </sky-dropdown-menu>
+            </sky-dropdown>
+          </sky-tree-view-context-menu>
+        </sky-tree-view-node-wrapper>
+      </ng-template>
 
     </tree-root>
 
-</sky-tree-view>
+  </sky-tree-view>
+  <p>
+    <b>Selected nodes:</b>
+    {{ selectedNodeIds }}
+  </p>
+</div>
 
-<p>
-  <b>Selected nodes:</b>
-  {{ selectedNodeIds }}
-</p>
+<h3>Cascading checkboxes</h3>
+<div
+  class="sky-padding-even-default"
+>
+  <sky-tree-view
+    [showToolbar]="true"
+  >
+    <tree-root
+      [nodes]="nodes"
+      [options]="optionsCascading"
+      #treeCascading
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>
+
+<h3>Non-cascading checkboxes</h3>
+<div
+  class="sky-padding-even-default"
+>
+  <sky-tree-view
+    [showToolbar]="true"
+  >
+    <tree-root
+      [nodes]="nodes"
+      [options]="optionsNoncascading"
+      #treeNonCascading
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>
+
+<h3>Checkboxes with leaf node selection only</h3>
+<div
+  class="sky-padding-even-default"
+>
+  <sky-tree-view
+    [showToolbar]="true"
+    [options]="optionsLeafNodeOnly"
+  >
+    <tree-root
+      [nodes]="nodes"
+      [options]="optionsNoncascading"
+      #treeNonCascading
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>
+
+<h3>Binding to events</h3>
+<div
+  class="sky-padding-even-default"
+>
+  <sky-tree-view
+    [showToolbar]="true"
+  >
+    <tree-root
+      [nodes]="nodes"
+      [options]="optionsCascading"
+      (deselect)="onSelectionChange($event)"
+      (select)="onSelectionChange($event)"
+      #treeEvents
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+  <p>
+    <b>Selected nodes:</b>
+    {{ selectedNodeIds }}
+  </p>
+</div>
+
+<h3>Split view</h3>
+<p>Split view doesn't exist yet, but this is to demonstrate "active" styles when selecting nodes</p>
+<div
+  class="sky-padding-even-default sky-split-view"
+>
+  <sky-tree-view>
+    <tree-root
+      [nodes]="nodes"
+      #treeSplitView
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>

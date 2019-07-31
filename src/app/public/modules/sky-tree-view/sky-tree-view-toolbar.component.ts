@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
 
 import {
-  TreeComponent,
+  TreeModel,
   TreeNode
 } from 'angular-tree-component';
 
@@ -22,21 +23,24 @@ import {
 })
 export class SkyTreeViewToolbarComponent implements OnInit {
 
-  public tree: TreeComponent;
+  public treeModel: TreeModel;
 
   constructor(
-    private skyTreeViewService: SkyTreeViewService
+    private skyTreeViewService: SkyTreeViewService,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   public ngOnInit(): void {
-    // const tree = this.skyTreeViewService.tree;
-    // tree.initialized.subscribe((foo: any) => {
-    //   console.log(foo);
-    // });
+    this.skyTreeViewService.treeInitialized
+      .take(1)
+      .subscribe((tree: TreeModel) => {
+        this.treeModel = tree;
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   public selectAll(): void {
-    this.tree.treeModel.doForAll((node: TreeNode) => {
+    this.treeModel.doForAll((node: TreeNode) => {
       const selectable = !node.hasChildren || (node.hasChildren && !this.skyTreeViewService.options.leafNodeSelectionOnly);
       if (selectable) {
         node.setIsSelected(true);
@@ -45,7 +49,7 @@ export class SkyTreeViewToolbarComponent implements OnInit {
   }
 
   public deselectAll(): void {
-    this.tree.treeModel.doForAll((node: TreeNode) => {
+    this.treeModel.doForAll((node: TreeNode) => {
       if (node.isSelectable()) {
         node.setIsSelected(false);
       }

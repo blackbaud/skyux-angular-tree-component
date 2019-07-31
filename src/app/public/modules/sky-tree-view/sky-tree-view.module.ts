@@ -9,12 +9,14 @@ import { SkyTreeViewNodeWrapperComponent } from './sky-tree-view-node-wrapper.co
 import { SkyTreeViewToolbarComponent } from './sky-tree-view-toolbar.component';
 import { CommonModule } from '@angular/common';
 import { SkyTreeViewComponent } from './sky-tree-view.component';
+import { SkyTreeViewContextMenuComponent } from './sky-tree-view-context-menu.component';
 
 @NgModule({
   declarations: [
     SkyTreeViewNodeWrapperComponent,
     SkyTreeViewToolbarComponent,
-    SkyTreeViewComponent
+    SkyTreeViewComponent,
+    SkyTreeViewContextMenuComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { SkyTreeViewComponent } from './sky-tree-view.component';
     SkyTreeViewNodeWrapperComponent,
     SkyTreeViewToolbarComponent,
     SkyTreeViewComponent,
+    SkyTreeViewContextMenuComponent,
     TreeModule
   ]
 })

@@ -1,6 +1,6 @@
 import {
-  Injectable,
   EventEmitter,
+  Injectable,
   OnDestroy
 } from '@angular/core';
 
@@ -12,9 +12,6 @@ import {
   SkyTreeViewOptions
 } from './types/sky-tree-view-options';
 
-/**
- *
- */
 @Injectable()
 export class SkyTreeViewService implements OnDestroy {
 
@@ -54,6 +51,4 @@ export class SkyTreeViewService implements OnDestroy {
     this.treeModel = treeModel;
     this.treeInitialized.next(treeModel);
   }
-
-  // TODO: figure out best way to have service handle the tree getting initialized and passed around.
 }

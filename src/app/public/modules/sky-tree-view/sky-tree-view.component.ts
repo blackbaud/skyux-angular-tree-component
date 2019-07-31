@@ -30,10 +30,32 @@ import {
 export class SkyTreeViewComponent implements AfterContentInit, OnInit {
 
   @Input()
-  public options: SkyTreeViewOptions;
+  public set options(value: SkyTreeViewOptions) {
+    this._options = value;
+  }
+
+  public get options(): SkyTreeViewOptions {
+    const defaultOptions: SkyTreeViewOptions = {
+      leafNodeSelectionOnly: false
+    };
+    return this._options || defaultOptions;
+  }
+
+  @Input()
+  public set showToolbar(value: boolean) {
+    this._showToolbar = value;
+  }
+
+  public get showToolbar(): boolean {
+    return this._showToolbar || false;
+  }
 
   @ContentChild(TreeComponent)
   private treeComponent: TreeComponent;
+
+  private _options: SkyTreeViewOptions;
+
+  private _showToolbar: boolean;
 
   constructor(
     private skyTreeViewService: SkyTreeViewService
@@ -47,4 +69,17 @@ export class SkyTreeViewComponent implements AfterContentInit, OnInit {
 
   public ngAfterContentInit(): void {
   }
+
+  // private onUpdateData(event: any): void {
+  //   const treeModel = event.treeModel as TreeModel;
+  //   if (treeModel) {
+  //     for (let key in treeModel.selectedLeafNodeIds) {
+  //       if (treeModel.selectedLeafNodeIds[key]) {
+  //         const value = treeModel.selectedLeafNodeIds[key];
+  //         const checkbox = this.getCheckboxById(key);
+  //         checkbox.checked = value;
+  //       }
+  //     }
+  //   }
+  // }
 }
