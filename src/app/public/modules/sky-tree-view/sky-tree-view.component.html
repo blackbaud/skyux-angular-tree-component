@@ -1,8 +1,11 @@
 <div class="sky-tree-view">
 
   <sky-tree-view-toolbar *ngIf="showToolbar"
-    [treeModel]="treeComponent.treeModel"
-    [options]="options"
+    [showSelectButtons]="treeComponent.treeModel.options.useCheckbox"
+    (clearAllClick)="onClearAllClick()"
+    (collapseAllClick)="onCollapseAllClick()"
+    (expandAllClick)="onExpandAllClick()"
+    (selectAllClick)="onSelectAllClick()"
   >
   </sky-tree-view-toolbar>
 

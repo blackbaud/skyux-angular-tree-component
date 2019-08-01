@@ -2,7 +2,7 @@
   class="sky-tree-view-toolbar"
 >
   <sky-toolbar>
-    <sky-toolbar-item *ngIf="treeModel?.options.useCheckbox === true">
+    <sky-toolbar-item *ngIf="showSelectButtons">
       <button
         class="sky-btn sky-btn-link"
         type="button"
@@ -11,11 +11,11 @@
         Select All
       </button>
     </sky-toolbar-item>
-    <sky-toolbar-item *ngIf="treeModel?.options.useCheckbox === true">
+    <sky-toolbar-item *ngIf="showSelectButtons">
       <button
         class="sky-btn sky-btn-link"
         type="button"
-        (click)="deselectAll()"
+        (click)="clearAll()"
       >
         Clear All
       </button>
@@ -25,7 +25,7 @@
         class="sky-btn sky-btn-default sky-margin-inline-default"
         title="Expand all"
         type="button"
-        (click)="treeModel?.expandAll()"
+        (click)="expandAll()"
       >
         <sky-icon
           icon="angle-double-down"
@@ -36,7 +36,7 @@
         class="sky-btn sky-btn-default sky-margin-inline-default"
         title="Collapse all"
         type="button"
-        (click)="treeModel?.collapseAll()"
+        (click)="collapseAll()"
       >
         <sky-icon
           icon="angle-double-up"

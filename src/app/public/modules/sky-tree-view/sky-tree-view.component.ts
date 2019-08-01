@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 
 import {
-  TreeComponent
+  TreeComponent,
+  TreeNode
 } from 'angular-tree-component';
 
 import {
@@ -49,4 +50,29 @@ export class SkyTreeViewComponent {
   private _options: SkyTreeViewOptions;
 
   private _showToolbar: boolean;
+
+  public onClearAllClick(): void {
+    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
+      const selectable = !node.hasChildren || (node.hasChildren && !this.options.leafNodeSelectionOnly);
+      if (selectable) {
+        node.setIsSelected(false);
+      }
+    });
+  }
+
+  public onCollapseAllClick(): void {
+    this.treeComponent.treeModel.collapseAll();
+  }
+
+  public onExpandAllClick(): void {
+    this.treeComponent.treeModel.expandAll();
+  }
+
+  public onSelectAllClick(): void {
+    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
+      if (node.isSelectable()) {
+        node.setIsSelected(true);
+      }
+    });
+  }
 }

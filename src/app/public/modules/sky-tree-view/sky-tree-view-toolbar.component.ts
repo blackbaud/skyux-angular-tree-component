@@ -1,18 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewEncapsulation
 } from '@angular/core';
-
-import {
-  TreeModel,
-  TreeNode
-} from 'angular-tree-component';
-
-import {
-  SkyTreeViewOptions
-} from './types/sky-tree-view-options';
 
 @Component({
   selector: 'sky-tree-view-toolbar',
@@ -23,26 +16,34 @@ import {
 export class SkyTreeViewToolbarComponent {
 
   @Input()
-  public treeModel: TreeModel;
+  public showSelectButtons: boolean;
 
-  @Input()
-  public options: SkyTreeViewOptions;
+  @Output()
+  public clearAllClick: EventEmitter<void> = new EventEmitter<void>();
 
-  public selectAll(): void {
-    this.treeModel.doForAll((node: TreeNode) => {
-      const selectable = !node.hasChildren || (node.hasChildren && !this.options.leafNodeSelectionOnly);
-      if (selectable) {
-        node.setIsSelected(true);
-      }
-    });
+  @Output()
+  public collapseAllClick: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  public expandAllClick: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  public selectAllClick: EventEmitter<void> = new EventEmitter<void>();
+
+  public clearAll(): void {
+    this.clearAllClick.emit();
   }
 
-  public deselectAll(): void {
-    this.treeModel.doForAll((node: TreeNode) => {
-      if (node.isSelectable()) {
-        node.setIsSelected(false);
-      }
-    });
+  public collapseAll(): void {
+    this.collapseAllClick.emit();
+  }
+
+  public expandAll(): void {
+    this.expandAllClick.emit();
+  }
+
+  public selectAll(): void {
+    this.selectAllClick.emit();
   }
 
 }
