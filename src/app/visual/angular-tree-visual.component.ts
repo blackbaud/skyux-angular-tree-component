@@ -4,7 +4,8 @@ import {
 } from '@angular/core';
 
 import {
-  ITreeOptions, TreeNode
+  ITreeOptions,
+  TreeNode
 } from 'angular-tree-component';
 
 import {

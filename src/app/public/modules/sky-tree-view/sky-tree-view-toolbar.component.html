@@ -5,6 +5,7 @@
     <sky-toolbar-item *ngIf="showSelectButtons">
       <button
         class="sky-btn sky-btn-link"
+        id="sky-tree-view-select-all-btn"
         type="button"
         (click)="selectAll()"
       >
@@ -14,6 +15,7 @@
     <sky-toolbar-item *ngIf="showSelectButtons">
       <button
         class="sky-btn sky-btn-link"
+        id="sky-tree-view-clear-all-btn"
         type="button"
         (click)="clearAll()"
       >
@@ -23,6 +25,7 @@
     <sky-toolbar-view-actions>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default"
+        id="sky-tree-view-expand-all-btn"
         title="Expand all"
         type="button"
         (click)="expandAll()"
@@ -34,6 +37,7 @@
       </button>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default"
+        id="sky-tree-view-collapse-all-btn"
         title="Collapse all"
         type="button"
         (click)="collapseAll()"
