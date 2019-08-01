@@ -24,11 +24,12 @@
   <!-- Context Menu -->
   <ng-content select="sky-tree-view-context-menu"></ng-content>
 
+  <!-- Note: we've hijacked the (click) event to handle checkbox selecting when user clicks a node. -->
   <div
     class="node-content-wrapper"
     [class.node-content-wrapper-active]="node.isActive"
     [class.node-content-wrapper-focused]="node.isFocused"
-    (click)="onNodeContentClick(node, tree, $event)"
+    (click)="onNodeContentClick(node, $event)"
     (dblclick)="node.mouseAction('dblClick', $event)"
     (contextmenu)="node.mouseAction('contextMenu', $event)"
     (treeDrop)="node.onDrop($event)"

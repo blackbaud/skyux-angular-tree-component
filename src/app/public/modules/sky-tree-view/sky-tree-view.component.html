@@ -1,6 +1,10 @@
 <div class="sky-tree-view">
 
-  <sky-tree-view-toolbar *ngIf="showToolbar"></sky-tree-view-toolbar>
+  <sky-tree-view-toolbar *ngIf="showToolbar"
+    [treeModel]="treeComponent.treeModel"
+    [options]="options"
+  >
+  </sky-tree-view-toolbar>
 
   <ng-content select="tree-root"></ng-content>
 

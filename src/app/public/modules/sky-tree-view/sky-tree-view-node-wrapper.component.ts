@@ -91,9 +91,9 @@ export class SkyTreeViewNodeWrapperComponent implements AfterViewInit, OnInit {
     node.setIsActive(event.checked);
   }
 
-  public onNodeContentClick(node: TreeNode, tree: TreeModel, event: any): void {
+  public onNodeContentClick(node: TreeNode, event: any): void {
     if (this.node.options.useCheckbox && !this.isCheckboxHidden()) {
-      this.toggleSelected(node, tree, event);
+      this.toggleSelected(node, node.treeModel, event);
     }
     this.node.mouseAction('click', event);
   }
