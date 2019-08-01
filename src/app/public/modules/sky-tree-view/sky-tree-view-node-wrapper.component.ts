@@ -1,12 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
-  ViewEncapsulation,
-  ChangeDetectorRef,
-  AfterViewInit,
-  Optional
+  Optional,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -29,7 +28,7 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyTreeViewNodeWrapperComponent implements AfterViewInit, OnInit {
+export class SkyTreeViewNodeWrapperComponent implements OnInit {
 
   @Input()
   public index: number;
@@ -59,8 +58,6 @@ export class SkyTreeViewNodeWrapperComponent implements AfterViewInit, OnInit {
     return this._isSelected;
   }
 
-  // public isHidden = false;
-
   private _isPartiallySelected: boolean;
 
   private _isSelected: boolean;
@@ -77,13 +74,6 @@ export class SkyTreeViewNodeWrapperComponent implements AfterViewInit, OnInit {
         this.isSelected = this.node.isSelected;
         this.isPartiallySelected = this.node.isPartiallySelected;
       });
-  }
-
-  public ngAfterViewInit(): void {
-    // setTimeout(() => {
-    //   this.isHidden = this.skyTreeViewService.isCheckboxHidden(this.node);
-    //   this.changeDetectorRef.markForCheck();
-    // });
   }
 
   public onCheckboxChange(node: TreeNode, event: SkyCheckboxChange): void {
