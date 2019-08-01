@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  Input,
-  ViewEncapsulation
+  Input
 } from '@angular/core';
 
 import {
@@ -18,7 +17,7 @@ import {
 @Component({
   selector: 'sky-tree-view',
   templateUrl: './sky-tree-view.component.html',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./sky-tree-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTreeViewComponent {

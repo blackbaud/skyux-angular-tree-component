@@ -4,8 +4,7 @@ import {
   Component,
   Input,
   OnInit,
-  Optional,
-  ViewEncapsulation
+  Optional
 } from '@angular/core';
 
 import {
@@ -25,7 +24,6 @@ import {
 @Component({
   selector: 'sky-tree-view-node-wrapper',
   templateUrl: './sky-tree-view-node-wrapper.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTreeViewNodeWrapperComponent implements OnInit {

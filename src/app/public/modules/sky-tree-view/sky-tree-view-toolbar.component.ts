@@ -3,14 +3,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  ViewEncapsulation
+  Output
 } from '@angular/core';
 
 @Component({
   selector: 'sky-tree-view-toolbar',
   templateUrl: './sky-tree-view-toolbar.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTreeViewToolbarComponent {

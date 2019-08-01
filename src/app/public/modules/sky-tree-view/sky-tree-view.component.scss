@@ -3,10 +3,11 @@
 
 @import "~angular-tree-component/dist/angular-tree-component";
 
-.sky-tree-view {
+.sky-tree-view ::ng-deep {
 
   // Tree & Nodes
   .node-wrapper {
+    display: flex;
     align-items: center;
     padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
     border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for split-view active style.
@@ -18,7 +19,7 @@
     padding: 0;
   }
   .tree-children, .tree-node-level-1.tree-node-leaf {
-    padding-left: 5px;
+    padding-left: 22px;
   }
 
   // Toggle indicator
@@ -97,8 +98,8 @@
 }
 
 // Split-view "active" states
-.sky-split-view {
-  .sky-tree-view {
+::ng-deep .sky-split-view {
+  .sky-tree-view ::ng-deep {
     .tree-node-active .node-wrapper {
       background-color: $sky-background-color-neutral-light;
       color: $sky-text-color-default;

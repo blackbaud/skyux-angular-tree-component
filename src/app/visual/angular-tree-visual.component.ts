@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation
+  Component
 } from '@angular/core';
 
 import {
@@ -20,7 +19,6 @@ import {
   selector: 'sky-angular-grid-visual',
   templateUrl: './angular-tree-visual.component.html',
   styleUrls: ['./angular-tree-visual.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyAngularTreeVisualComponent {

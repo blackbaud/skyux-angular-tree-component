@@ -16,7 +16,7 @@
   },
   "app": {
     "styles": [
-      "src/app/public/scss/angular-tree-styles.scss"
+      "src/app/visual-styles.scss"
     ]
   }
 }
