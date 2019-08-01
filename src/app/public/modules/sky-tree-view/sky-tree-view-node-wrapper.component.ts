@@ -68,12 +68,19 @@ export class SkyTreeViewNodeWrapperComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-      // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
-      // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
-      this.node.treeModel.subscribeToState(() => {
-        this.isSelected = this.node.isSelected;
-        this.isPartiallySelected = this.node.isPartiallySelected;
-      });
+    if (!this.skyTreeView) {
+      throw new Error(
+        'You must wrap the `<sky-tree-view-node-wrapper>` component within a ' +
+        '`<sky-tree-view>` component!'
+      );
+    }
+
+    // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
+    // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
+    this.node.treeModel.subscribeToState(() => {
+      this.isSelected = this.node.isSelected;
+      this.isPartiallySelected = this.node.isPartiallySelected;
+    });
   }
 
   public onCheckboxChange(node: TreeNode, event: SkyCheckboxChange): void {
