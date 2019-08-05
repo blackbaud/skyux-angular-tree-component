@@ -3,16 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCheckboxModule
-} from '@skyux/forms';
-
-import {
-  SkyIconModule
-} from '@skyux/indicators';
-
-import {
   SkyDropdownModule
 } from '@skyux/popovers';
+
+import {
+  SkyAppLinkModule
+} from '@skyux/router';
 
 import {
   SkyTreeViewModule
@@ -20,9 +16,8 @@ import {
 
 @NgModule({
   exports: [
-    SkyCheckboxModule,
+    SkyAppLinkModule,
     SkyDropdownModule,
-    SkyIconModule,
     SkyTreeViewModule
   ]
 })

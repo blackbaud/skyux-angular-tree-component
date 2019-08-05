@@ -8,7 +8,7 @@
         type="button"
         (click)="selectAll()"
       >
-        Select All
+        {{ 'skyux_tree_view_select_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
     <sky-toolbar-item *ngIf="showSelectButtons">
@@ -17,13 +17,13 @@
         type="button"
         (click)="clearAll()"
       >
-        Clear All
+        {{ 'skyux_tree_view_clear_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default sky-tree-view-expand-all-btn"
-        title="Expand all"
+        title="{{ 'skyux_tree_view_expand_all' | skyLibResources }}"
         type="button"
         (click)="expandAll()"
       >
@@ -34,7 +34,7 @@
       </button>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default sky-tree-view-collapse-all-btn"
-        title="Collapse all"
+        title="{{ 'skyux_tree_view_collapse_all' | skyLibResources }}"
         type="button"
         (click)="collapseAll()"
       >

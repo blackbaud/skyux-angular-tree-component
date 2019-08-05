@@ -9,5 +9,4 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTreeViewContextMenuComponent {
-
 }

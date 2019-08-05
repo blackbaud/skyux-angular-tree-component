@@ -101,7 +101,7 @@ export class SkyTreeViewNodeWrapperComponent implements OnInit {
     return this.isSelected && !this.isPartiallySelected && !this.isCheckboxHidden();
   }
 
-  private toggleSelected(node: TreeNode, tree: TreeModel, event: any) {
+  private toggleSelected(node: TreeNode, tree: TreeModel, event: any): void {
     TREE_ACTIONS.TOGGLE_SELECTED(tree, node, event);
   }
 }

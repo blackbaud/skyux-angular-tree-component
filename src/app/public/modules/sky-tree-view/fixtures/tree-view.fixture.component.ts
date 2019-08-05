@@ -47,7 +47,7 @@ export class SkyTreeViewFixtureComponent {
   @ViewChild(TreeComponent)
   public treeComponent: TreeComponent;
 
-  public updateState() {
+  public updateState(): void {
     this.state = {
       selectedLeafNodeIds: {
         1: true

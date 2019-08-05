@@ -25,6 +25,8 @@
   <ng-content select="sky-tree-view-context-menu"></ng-content>
 
   <!-- Note: we've hijacked the (click) event to handle checkbox selecting when user clicks a node. -->
+  <!-- The rest of this template is preserved from: -->
+  <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
   <div
     class="node-content-wrapper"
     [class.node-content-wrapper-active]="node.isActive"

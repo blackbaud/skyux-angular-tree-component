@@ -13,7 +13,6 @@ import {
 import {
   SkyCheckboxModule
 } from '@skyux/forms';
-
 import {
   SkyIconModule
 } from '@skyux/indicators';
@@ -23,8 +22,8 @@ import {
 } from '@skyux/layout';
 
 import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+  SkyTreeViewResourcesModule
+} from '../shared/sky-tree-view-resources.module';
 
 import {
   SkyTreeViewContextMenuComponent
@@ -52,9 +51,9 @@ import {
   imports: [
     CommonModule,
     SkyCheckboxModule,
-    SkyDropdownModule,
     SkyIconModule,
     SkyToolbarModule,
+    SkyTreeViewResourcesModule,
     TreeModule.forRoot()
   ],
   exports: [

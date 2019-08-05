@@ -1,6 +1,18 @@
 {
-  "my_lib_sample_greeting": {
-    "_description": "A simple greeting.",
-    "message": "Hello"
+  "skyux_tree_view_clear_all": {
+    "_description": "Text for the link to clear all checkboxes.",
+    "message": "Clear all"
+  },
+  "skyux_tree_view_collapse_all": {
+    "_description": "Text for the link to collapse all tree nodes.",
+    "message": "Collapse"
+  },
+  "skyux_tree_view_expand_all": {
+    "_description": "Text for the link to expand all tree nodes.",
+    "message": "Expand"
+  },
+  "skyux_tree_view_select_all": {
+    "_description": "Text for the link to select all checkboxes.",
+    "message": "Select all"
   }
 }
