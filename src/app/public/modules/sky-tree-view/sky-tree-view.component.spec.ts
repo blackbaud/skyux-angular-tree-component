@@ -29,11 +29,11 @@ describe('tree view', () => {
   }
 
   function getSelectAllButton(): HTMLElement {
-    return document.querySelector('#sky-tree-view-select-all-btn') as HTMLElement;
+    return document.querySelector('.sky-tree-view-select-all-btn') as HTMLElement;
   }
 
   function getClearAllButton(): HTMLElement {
-    return document.querySelector('#sky-tree-view-clear-all-btn') as HTMLElement;
+    return document.querySelector('.sky-tree-view-clear-all-btn') as HTMLElement;
   }
 
   function getCheckboxes(): NodeListOf<HTMLElement> {
@@ -41,11 +41,11 @@ describe('tree view', () => {
   }
 
   function getExpandButton(): HTMLElement {
-    return document.querySelector('#sky-tree-view-expand-all-btn') as HTMLElement;
+    return document.querySelector('.sky-tree-view-expand-all-btn') as HTMLElement;
   }
 
   function getCollapseButton(): HTMLElement {
-    return document.querySelector('#sky-tree-view-collapse-all-btn') as HTMLElement;
+    return document.querySelector('.sky-tree-view-collapse-all-btn') as HTMLElement;
   }
 
   function getNodeContents(): NodeListOf<HTMLElement> {
@@ -88,8 +88,8 @@ describe('tree view', () => {
       ]
     });
 
-    fixture = TestBed.createComponent(SkyTreeViewFixtureComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(SkyTreeViewFixtureComponent) as ComponentFixture<SkyTreeViewFixtureComponent>;
+    component = fixture.componentInstance as SkyTreeViewFixtureComponent;
   });
 
   describe('toolbar', () => {
@@ -213,7 +213,8 @@ describe('tree view', () => {
 
     it('should show a checked sky-checkbox when nodes are selected programatically', fakeAsync(() => {
       component.options = {
-        useCheckbox: true
+        useCheckbox: true,
+        useTriState: false
       };
       fixture.detectChanges();
       const checkboxes = getCheckboxes();
@@ -223,10 +224,7 @@ describe('tree view', () => {
       expect(input.checked).toBe(false);
 
       // Programatically select a node using the 3rd party API.
-      component.treeComponent.treeModel.selectedLeafNodeIds = {
-        '0': true
-      };
-      tick();
+      fixture.nativeElement.querySelector('#updateStateButton').click();
       fixture.detectChanges();
 
       // First node should now be hecked.
@@ -338,12 +336,11 @@ describe('tree view', () => {
     }));
   });
 
-  it('should show isActive class when selected node is inside a split-view container', () => {
-    // xxx
-  });
-
   it('should throw an error if the node wrapper component is not wrapped with a sky-tree-view component', () => {
-    // xxx
+    expect(() => {
+      component.showInvalidTree = true;
+      fixture.detectChanges();
+    }).toThrow();
   });
 
   it('should pass accessibility', async(() => {

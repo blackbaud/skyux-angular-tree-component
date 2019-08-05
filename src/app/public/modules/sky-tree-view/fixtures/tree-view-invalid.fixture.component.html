@@ -1,0 +1,16 @@
+<tree-root *ngIf="showInvalidTree"
+  [nodes]="nodes"
+  #tree
+>
+  <ng-template
+    let-index="index"
+    let-node
+    #treeNodeWrapperTemplate
+  >
+    <sky-tree-view-node-wrapper
+      [index]="index"
+      [node]="node"
+    >
+    </sky-tree-view-node-wrapper>
+  </ng-template>
+</tree-root>

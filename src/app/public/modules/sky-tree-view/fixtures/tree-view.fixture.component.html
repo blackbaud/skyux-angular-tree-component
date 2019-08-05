@@ -5,6 +5,7 @@
   <tree-root
     [nodes]="nodes"
     [options]="options"
+    [state]="state"
     #tree
   >
     <ng-template
@@ -20,3 +21,27 @@
     </ng-template>
   </tree-root>
 </sky-tree-view>
+
+<button
+  id="updateStateButton"
+  (click)="updateState()"
+>
+  Update state
+</button>
+
+<tree-root *ngIf="showInvalidTree"
+  [nodes]="nodes"
+  #tree
+>
+  <ng-template
+    let-index="index"
+    let-node
+    #treeNodeWrapperTemplate
+  >
+    <sky-tree-view-node-wrapper
+      [index]="index"
+      [node]="node"
+    >
+    </sky-tree-view-node-wrapper>
+  </ng-template>
+</tree-root>

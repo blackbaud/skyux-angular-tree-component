@@ -14,7 +14,7 @@ import {
 
 import {
   SkyTreeViewOptions
-} from '../public/modules/sky-tree-view/types/sky-tree-view-options';
+} from '../../public/modules/sky-tree-view/types/sky-tree-view-options';
 
 @Component({
   selector: 'sky-angular-grid-visual',
@@ -23,53 +23,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyAngularTreeVisualComponent {
-
-  public nodesLarge: any[] = [
-    {
-      id: 1,
-      name: 'United States',
-      isExpanded: true,
-      children: [
-        { id: 2, name: 'Alabama' },
-        { id: 3, name: 'Alaska' },
-        { id: 4, name: 'Arizona' },
-        { id: 5, name: 'Arkansas' },
-        { id: 6, name: 'California' },
-        { id: 7, name: 'Colorado' },
-        { id: 8, name: 'Deleware' },
-        { id: 9, name: 'Florida', disabled: true },
-        { id: 10, name: 'Georgia' },
-        { id: 11, name: 'Hawaii' },
-        { id: 12, name: 'Idaho' },
-        { id: 13, name: 'Illinois' },
-        { id: 14, name: 'Indiana', isExpanded: true, children: [
-          { id: 15, name: 'Adams' },
-          { id: 16, name: 'Allen' },
-          { id: 17, name: 'Bartholomew' },
-          { id: 18, name: 'Benton' },
-          { id: 19, name: 'Blackford' },
-          { id: 20, name: 'Boone' },
-          { id: 21, name: 'Brown' },
-          { id: 22, name: 'Caroll' },
-          { id: 23, name: 'Cass' }
-          ]
-        }
-      ]
-    },
-    {
-      id: 24,
-      name: 'Canada',
-      isExpanded: true,
-      children: [
-        { id: 25, name: 'Alberta' },
-        { id: 26, name: 'British Columbia' },
-        { id: 27, name: 'Manitoba' },
-        { id: 28, name: 'Ontario' },
-        { id: 29, name: 'Quebec' },
-        { id: 30, name: 'Saskatchewan' }
-      ]
-    }
-  ];
 
   public nodes: any[] = [
     {
@@ -134,7 +87,7 @@ export class SkyAngularTreeVisualComponent {
     console.log(name);
   }
 
-  private updateSelectedNodeIds(selectedLeafNodeIds: IDTypeDictionary) {
+  private updateSelectedNodeIds(selectedLeafNodeIds: IDTypeDictionary): void {
     this.selectedNodeIds = [];
     for (let key in selectedLeafNodeIds) {
       if (selectedLeafNodeIds[key] && selectedLeafNodeIds[key]) {

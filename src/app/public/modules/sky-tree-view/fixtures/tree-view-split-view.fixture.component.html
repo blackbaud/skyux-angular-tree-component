@@ -1,0 +1,22 @@
+<div
+  class="sky-split-view"
+>
+  <sky-tree-view>
+    <tree-root
+      [nodes]="nodes"
+      #tree
+    >
+      <ng-template
+        let-index="index"
+        let-node
+        #treeNodeWrapperTemplate
+      >
+        <sky-tree-view-node-wrapper
+          [index]="index"
+          [node]="node"
+        >
+        </sky-tree-view-node-wrapper>
+      </ng-template>
+    </tree-root>
+  </sky-tree-view>
+</div>

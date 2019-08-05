@@ -5,6 +5,7 @@ import {
 
 import {
   ITreeOptions,
+  ITreeState,
   TreeComponent
 } from 'angular-tree-component';
 
@@ -23,24 +24,12 @@ export class SkyTreeViewFixtureComponent {
       name: 'United States',
       isExpanded: true,
       children: [
-        { id: 2, name: 'Alabama' },
-        { id: 3, name: 'California' },
-        { id: 14, name: 'Indiana', isExpanded: true, children: [
-          { id: 15, name: 'Adams' },
-          { id: 16, name: 'Allen' },
-          { id: 17, name: 'Bartholomew' }
+        { id: 2, name: 'California' },
+        { id: 3, name: 'Indiana', isExpanded: true, children: [
+          { id: 4, name: 'Adams' },
+          { id: 5, name: 'Allen' }
           ]
         }
-      ]
-    },
-    {
-      id: 24,
-      name: 'Canada',
-      isExpanded: true,
-      children: [
-        { id: 25, name: 'Alberta' },
-        { id: 26, name: 'British Columbia' },
-        { id: 27, name: 'Manitoba' }
       ]
     }
   ];
@@ -49,9 +38,21 @@ export class SkyTreeViewFixtureComponent {
 
   public skyOptions: SkyTreeViewOptions;
 
+  public showInvalidTree = false;
+
   public showToolbar = false;
+
+  public state: ITreeState;
 
   @ViewChild(TreeComponent)
   public treeComponent: TreeComponent;
+
+  public updateState() {
+    this.state = {
+      selectedLeafNodeIds: {
+        1: true
+      }
+    };
+  }
 
 }
