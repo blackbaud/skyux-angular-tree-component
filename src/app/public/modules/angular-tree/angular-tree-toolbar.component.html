@@ -1,29 +1,29 @@
 <div
-  class="sky-tree-view-toolbar"
+  class="sky-angular-tree-toolbar"
 >
   <sky-toolbar>
     <sky-toolbar-item *ngIf="showSelectButtons">
       <button
-        class="sky-btn sky-btn-link sky-tree-view-select-all-btn"
+        class="sky-btn sky-btn-link sky-angular-tree-select-all-btn"
         type="button"
         (click)="selectAll()"
       >
-        {{ 'skyux_tree_view_select_all' | skyLibResources }}
+        {{ 'skyux_angular_tree_select_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
     <sky-toolbar-item *ngIf="showSelectButtons">
       <button
-        class="sky-btn sky-btn-link sky-tree-view-clear-all-btn"
+        class="sky-btn sky-btn-link sky-angular-tree-clear-all-btn"
         type="button"
         (click)="clearAll()"
       >
-        {{ 'skyux_tree_view_clear_all' | skyLibResources }}
+        {{ 'skyux_angular_tree_clear_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
       <button
-        class="sky-btn sky-btn-default sky-margin-inline-default sky-tree-view-expand-all-btn"
-        title="{{ 'skyux_tree_view_expand_all' | skyLibResources }}"
+        class="sky-btn sky-btn-default sky-margin-inline-default sky-angular-tree-expand-all-btn"
+        title="{{ 'skyux_angular_tree_expand_all' | skyLibResources }}"
         type="button"
         (click)="expandAll()"
       >
@@ -33,8 +33,8 @@
         </sky-icon>
       </button>
       <button
-        class="sky-btn sky-btn-default sky-margin-inline-default sky-tree-view-collapse-all-btn"
-        title="{{ 'skyux_tree_view_collapse_all' | skyLibResources }}"
+        class="sky-btn sky-btn-default sky-margin-inline-default sky-angular-tree-collapse-all-btn"
+        title="{{ 'skyux_angular_tree_collapse_all' | skyLibResources }}"
         type="button"
         (click)="collapseAll()"
       >

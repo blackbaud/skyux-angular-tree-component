@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyTreeViewModule
-} from './../sky-tree-view.module';
+  SkyAngularTreeModule
+} from '../angular-tree.module';
 
 import {
   SkyTreeViewFixtureComponent
@@ -17,7 +17,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    SkyTreeViewModule
+    SkyAngularTreeModule
   ],
   declarations: [
     SkyTreeViewFixtureComponent

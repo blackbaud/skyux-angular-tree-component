@@ -25,15 +25,15 @@ describe('tree view', () => {
 
   // #region helpers
   function getToolbar(): HTMLElement {
-    return document.querySelector('.sky-tree-view-toolbar') as HTMLElement;
+    return document.querySelector('.sky-angular-tree-toolbar') as HTMLElement;
   }
 
   function getSelectAllButton(): HTMLElement {
-    return document.querySelector('.sky-tree-view-select-all-btn') as HTMLElement;
+    return document.querySelector('.sky-angular-tree-select-all-btn') as HTMLElement;
   }
 
   function getClearAllButton(): HTMLElement {
-    return document.querySelector('.sky-tree-view-clear-all-btn') as HTMLElement;
+    return document.querySelector('.sky-angular-tree-clear-all-btn') as HTMLElement;
   }
 
   function getCheckboxes(): NodeListOf<HTMLElement> {
@@ -41,11 +41,11 @@ describe('tree view', () => {
   }
 
   function getExpandButton(): HTMLElement {
-    return document.querySelector('.sky-tree-view-expand-all-btn') as HTMLElement;
+    return document.querySelector('.sky-angular-tree-expand-all-btn') as HTMLElement;
   }
 
   function getCollapseButton(): HTMLElement {
-    return document.querySelector('.sky-tree-view-collapse-all-btn') as HTMLElement;
+    return document.querySelector('.sky-angular-tree-collapse-all-btn') as HTMLElement;
   }
 
   function getNodeContents(): NodeListOf<HTMLElement> {
@@ -92,7 +92,7 @@ describe('tree view', () => {
     component = fixture.componentInstance as SkyTreeViewFixtureComponent;
   });
 
-  xit('should throw an error if the node wrapper component is not wrapped with a sky-tree-view component', () => {
+  xit('should throw an error if the node wrapper component is not wrapped with a sky-angular-tree-root component', () => {
     expect(function() {
       component.showInvalidTree = false;
       fixture.detectChanges();
@@ -290,7 +290,7 @@ describe('tree view', () => {
 
       checkbox.click();
 
-      expect(nodeWrappers[0]).toHaveCssClass('sky-tree-view-node-selected');
+      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
 
       fixture.destroy();
       flush();
@@ -311,7 +311,7 @@ describe('tree view', () => {
 
       nodes[0].click();
 
-      expect(nodeWrappers[0]).not.toHaveCssClass('sky-tree-view-node-selected');
+      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
       expect(skyCheckboxes[0]).not.toBeVisible();
       expect(checkbox.checked).toBe(false);
 
@@ -334,7 +334,7 @@ describe('tree view', () => {
 
       nodes[0].click();
 
-      expect(nodeWrappers[0]).toHaveCssClass('sky-tree-view-node-selected');
+      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
       expect(skyCheckboxes[0]).toBeVisible();
       expect(checkbox.checked).toBe(true);
 

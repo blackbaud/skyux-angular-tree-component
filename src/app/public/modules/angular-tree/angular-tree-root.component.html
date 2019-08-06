@@ -1,13 +1,13 @@
-<div class="sky-tree-view">
+<div class="sky-angular-tree-root">
 
-  <sky-tree-view-toolbar *ngIf="showToolbar"
+  <sky-angular-tree-toolbar *ngIf="showToolbar"
     [showSelectButtons]="treeComponent.treeModel.options.useCheckbox"
     (clearAllClick)="onClearAllClick()"
     (collapseAllClick)="onCollapseAllClick()"
     (expandAllClick)="onExpandAllClick()"
     (selectAllClick)="onSelectAllClick()"
   >
-  </sky-tree-view-toolbar>
+  </sky-angular-tree-toolbar>
 
   <ng-content select="tree-root"></ng-content>
 

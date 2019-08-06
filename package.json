@@ -1,5 +1,5 @@
 {
-  "name": "skyux-tree-view",
+  "name": "@skyux/angular-tree-component",
   "version": "1.0.0-alpha",
   "description": "SKYUX styles and utilities to be used with angular-tree-view",
   "main": "bundles/bundle.umd.js",
@@ -16,7 +16,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blackbaud/skyux-tree-view"
+    "url": "https://github.com/blackbaud/skyux-angular-tree-component"
   },
   "peerDependencies": {
     "@angular/common": "^7.0.0",

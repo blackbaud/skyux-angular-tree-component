@@ -1,4 +1,4 @@
-<sky-tree-view
+<sky-angular-tree-root
   [options]="skyOptions"
   [showToolbar]="showToolbar"
 >
@@ -13,14 +13,14 @@
       let-node
       #treeNodeWrapperTemplate
     >
-      <sky-tree-view-node-wrapper
+      <sky-angular-tree-node-wrapper
         [index]="index"
         [node]="node"
       >
-      </sky-tree-view-node-wrapper>
+      </sky-angular-tree-node-wrapper>
     </ng-template>
   </tree-root>
-</sky-tree-view>
+</sky-angular-tree-root>
 
 <button
   id="updateStateButton"
@@ -38,10 +38,10 @@
     let-node
     #treeNodeWrapperTemplate
   >
-    <sky-tree-view-node-wrapper
+    <sky-angular-tree-node-wrapper
       [index]="index"
       [node]="node"
     >
-    </sky-tree-view-node-wrapper>
+    </sky-angular-tree-node-wrapper>
   </ng-template>
 </tree-root>

@@ -11,14 +11,14 @@ import {
 } from '@skyux/router';
 
 import {
-  SkyTreeViewModule
-} from './public/modules/sky-tree-view/sky-tree-view.module';
+  SkyAngularTreeModule
+} from './public/modules/angular-tree/angular-tree.module';
 
 @NgModule({
   exports: [
     SkyAppLinkModule,
     SkyDropdownModule,
-    SkyTreeViewModule
+    SkyAngularTreeModule
   ]
 })
 export class AppExtrasModule { }

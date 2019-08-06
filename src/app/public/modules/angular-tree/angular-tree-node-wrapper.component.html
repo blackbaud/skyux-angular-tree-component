@@ -1,6 +1,6 @@
 <div
   class="node-wrapper"
-  [class.sky-tree-view-node-selected]="getSelectedClass()"
+  [class.sky-angular-tree-node-selected]="getSelectedClass()"
   [style.padding-left]="node.getNodePadding()"
 >
 
@@ -22,7 +22,7 @@
   </sky-checkbox>
 
   <!-- Context Menu -->
-  <ng-content select="sky-tree-view-context-menu"></ng-content>
+  <ng-content select="sky-angular-tree-context-menu"></ng-content>
 
   <!-- Note: we've hijacked the (click) event to handle checkbox selecting when user clicks a node. -->
   <!-- The rest of this template is preserved from: -->

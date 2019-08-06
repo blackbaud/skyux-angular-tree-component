@@ -3,7 +3,7 @@
 
 @import "~angular-tree-component/dist/angular-tree-component";
 
-.sky-tree-view ::ng-deep {
+.sky-angular-tree-root ::ng-deep {
 
   // Tree & Nodes
   .node-wrapper {
@@ -77,7 +77,7 @@
     background: none;
     box-shadow: none;
   }
-  .sky-tree-view-node-selected {
+  .sky-angular-tree-node-selected {
     background-color: $sky-background-color-selected;
   }
 
@@ -92,14 +92,14 @@
   }
 
   // Dropdowns
-  .sky-tree-view-context-menu {
+  .sky-angular-tree-context-menu {
     margin: 0 5px 0 0;
   }
 }
 
 // Split-view "active" states
 ::ng-deep .sky-split-view {
-  .sky-tree-view ::ng-deep {
+  .sky-angular-tree-root ::ng-deep {
     .tree-node-active .node-wrapper {
       background-color: $sky-background-color-neutral-light;
       color: $sky-text-color-default;

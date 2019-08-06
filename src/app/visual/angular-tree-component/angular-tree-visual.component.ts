@@ -13,11 +13,11 @@ import {
 } from 'angular-tree-component/dist/defs/api';
 
 import {
-  SkyTreeViewOptions
-} from '../../public/modules/sky-tree-view/types/sky-tree-view-options';
+  SkyAngularTreeOptions
+} from '../../public/modules/angular-tree/types/angular-tree-options';
 
 @Component({
-  selector: 'sky-angular-grid-visual',
+  selector: 'sky-angular-tree-visual',
   templateUrl: './angular-tree-visual.component.html',
   styleUrls: ['./angular-tree-visual.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -73,7 +73,7 @@ export class SkyAngularTreeVisualComponent {
     useTriState: false
   };
 
-  public optionsLeafNodeOnly: SkyTreeViewOptions = {
+  public optionsLeafNodeOnly: SkyAngularTreeOptions = {
     leafNodeSelectionOnly: true
   };
 

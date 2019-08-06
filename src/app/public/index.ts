@@ -1,2 +1,2 @@
-export * from './modules/sky-tree-view/sky-tree-view.module';
-export * from './modules/sky-tree-view/types/sky-tree-view-options';
+export * from './modules/angular-tree/angular-tree.module';
+export * from './modules/angular-tree/types/angular-tree-options';

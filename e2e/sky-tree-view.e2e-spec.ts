@@ -10,7 +10,7 @@ import {
 
 describe('Tree view', () => {
   beforeEach(() => {
-    SkyHostBrowser.get('visual/sky-tree-view');
+    SkyHostBrowser.get('visual/angular-tree-component');
     SkyHostBrowser.setWindowBreakpoint('lg');
   });
 
@@ -30,7 +30,7 @@ describe('Tree view', () => {
 
   it('should match previous screenshot when collapsed', (done) => {
     SkyHostBrowser.scrollTo('#screenshot-tree-view-cascading-checkboxes');
-    element(by.css('#screenshot-tree-view-cascading-checkboxes .sky-tree-view-collapse-all-btn')).click();
+    element(by.css('#screenshot-tree-view-cascading-checkboxes .sky-angular-tree-collapse-all-btn')).click();
     expect('#screenshot-tree-view-cascading-checkboxes').toMatchBaselineScreenshot(done, {
       screenshotName: 'screenshot-tree-view-collapsed'
     });

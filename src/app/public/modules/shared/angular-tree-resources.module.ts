@@ -8,8 +8,8 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyTreeViewResourcesProvider
-} from '../../plugin-resources/sky-tree-view-resources-provider';
+  SkyAngularTreeResourcesProvider
+} from '../../plugin-resources/sky-angular-tree-resources-provider';
 
 @NgModule({
   exports: [
@@ -17,8 +17,8 @@ import {
   ],
   providers: [{
     provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyTreeViewResourcesProvider,
+    useClass: SkyAngularTreeResourcesProvider,
     multi: true
   }]
 })
-export class SkyTreeViewResourcesModule { }
+export class SkyAngularTreeResourcesModule { }

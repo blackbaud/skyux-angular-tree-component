@@ -18,15 +18,15 @@ import {
 } from '@skyux/forms';
 
 import {
-  SkyTreeViewComponent
-} from './sky-tree-view.component';
+  SkyAngularTreeRootComponent
+} from './angular-tree-root.component';
 
 @Component({
-  selector: 'sky-tree-view-node-wrapper',
-  templateUrl: './sky-tree-view-node-wrapper.component.html',
+  selector: 'sky-angular-tree-node-wrapper',
+  templateUrl: './angular-tree-node-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyTreeViewNodeWrapperComponent implements OnInit {
+export class SkyAngularTreeNodeWrapperComponent implements OnInit {
 
   @Input()
   public index: number;
@@ -62,14 +62,14 @@ export class SkyTreeViewNodeWrapperComponent implements OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Optional() private skyTreeView: SkyTreeViewComponent
+    @Optional() private skyTreeView: SkyAngularTreeRootComponent
   ) {}
 
   public ngOnInit(): void {
     if (!this.skyTreeView) {
       throw new Error(
-        'You must wrap the `<sky-tree-view-node-wrapper>` component within a ' +
-        '`<sky-tree-view>` component!'
+        'You must wrap the `<sky-angular-tree-node-wrapper>` component within a ' +
+        '`<sky-angular-tree-root>` component!'
       );
     }
 

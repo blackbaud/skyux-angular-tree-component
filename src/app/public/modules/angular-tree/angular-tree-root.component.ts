@@ -11,24 +11,24 @@ import {
 } from 'angular-tree-component';
 
 import {
-  SkyTreeViewOptions
-} from './types/sky-tree-view-options';
+  SkyAngularTreeOptions
+} from './types/angular-tree-options';
 
 @Component({
-  selector: 'sky-tree-view',
-  templateUrl: './sky-tree-view.component.html',
-  styleUrls: ['./sky-tree-view.component.scss'],
+  selector: 'sky-angular-tree-root',
+  templateUrl: './angular-tree-root.component.html',
+  styleUrls: ['./angular-tree-root.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyTreeViewComponent {
+export class SkyAngularTreeRootComponent {
 
   @Input()
-  public set options(value: SkyTreeViewOptions) {
+  public set options(value: SkyAngularTreeOptions) {
     this._options = value;
   }
 
-  public get options(): SkyTreeViewOptions {
-    const defaultOptions: SkyTreeViewOptions = {
+  public get options(): SkyAngularTreeOptions {
+    const defaultOptions: SkyAngularTreeOptions = {
       leafNodeSelectionOnly: false
     };
     return this._options || defaultOptions;
@@ -46,7 +46,7 @@ export class SkyTreeViewComponent {
   @ContentChild(TreeComponent)
   public treeComponent: TreeComponent;
 
-  private _options: SkyTreeViewOptions;
+  private _options: SkyAngularTreeOptions;
 
   private _showToolbar: boolean;
 

@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'sky-tree-view-toolbar',
-  templateUrl: './sky-tree-view-toolbar.component.html',
+  selector: 'sky-angular-tree-toolbar',
+  templateUrl: './angular-tree-toolbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTreeViewToolbarComponent {

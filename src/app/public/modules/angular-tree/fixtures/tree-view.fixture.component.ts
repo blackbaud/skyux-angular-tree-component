@@ -10,8 +10,8 @@ import {
 } from 'angular-tree-component';
 
 import {
-  SkyTreeViewOptions
-} from '../types/sky-tree-view-options';
+  SkyAngularTreeOptions
+} from '../types/angular-tree-options';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html'
@@ -36,7 +36,7 @@ export class SkyTreeViewFixtureComponent {
 
   public options: ITreeOptions;
 
-  public skyOptions: SkyTreeViewOptions;
+  public skyOptions: SkyAngularTreeOptions;
 
   public showInvalidTree = false;
 
