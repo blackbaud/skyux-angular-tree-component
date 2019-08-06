@@ -66,6 +66,7 @@
     "@skyux/router": "3.1.1",
     "@skyux/theme": "3.7.0",
     "@types/core-js": "2.5.2",
+    "@types/lodash": "^4.14.136",
     "angular-tree-component": "8.4.0",
     "codelyzer": "4.5.0",
     "microedge-rxstate": "3.0.0",

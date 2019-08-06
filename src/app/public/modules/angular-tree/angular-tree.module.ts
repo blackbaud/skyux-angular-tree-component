@@ -13,6 +13,7 @@ import {
 import {
   SkyCheckboxModule
 } from '@skyux/forms';
+
 import {
   SkyIconModule
 } from '@skyux/indicators';
@@ -41,6 +42,11 @@ import {
   SkyAngularTreeRootComponent
 } from './angular-tree-root.component';
 
+// Build will crash if we try to insert function calls inside the NgModule decorator.
+// To get around this, we just use a variable to refer to the .forRoot() function call.
+// https://github.com/angular/angular/issues/23609
+export const treeModuleForRoot = TreeModule.forRoot();
+
 @NgModule({
   declarations: [
     SkyAngularTreeRootComponent,
@@ -54,7 +60,7 @@ import {
     SkyIconModule,
     SkyToolbarModule,
     SkyAngularTreeResourcesModule,
-    TreeModule.forRoot()
+    treeModuleForRoot
   ],
   exports: [
     SkyAngularTreeRootComponent,
