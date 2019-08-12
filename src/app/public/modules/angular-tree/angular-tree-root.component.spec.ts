@@ -92,13 +92,6 @@ describe('tree view', () => {
     component = fixture.componentInstance as SkyTreeViewFixtureComponent;
   });
 
-  xit('should throw an error if the node wrapper component is not wrapped with a sky-angular-tree-root component', () => {
-    expect(function() {
-      component.showInvalidTree = false;
-      fixture.detectChanges();
-    }).toThrow();
-  });
-
   describe('toolbar', () => {
     it('should show toolbar when showToolbar property is set to true', () => {
       component.showToolbar = true;

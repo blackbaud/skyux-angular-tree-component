@@ -6,6 +6,11 @@ import {
   Output
 } from '@angular/core';
 
+import {
+  TreeComponent,
+  TreeNode
+} from 'angular-tree-component';
+
 @Component({
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
@@ -14,7 +19,7 @@ import {
 export class SkyTreeViewToolbarComponent {
 
   @Input()
-  public showSelectButtons: boolean;
+  public treeComponent: TreeComponent;
 
   @Output()
   public clearAllClick: EventEmitter<void> = new EventEmitter<void>();
@@ -29,19 +34,31 @@ export class SkyTreeViewToolbarComponent {
   public selectAllClick: EventEmitter<void> = new EventEmitter<void>();
 
   public clearAll(): void {
-    this.clearAllClick.emit();
+    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
+      if (node.isSelectable()) {
+        node.setIsSelected(false);
+      }
+    });
   }
 
   public collapseAll(): void {
-    this.collapseAllClick.emit();
+    this.treeComponent.treeModel.collapseAll();
   }
 
   public expandAll(): void {
-    this.expandAllClick.emit();
+    this.treeComponent.treeModel.expandAll();
   }
 
   public selectAll(): void {
-    this.selectAllClick.emit();
+    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
+      if (node.isSelectable()) {
+        node.setIsSelected(true);
+      }
+    });
+  }
+
+  public showSelectButtons(): boolean {
+    return this.treeComponent.treeModel.options.useCheckbox;
   }
 
 }

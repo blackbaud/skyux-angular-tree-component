@@ -3,7 +3,7 @@
 
 @import "~angular-tree-component/dist/angular-tree-component";
 
-.sky-angular-tree-root ::ng-deep {
+.sky-angular-tree {
 
   // Tree & Nodes
   .node-wrapper {
@@ -52,31 +52,31 @@
   }
 
   // Hover/focus/selected states
-  .node-content-wrapper-focused {
-    background: none;
-    box-shadow: none;
-  }
-  .node-content-wrapper-active:hover {
-    background: none;
-  }
-  .node-content-wrapper:hover {
-    background: none;
-    box-shadow: none;
-  }
-  .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
-    box-shadow: none;
-  }
-  .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
-    background: none;
-  }
-  .node-content-wrapper-focused .sky-tree-node-content {
-    // TODO: Cross-browser support needed!
-    outline: -webkit-focus-ring-color auto 5px;
-  }
-  .node-content-wrapper-active.node-content-wrapper-focused .sky-tree-node-content {
-    background: none;
-    box-shadow: none;
-  }
+  // .node-content-wrapper-focused {
+  //   background: none;
+  //   box-shadow: none;
+  // }
+  // .node-content-wrapper-active:hover {
+  //   background: none;
+  // }
+  // .node-content-wrapper:hover {
+  //   background: none;
+  //   box-shadow: none;
+  // }
+  // .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
+  //   box-shadow: none;
+  // }
+  // .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
+  //   background: none;
+  // }
+  // .node-content-wrapper-focused .sky-tree-node-content {
+  //   // TODO: Cross-browser support needed!
+  //   outline: -webkit-focus-ring-color auto 5px;
+  // }
+  // .node-content-wrapper-active.node-content-wrapper-focused .sky-tree-node-content {
+  //   background: none;
+  //   box-shadow: none;
+  // }
   .sky-angular-tree-node-selected {
     background-color: $sky-background-color-selected;
   }
@@ -88,7 +88,10 @@
 
   // TODO: Remove me when checkboxes support indeterminate!
   .sky-checkbox-indeterminate .fa-check:before {
-    content: "\f068";
+    content: "\f0c8";
+    position: relative;
+    top: -.25px;
+    font-size: 14px;
   }
 
   // Dropdowns
@@ -98,8 +101,8 @@
 }
 
 // Split-view "active" states
-::ng-deep .sky-split-view {
-  .sky-angular-tree-root ::ng-deep {
+.sky-split-view {
+  .sky-angular-tree {
     .tree-node-active .node-wrapper {
       background-color: $sky-background-color-neutral-light;
       color: $sky-text-color-default;

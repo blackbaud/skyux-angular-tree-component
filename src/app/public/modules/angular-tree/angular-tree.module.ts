@@ -35,23 +35,18 @@ import {
 } from './angular-tree-node-wrapper.component';
 
 import {
+  SkyAngularTreeOptionsDirective
+} from './angular-tree-options.directive';
+
+import {
   SkyTreeViewToolbarComponent
 } from './angular-tree-toolbar.component';
 
-import {
-  SkyAngularTreeRootComponent
-} from './angular-tree-root.component';
-
-// Build will crash if we try to insert function calls inside the NgModule decorator.
-// To get around this, we just use a variable to refer to the .forRoot() function call.
-// https://github.com/angular/angular/issues/23609
-export const treeModuleForRoot = TreeModule.forRoot();
-
 @NgModule({
   declarations: [
-    SkyAngularTreeRootComponent,
     SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeWrapperComponent,
+    SkyAngularTreeOptionsDirective,
     SkyTreeViewToolbarComponent
   ],
   imports: [
@@ -60,14 +55,13 @@ export const treeModuleForRoot = TreeModule.forRoot();
     SkyIconModule,
     SkyToolbarModule,
     SkyAngularTreeResourcesModule,
-    treeModuleForRoot
+    TreeModule
   ],
   exports: [
-    SkyAngularTreeRootComponent,
     SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeWrapperComponent,
-    SkyTreeViewToolbarComponent,
-    TreeModule
+    SkyAngularTreeOptionsDirective,
+    SkyTreeViewToolbarComponent
   ]
 })
 export class SkyAngularTreeModule { }

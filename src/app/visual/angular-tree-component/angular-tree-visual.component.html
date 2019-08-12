@@ -9,7 +9,9 @@
   class="sky-padding-even-default"
   id="screenshot-tree-view-basic"
 >
-  <sky-angular-tree-root>
+  <div
+    class="sky-angular-tree"
+  >
     <!-- angular-tree-component native API -->
     <tree-root
       [nodes]="nodes"
@@ -28,7 +30,7 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 <h3>Context menus</h3>
@@ -36,7 +38,9 @@
   class="sky-padding-even-default"
   id="screenshot-tree-view-context-menus"
 >
-  <sky-angular-tree-root>
+  <div
+    class="sky-angular-tree"
+  >
     <tree-root
       [nodes]="nodes"
       #treeContextMenus
@@ -68,10 +72,8 @@
           </sky-angular-tree-context-menu>
         </sky-angular-tree-node-wrapper>
       </ng-template>
-
     </tree-root>
-
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 <h3>Cascading checkboxes</h3>
@@ -79,9 +81,13 @@
   id="screenshot-tree-view-cascading-checkboxes"
   class="sky-padding-even-default"
 >
-  <sky-angular-tree-root
-    [showToolbar]="true"
+  <div
+    class="sky-angular-tree"
   >
+    <sky-angular-tree-toolbar
+      [treeComponent]="treeCascading"
+    >
+    </sky-angular-tree-toolbar>
     <tree-root
       [nodes]="nodes"
       [options]="optionsCascading"
@@ -99,7 +105,7 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 <h3>Non-cascading checkboxes</h3>
@@ -107,9 +113,13 @@
   id="screenshot-tree-view-non-cascading-checkboxes"
   class="sky-padding-even-default"
 >
-  <sky-angular-tree-root
-    [showToolbar]="true"
+  <div
+    class="sky-angular-tree"
   >
+    <sky-angular-tree-toolbar
+      [treeComponent]="treeNonCascading"
+    >
+    </sky-angular-tree-toolbar>
     <tree-root
       [nodes]="nodes"
       [options]="optionsNoncascading"
@@ -127,7 +137,7 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 <h3>Checkboxes with leaf node selection only</h3>
@@ -135,14 +145,18 @@
   id="screenshot-tree-view-leaf-selection-only"
   class="sky-padding-even-default"
 >
-  <sky-angular-tree-root
-    [showToolbar]="true"
-    [options]="optionsLeafNodeOnly"
+  <div
+    class="sky-angular-tree"
   >
+    <sky-angular-tree-toolbar
+      [treeComponent]="treeLeafNodesOnly"
+    >
+    </sky-angular-tree-toolbar>
     <tree-root
       [nodes]="nodes"
       [options]="optionsNoncascading"
-      #treeNonCascading
+      [skyTreeOptions]="optionsLeafNodeOnly"
+      #treeLeafNodesOnly
     >
       <ng-template
         let-index="index"
@@ -156,16 +170,20 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 <h3>Binding to events</h3>
 <div
   class="sky-padding-even-default"
 >
-  <sky-angular-tree-root
-    [showToolbar]="true"
+  <div
+    class="sky-angular-tree"
   >
+    <sky-angular-tree-toolbar
+      [treeComponent]="treeEvents"
+    >
+    </sky-angular-tree-toolbar>
     <tree-root
       [nodes]="nodes"
       [options]="optionsCascading"
@@ -185,7 +203,7 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
   <p>
     <b>Selected nodes:</b>
     {{ selectedNodeIds }}
@@ -198,7 +216,9 @@
   id="screenshot-tree-view-split-view"
   class="sky-padding-even-default sky-split-view"
 >
-  <sky-angular-tree-root>
+  <div
+    class="sky-angular-tree"
+  >
     <tree-root
       [nodes]="nodes"
       #treeSplitView
@@ -215,7 +235,7 @@
         </sky-angular-tree-node-wrapper>
       </ng-template>
     </tree-root>
-  </sky-angular-tree-root>
+  </div>
 </div>
 
 </div>

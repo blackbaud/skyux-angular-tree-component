@@ -16,10 +16,7 @@ import {
 import {
   SkyCheckboxChange
 } from '@skyux/forms';
-
-import {
-  SkyAngularTreeRootComponent
-} from './angular-tree-root.component';
+import { SkyAngularTreeOptionsDirective } from './angular-tree-options.directive';
 
 @Component({
   selector: 'sky-angular-tree-node-wrapper',
@@ -56,23 +53,22 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
     return this._isSelected;
   }
 
+  private leafNodeSelectionOnly = false;
+
   private _isPartiallySelected: boolean;
 
   private _isSelected: boolean;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Optional() private skyTreeView: SkyAngularTreeRootComponent
-  ) {}
+    @Optional() private skyTreeOptionsDirective: SkyAngularTreeOptionsDirective
+  ) {
+    if (this.skyTreeOptionsDirective) {
+      this.leafNodeSelectionOnly = this.skyTreeOptionsDirective.skyAngularTreeOptions.leafNodeSelectionOnly;
+    }
+  }
 
   public ngOnInit(): void {
-    if (!this.skyTreeView) {
-      throw new Error(
-        'You must wrap the `<sky-angular-tree-node-wrapper>` component within a ' +
-        '`<sky-angular-tree-root>` component!'
-      );
-    }
-
     // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
     // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
     this.node.treeModel.subscribeToState(() => {
@@ -94,7 +90,7 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
   }
 
   public isCheckboxHidden(): boolean {
-    return this.skyTreeView.options.leafNodeSelectionOnly && this.node.hasChildren;
+    return this.node.hasChildren && this.leafNodeSelectionOnly;
   }
 
   public getSelectedClass(): boolean {
