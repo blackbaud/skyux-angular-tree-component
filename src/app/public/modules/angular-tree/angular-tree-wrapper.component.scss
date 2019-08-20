@@ -1,4 +1,5 @@
 @import '~@skyux/theme/scss/mixins';
+
 @import "~@skyux/theme/scss/_compat/mixins";
 
 @import "~angular-tree-component/dist/angular-tree-component";
@@ -16,10 +17,12 @@
     padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
     border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for split-view active style.
   }
+
   .node-content-wrapper {
     padding: 0;
     cursor: pointer;
   }
+
   .tree-children, .tree-node-level-1.tree-node-leaf {
     padding-left: 35px;
   }
@@ -28,6 +31,7 @@
   .toggle-children-wrapper {
     padding: 0 10px 0 0;
   }
+
   .toggle-children {
     display: inline-flex;
     align-items: center;
@@ -37,16 +41,20 @@
     width: 22px;
     height: 22px;
   }
+
   .toggle-children:before {
     position: absolute;
     content: "\f054";
   }
+
   .toggle-children-wrapper-expanded .toggle-children {
     transform: initial;
   }
+
   .toggle-children-wrapper-expanded .toggle-children:before {
     content: "\f078";
   }
+
   .toggle-children-placeholder {
     width: 32px;
     height: 22px;
@@ -58,11 +66,6 @@
     box-shadow: none;
     background: none;
   }
-
-  // Focused states
-  // .sky-angular-tree-node-focused {
-  //   outline: -webkit-focus-ring-color auto 5px;
-  // }
 
   // Selected states
   .sky-angular-tree-node-selected {
@@ -98,20 +101,3 @@
     margin: 0 5px 0 0;
   }
 }
-
-
-// Split-view "active" states
-// .sky-split-view {
-//   .sky-angular-tree {
-//     .tree-node-active .node-wrapper {
-//       background-color: $sky-background-color-neutral-light;
-//       color: $sky-text-color-default;
-//       border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
-//     }
-//     .tree-node-active .tree-children .node-wrapper {
-//       background-color: inherit;
-//       border-left: $sky-nav-selected-border-width solid transparent;
-//     }
-//   }
-// }
-

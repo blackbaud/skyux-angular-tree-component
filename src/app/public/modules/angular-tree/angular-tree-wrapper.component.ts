@@ -78,8 +78,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     }
   }
 
-  // TODO: look at SINGLE select.
   public showSelectButtons(): boolean {
-    return this.treeComponent.treeModel.options.useCheckbox;
+    return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
   }
 }
