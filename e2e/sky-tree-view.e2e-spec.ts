@@ -28,6 +28,13 @@ describe('Tree view', () => {
     });
   });
 
+  it('should match previous screenshot with context menus and checkboxes', (done) => {
+    SkyHostBrowser.scrollTo('#screenshot-tree-view-context-menus-and-checkboxes');
+    expect('#screenshot-tree-view-context-menus-and-checkboxes').toMatchBaselineScreenshot(done, {
+      screenshotName: 'screenshot-tree-view-context-menus-and-checkboxes'
+    });
+  });
+
   it('should match previous screenshot when collapsed', (done) => {
     SkyHostBrowser.scrollTo('#screenshot-tree-view-cascading-checkboxes');
     element(by.css('#screenshot-tree-view-cascading-checkboxes .sky-angular-tree-collapse-all-btn')).click();

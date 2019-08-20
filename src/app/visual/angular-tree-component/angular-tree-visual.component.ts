@@ -4,17 +4,13 @@ import {
 } from '@angular/core';
 
 import {
-  ITreeOptions,
-  TreeNode
+  TreeNode,
+  ITreeOptions
 } from 'angular-tree-component';
 
 import {
   IDTypeDictionary
 } from 'angular-tree-component/dist/defs/api';
-
-import {
-  SkyAngularTreeOptions
-} from '../../public/modules/angular-tree/types/angular-tree-options';
 
 @Component({
   selector: 'sky-angular-tree-visual',
@@ -63,18 +59,20 @@ export class SkyAngularTreeVisualComponent {
     { name: 'Delete', disabled: false }
   ];
 
+  public basicOptions: ITreeOptions = {
+    animateExpand: true
+  };
+
   public optionsCascading: ITreeOptions = {
+    animateExpand: true,
     useCheckbox: true,
     useTriState: true
   };
 
   public optionsNoncascading: ITreeOptions = {
+    animateExpand: true,
     useCheckbox: true,
     useTriState: false
-  };
-
-  public optionsLeafNodeOnly: SkyAngularTreeOptions = {
-    leafNodeSelectionOnly: true
   };
 
   public selectedNodeIds: string[] = [];
@@ -87,6 +85,10 @@ export class SkyAngularTreeVisualComponent {
     console.log(name);
   }
 
+  public onStateChange(event: any) {
+    console.log(event);
+  }
+
   private updateSelectedNodeIds(selectedLeafNodeIds: IDTypeDictionary): void {
     this.selectedNodeIds = [];
     for (let key in selectedLeafNodeIds) {
@@ -95,4 +97,5 @@ export class SkyAngularTreeVisualComponent {
       }
     }
   }
+
 }

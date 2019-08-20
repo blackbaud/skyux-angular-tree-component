@@ -6,11 +6,6 @@ import {
   Output
 } from '@angular/core';
 
-import {
-  TreeComponent,
-  TreeNode
-} from 'angular-tree-component';
-
 @Component({
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
@@ -18,8 +13,10 @@ import {
 })
 export class SkyTreeViewToolbarComponent {
 
+  // TODO: show/hide select/clear all when in different modes.
+
   @Input()
-  public treeComponent: TreeComponent;
+  public showSelectButtons: boolean;
 
   @Output()
   public clearAllClick: EventEmitter<void> = new EventEmitter<void>();
@@ -33,32 +30,20 @@ export class SkyTreeViewToolbarComponent {
   @Output()
   public selectAllClick: EventEmitter<void> = new EventEmitter<void>();
 
-  public clearAll(): void {
-    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
-      if (node.isSelectable()) {
-        node.setIsSelected(false);
-      }
-    });
+  public onCollapseAllClick() {
+    this.collapseAllClick.emit();
   }
 
-  public collapseAll(): void {
-    this.treeComponent.treeModel.collapseAll();
+  public onExpandAllClick() {
+    this.expandAllClick.emit();
   }
 
-  public expandAll(): void {
-    this.treeComponent.treeModel.expandAll();
+  public onSelectAllClick() {
+    this.selectAllClick.emit();
   }
 
-  public selectAll(): void {
-    this.treeComponent.treeModel.doForAll((node: TreeNode) => {
-      if (node.isSelectable()) {
-        node.setIsSelected(true);
-      }
-    });
-  }
-
-  public showSelectButtons(): boolean {
-    return this.treeComponent.treeModel.options.useCheckbox;
+  public onClearAllClick() {
+    this.clearAllClick.emit();
   }
 
 }

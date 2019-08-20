@@ -35,18 +35,18 @@ import {
 } from './angular-tree-node-wrapper.component';
 
 import {
-  SkyAngularTreeOptionsDirective
-} from './angular-tree-options.directive';
-
-import {
   SkyTreeViewToolbarComponent
 } from './angular-tree-toolbar.component';
+
+import {
+  SkyAngularTreeWrapperComponent
+} from './angular-tree-wrapper.component';
 
 @NgModule({
   declarations: [
     SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeWrapperComponent,
-    SkyAngularTreeOptionsDirective,
+    SkyAngularTreeWrapperComponent,
     SkyTreeViewToolbarComponent
   ],
   imports: [
@@ -60,7 +60,7 @@ import {
   exports: [
     SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeWrapperComponent,
-    SkyAngularTreeOptionsDirective,
+    SkyAngularTreeWrapperComponent,
     SkyTreeViewToolbarComponent
   ]
 })

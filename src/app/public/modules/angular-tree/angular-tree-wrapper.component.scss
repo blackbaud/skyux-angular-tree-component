@@ -3,7 +3,7 @@
 
 @import "~angular-tree-component/dist/angular-tree-component";
 
-.sky-angular-tree {
+.sky-angular-tree-wrapper ::ng-deep {
 
   .angular-tree-component {
     cursor: initial;

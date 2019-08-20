@@ -1,27 +1,31 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
   OnInit,
-  Optional
+  Optional,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 
 import {
   TREE_ACTIONS,
   TreeModel,
-  TreeNode
+  TreeNode,
+  ITreeState
 } from 'angular-tree-component';
 
 import {
   SkyCheckboxChange
 } from '@skyux/forms';
-import { SkyAngularTreeOptionsDirective } from './angular-tree-options.directive';
+
+import {
+  SkyAngularTreeWrapperComponent
+} from './angular-tree-wrapper.component';
 
 @Component({
   selector: 'sky-angular-tree-node-wrapper',
-  templateUrl: './angular-tree-node-wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './angular-tree-node-wrapper.component.html'
 })
 export class SkyAngularTreeNodeWrapperComponent implements OnInit {
 
@@ -30,6 +34,31 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
 
   @Input()
   public node: TreeNode;
+
+  @Input()
+  public templates: any;
+
+  public set tabIndex(value: number) {
+    this._tabIndex = value;
+  }
+
+  public get tabIndex(): number {
+    return this._tabIndex;
+  }
+
+  public set focused(value: boolean) {
+    if (value !== this._focused) {
+      this._focused = value;
+      this.tabIndex = value ? 0 : -1;
+      if (value) {
+        this.nodeContentWrapperRef.nativeElement.focus();
+      }
+    }
+  }
+
+  public get focused(): boolean {
+    return this._focused;
+  }
 
   public set isPartiallySelected(value: boolean) {
     if (value !== this._isPartiallySelected) {
@@ -53,28 +82,43 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
     return this._isSelected;
   }
 
-  private leafNodeSelectionOnly = false;
+  @ViewChild('nodeContentWrapper')
+  public nodeContentWrapperRef: ElementRef;
+
+  private _focused: boolean = false;
 
   private _isPartiallySelected: boolean;
 
   private _isSelected: boolean;
 
+  private _tabIndex: number = -1;
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Optional() private skyTreeOptionsDirective: SkyAngularTreeOptionsDirective
-  ) {
-    if (this.skyTreeOptionsDirective) {
-      this.leafNodeSelectionOnly = this.skyTreeOptionsDirective.skyAngularTreeOptions.leafNodeSelectionOnly;
-    }
-  }
+    @Optional() private skyAngularTreeWrapper: SkyAngularTreeWrapperComponent
+  ) { }
 
   public ngOnInit(): void {
     // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
     // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
-    this.node.treeModel.subscribeToState(() => {
+    this.node.treeModel.subscribeToState((state: ITreeState) => {
       this.isSelected = this.node.isSelected;
       this.isPartiallySelected = this.node.isPartiallySelected;
+
+      if (state.focusedNodeId) {
+        this.focused = state.focusedNodeId === this.node.id;
+      }
     });
+
+    // On init, make first root node tabbable.
+    if (this.node.isRoot && this.node.index === 0) {
+      this.tabIndex = 0;
+    }
+
+    // TODO: double check if this is right!
+    if (!this.skyAngularTreeWrapper) {
+      console.warn(`<sky-angular-tree-node-wrapper> should be wrapped inside a <sky-angular-tree-wrapper> component.`);
+    }
   }
 
   public onCheckboxChange(node: TreeNode, event: SkyCheckboxChange): void {
@@ -83,21 +127,54 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
   }
 
   public onNodeContentClick(node: TreeNode, event: any): void {
-    if (this.node.options.useCheckbox && !this.isCheckboxHidden()) {
+    if (this.node.options.useCheckbox && this.isSelectable()) {
       this.toggleSelected(node, node.treeModel, event);
     }
     this.node.mouseAction('click', event);
   }
 
-  public isCheckboxHidden(): boolean {
-    return this.node.hasChildren && this.leafNodeSelectionOnly;
+  public showCheckbox(): boolean {
+    // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
+    return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
   }
 
   public getSelectedClass(): boolean {
-    return this.isSelected && !this.isPartiallySelected && !this.isCheckboxHidden();
+    return this.isSelected && !this.isPartiallySelected && this.isSelectable();
   }
 
+  public getActiveClass(): boolean {
+    return this.node.isActive && !this.node.treeModel.options.useCheckbox;
+  }
+
+  public getTabIndex(): number {
+    if (this.node.treeModel.focusedNodeId === this.node.id) {
+      return 0;
+    } else if (this.node.isRoot && this.node.index === 0) {
+      return 0;
+    }
+    return -1;
+  }
+
+  public onFocus(): void {
+    this.node.treeModel.setFocus(true);
+    this.node.focus();
+  }
+
+  private isSelectable(): boolean {
+    return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
+  }
+
+  // TODO: Write test!
   private toggleSelected(node: TreeNode, tree: TreeModel, event: any): void {
+    // If single selection only is enabled and user is selecting this node, first de-select all other nodes.
+    if (this.skyAngularTreeWrapper.selectSingle && !this.isSelected) {
+      const selectedNodes = node.treeModel.selectedLeafNodes;
+      selectedNodes
+        .forEach((n: TreeNode) => {
+          n.setIsSelected(false);
+        });
+    }
+
     TREE_ACTIONS.TOGGLE_SELECTED(tree, node, event);
   }
 }
