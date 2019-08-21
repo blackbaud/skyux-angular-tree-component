@@ -190,7 +190,6 @@ describe('tree view', () => {
   });
 
   describe('select mode', () => {
-
     it('should show sky-checkboxes when useCheckbox is true', () => {
       component.options = {
         useCheckbox: true
@@ -289,50 +288,207 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should hide checkboxes and prevent parent node selection when options.leafNodeSelectionOnly is true', fakeAsync(() => {
+    it('should hide checkboxes and prevent parent node selection when selectLeafNodesOnly is true', fakeAsync(() => {
       component.options = {
         useCheckbox: true
       };
-      component.skyOptions = {
-        leafNodeSelectionOnly: true
-      };
+      component.selectLeafNodesOnly = true;
       fixture.detectChanges();
       const skyCheckboxes = getCheckboxes();
       const nodeWrappers = getNodeWrappers();
       const nodes = getNodeContents();
-      const checkbox = skyCheckboxes[0].querySelector('input');
+      const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
+      const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
+      // Expect only leaf nodes should have checkboxes.
+      expect(skyCheckboxes.length).toEqual(3);
+      expect(unitedStatesCheckbox).toBeNull();
+      expect(indianaCheckbox).toBeNull();
+
+      // Click the parent node.
       nodes[0].click();
 
+      // Expect parent node NOT to be selected.
       expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(skyCheckboxes[0]).not.toBeVisible();
-      expect(checkbox.checked).toBe(false);
 
       fixture.destroy();
       flush();
     }));
 
-    it('should show and allow parent node selection when options.leafNodeSelectionOnly is false', fakeAsync(() => {
+    it('should show and allow parent node selection when selectLeafNodesOnly is false', fakeAsync(() => {
       component.options = {
         useCheckbox: true
       };
-      component.skyOptions = {
-        leafNodeSelectionOnly: false
-      };
+      component.selectLeafNodesOnly = false;
       fixture.detectChanges();
       const skyCheckboxes = getCheckboxes();
       const nodeWrappers = getNodeWrappers();
       const nodes = getNodeContents();
-      const checkbox = skyCheckboxes[0].querySelector('input');
+      const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
+      const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
+      // Expect all nodes to have checkboxes.
+      expect(skyCheckboxes.length).toEqual(5);
+      expect(unitedStatesCheckbox).not.toBeNull();
+      expect(indianaCheckbox).not.toBeNull();
+
+      // Click the parent node.
       nodes[0].click();
 
+      // Expect parent node to be selected.
       expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
-      expect(skyCheckboxes[0]).toBeVisible();
-      expect(checkbox.checked).toBe(true);
 
       fixture.destroy();
       flush();
+    }));
+
+    it('should throw a console warning if sky-angular-tree-wrapper component is not found', () => {
+      const warnSpy = spyOn(console, 'warn');
+      fixture.detectChanges();
+
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      component.showInvalidTree = true;
+      fixture.detectChanges();
+
+      expect(warnSpy).toHaveBeenCalled();
+    });
+
+    it('should hide sky-checkboxes when selectSingle is true', fakeAsync(() => {
+      component.options = {
+        useCheckbox: true,
+        useTriState: false
+      };
+      component.selectSingle = true;
+      fixture.detectChanges();
+      const skyCheckboxes = getCheckboxes();
+
+      expect(skyCheckboxes.length).toEqual(0);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should only let users select one node at a time when selectSingle is true', fakeAsync(() => {
+      component.options = {
+        useCheckbox: true,
+        useTriState: false
+      };
+      component.selectSingle = true;
+      fixture.detectChanges();
+      const nodeWrappers = getNodeWrappers();
+      const nodes = getNodeContents();
+
+      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[1]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
+
+      // Click the first node.
+      nodes[0].click();
+      fixture.detectChanges();
+
+      // Expect parent node to be selected.
+      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[1]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(component.selectedLeafNodeIds['1']).toEqual(true);
+      expect(component.selectedLeafNodeIds['2']).toBeUndefined();
+      expect(component.selectedLeafNodeIds['3']).toBeUndefined();
+      expect(component.selectedLeafNodeIds['4']).toBeUndefined();
+      expect(component.selectedLeafNodeIds['5']).toBeUndefined();
+
+      // Click a second node.
+      nodes[1].click();
+      fixture.detectChanges();
+
+      // Expect only second node to be selected.
+      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[1]).toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(component.selectedLeafNodeIds['1']).toEqual(false);
+      expect(component.selectedLeafNodeIds['2']).toEqual(true);
+      expect(component.selectedLeafNodeIds['3']).toBeUndefined();
+      expect(component.selectedLeafNodeIds['4']).toBeUndefined();
+      expect(component.selectedLeafNodeIds['5']).toBeUndefined();
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should throw a console warning if selectSingle is used with a cascading tree', () => {
+      const warnSpy = spyOn(console, 'warn');
+      component.options = {
+        useCheckbox: true,
+        useTriState: true
+      };
+      component.selectSingle = true;
+      fixture.detectChanges();
+
+      expect(warnSpy).toHaveBeenCalled();
+    });
+
+    // TODO
+    it('should show console warning if both selectSingle and useTriState are true', fakeAsync(() => {
+
+    }));
+  });
+
+  describe('keyboard navigation', () => {
+    it('should initialize with only the first node being tabbable', () => {
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+
+      expect(nodes[0].tabIndex).toEqual(0);
+      expect(nodes[1].tabIndex).toEqual(-1);
+      expect(nodes[2].tabIndex).toEqual(-1);
+      expect(nodes[3].tabIndex).toEqual(-1);
+      expect(nodes[4].tabIndex).toEqual(-1);
+    });
+
+    it('should register focus properties with TreeModel when a node is given focus', fakeAsync(() => {
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+
+      expect(component.treeComponent.treeModel.isFocused).toEqual(false);
+      expect(component.treeComponent.treeModel.focusedNodeId).toBeNull();
+
+      nodes[0].dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      expect(component.treeComponent.treeModel.isFocused).toEqual(true);
+      expect(component.treeComponent.treeModel.focusedNodeId).toEqual(1);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should give the focussed node a tabIndex of 0, and the rest a tabIndex of -1', fakeAsync(() => {
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+      nodes[1].dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(nodes[0].tabIndex).toEqual(-1);
+      expect(nodes[1].tabIndex).toEqual(0);
+      expect(nodes[2].tabIndex).toEqual(-1);
+      expect(nodes[3].tabIndex).toEqual(-1);
+      expect(nodes[4].tabIndex).toEqual(-1);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    // TODO
+    it('should be able to navigate and activate nodes with the keyboard', fakeAsync(() => {
+
     }));
   });
 

@@ -8,15 +8,16 @@ import {
   ITreeState,
   TreeComponent
 } from 'angular-tree-component';
-
-import {
-  SkyAngularTreeOptions
-} from '../types/angular-tree-options';
+import { IDTypeDictionary } from 'angular-tree-component/dist/defs/api';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html'
 })
 export class SkyTreeViewFixtureComponent {
+
+  public activeNodeIds: any;
+
+  public focusedNodeId: any;
 
   public nodes: any[] = [
     {
@@ -36,7 +37,11 @@ export class SkyTreeViewFixtureComponent {
 
   public options: ITreeOptions;
 
-  public skyOptions: SkyAngularTreeOptions;
+  public selectedLeafNodeIds: IDTypeDictionary;
+
+  public selectLeafNodesOnly: boolean;
+
+  public selectSingle: boolean;
 
   public showInvalidTree = false;
 
@@ -44,8 +49,17 @@ export class SkyTreeViewFixtureComponent {
 
   public state: ITreeState;
 
+  public stateChange: any;
+
   @ViewChild(TreeComponent)
   public treeComponent: TreeComponent;
+
+  public onStateChange(treeState: ITreeState): void {
+    this.stateChange = treeState;
+    this.selectedLeafNodeIds = treeState.selectedLeafNodeIds;
+    this.focusedNodeId = treeState.focusedNodeId;
+    this.activeNodeIds = treeState.activeNodeIds;
+  }
 
   public updateState(): void {
     this.state = {

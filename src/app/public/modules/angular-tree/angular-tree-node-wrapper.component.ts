@@ -47,17 +47,10 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
   }
 
   public set focused(value: boolean) {
-    if (value !== this._focused) {
-      this._focused = value;
-      this.tabIndex = value ? 0 : -1;
-      if (value) {
-        this.nodeContentWrapperRef.nativeElement.focus();
-      }
+    this.tabIndex = value ? 0 : -1;
+    if (value) {
+      this.nodeContentWrapperRef.nativeElement.focus();
     }
-  }
-
-  public get focused(): boolean {
-    return this._focused;
   }
 
   public set isPartiallySelected(value: boolean) {
@@ -84,8 +77,6 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
 
   @ViewChild('nodeContentWrapper')
   public nodeContentWrapperRef: ElementRef;
-
-  private _focused: boolean = false;
 
   private _isPartiallySelected: boolean;
 
@@ -115,7 +106,7 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
       this.tabIndex = 0;
     }
 
-    // TODO: double check if this is right!
+    // TODO: Can we test this?
     if (!this.skyAngularTreeWrapper) {
       console.warn(`<sky-angular-tree-node-wrapper> should be wrapped inside a <sky-angular-tree-wrapper> component.`);
     }
@@ -146,15 +137,6 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
     return this.node.isActive && !this.node.treeModel.options.useCheckbox;
   }
 
-  public getTabIndex(): number {
-    if (this.node.treeModel.focusedNodeId === this.node.id) {
-      return 0;
-    } else if (this.node.isRoot && this.node.index === 0) {
-      return 0;
-    }
-    return -1;
-  }
-
   public onFocus(): void {
     this.node.treeModel.setFocus(true);
     this.node.focus();
@@ -164,7 +146,6 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
     return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
   }
 
-  // TODO: Write test!
   private toggleSelected(node: TreeNode, tree: TreeModel, event: any): void {
     // If single selection only is enabled and user is selecting this node, first de-select all other nodes.
     if (this.skyAngularTreeWrapper.selectSingle && !this.isSelected) {

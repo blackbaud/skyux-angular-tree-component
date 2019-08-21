@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  TreeModule
+} from 'angular-tree-component';
+
+import {
   SkyAngularTreeModule
 } from '../angular-tree.module';
 
@@ -17,7 +21,8 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    SkyAngularTreeModule
+    SkyAngularTreeModule,
+    TreeModule.forRoot()
   ],
   declarations: [
     SkyTreeViewFixtureComponent

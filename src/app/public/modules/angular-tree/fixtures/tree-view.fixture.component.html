@@ -1,11 +1,13 @@
-<sky-angular-tree-root
-  [options]="skyOptions"
+<sky-angular-tree-wrapper
+  [selectLeafNodesOnly]="selectLeafNodesOnly"
+  [selectSingle]="selectSingle"
   [showToolbar]="showToolbar"
 >
   <tree-root
     [nodes]="nodes"
     [options]="options"
     [state]="state"
+    (stateChange)="onStateChange($event)"
     #tree
   >
     <ng-template
@@ -20,7 +22,7 @@
       </sky-angular-tree-node-wrapper>
     </ng-template>
   </tree-root>
-</sky-angular-tree-root>
+</sky-angular-tree-wrapper>
 
 <button
   id="updateStateButton"

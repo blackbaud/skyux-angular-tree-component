@@ -13,8 +13,6 @@ import {
 })
 export class SkyTreeViewToolbarComponent {
 
-  // TODO: show/hide select/clear all when in different modes.
-
   @Input()
   public showSelectButtons: boolean;
 
@@ -30,6 +28,10 @@ export class SkyTreeViewToolbarComponent {
   @Output()
   public selectAllClick: EventEmitter<void> = new EventEmitter<void>();
 
+  public onClearAllClick() {
+    this.clearAllClick.emit();
+  }
+
   public onCollapseAllClick() {
     this.collapseAllClick.emit();
   }
@@ -40,10 +42,6 @@ export class SkyTreeViewToolbarComponent {
 
   public onSelectAllClick() {
     this.selectAllClick.emit();
-  }
-
-  public onClearAllClick() {
-    this.clearAllClick.emit();
   }
 
 }
