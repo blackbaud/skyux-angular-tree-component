@@ -8,7 +8,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
@@ -526,7 +527,7 @@ describe('tree view', () => {
       expect(component.treeComponent.treeModel.isFocused).toEqual(false);
       expect(component.treeComponent.treeModel.focusedNodeId).toBeNull();
 
-      nodes[0].dispatchEvent(new Event('focus'));
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
       fixture.detectChanges();
 
       expect(component.treeComponent.treeModel.isFocused).toEqual(true);
@@ -539,7 +540,8 @@ describe('tree view', () => {
     it('should give the focussed node a tabIndex of 0, and the rest a tabIndex of -1', fakeAsync(() => {
       fixture.detectChanges();
       const nodes = getNodeContents();
-      nodes[1].dispatchEvent(new Event('focus'));
+
+      SkyAppTestUtility.fireDomEvent(nodes[1], 'focus');
       fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
@@ -548,7 +550,7 @@ describe('tree view', () => {
       expect(nodes[3].tabIndex).toEqual(-1);
       expect(nodes[4].tabIndex).toEqual(-1);
 
-      nodes[4].dispatchEvent(new Event('focus'));
+      SkyAppTestUtility.fireDomEvent(nodes[4], 'focus');
       fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
