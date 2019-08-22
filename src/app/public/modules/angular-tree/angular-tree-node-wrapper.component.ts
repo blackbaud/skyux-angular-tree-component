@@ -106,7 +106,6 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
       this.tabIndex = 0;
     }
 
-    // TODO: Can we test this?
     if (!this.skyAngularTreeWrapper) {
       console.warn(`<sky-angular-tree-node-wrapper> should be wrapped inside a <sky-angular-tree-wrapper> component.`);
     }

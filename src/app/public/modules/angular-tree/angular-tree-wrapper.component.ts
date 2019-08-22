@@ -49,9 +49,11 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onClearAllClick(): void {
+    /* istanbul ignore else */
     if (!this.selectSingle) {
       this.treeComponent.treeModel.doForAll((node: TreeNode) => {
         const selectable = node.isSelectable && !(node.hasChildren && this.selectLeafNodesOnly);
+        /* istanbul ignore else */
         if (selectable) {
           node.setIsSelected(false);
         }
@@ -68,9 +70,11 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onSelectAllClick(): void {
+    /* istanbul ignore else */
     if (!this.selectSingle) {
       this.treeComponent.treeModel.doForAll((node: TreeNode) => {
         const selectable = node.isSelectable && !(node.hasChildren && this.selectLeafNodesOnly);
+        /* istanbul ignore else */
         if (selectable) {
           node.setIsSelected(true);
         }

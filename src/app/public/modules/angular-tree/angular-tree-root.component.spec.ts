@@ -36,8 +36,12 @@ describe('tree view', () => {
     return document.querySelector('.sky-angular-tree-clear-all-btn') as HTMLElement;
   }
 
-  function getCheckboxes(): NodeListOf<HTMLElement> {
+  function getSkyCheckboxes(): NodeListOf<HTMLElement> {
     return document.querySelectorAll('sky-checkbox');
+  }
+
+  function getCheckboxInputs(): NodeListOf<HTMLInputElement> {
+    return document.querySelectorAll('sky-checkbox input');
   }
 
   function getExpandButton(): HTMLElement {
@@ -79,6 +83,57 @@ describe('tree view', () => {
     tick();
     fixture.detectChanges();
   }
+
+  // Selection helpers
+  // Note: checking for checkboxes and nodes should be separate. You may not have a checkbox for every node.
+  // For example: Leaf-node only mode will hide checkboxes for parents.
+  // expectNodeToBeSelected() will check if the node has proper styles and the tree model is updated correctly.
+  // expectCheckboxToBeChecked() will check if our custom implementation of sky-checkbox has the proper checked state.
+
+  // Use 1-based indexes!
+  function expectNodeToBeSelected(nodeIndex: number, selected: boolean): void {
+    const nodeWrappers = getNodeWrappers();
+
+    if (selected) {
+      expect(nodeWrappers[nodeIndex - 1]).toHaveCssClass('sky-angular-tree-node-selected');
+      expect(component.selectedLeafNodeIds[nodeIndex]).toEqual(true);
+    } else {
+      expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(component.selectedLeafNodeIds[nodeIndex] || false).toEqual(false);
+    }
+  }
+
+  // Use 1-based indexes!
+  function expectCheckboxToBeChecked(nodeIndex: number, selected: boolean): void {
+    const checkboxInputs = getCheckboxInputs();
+    expect(checkboxInputs[nodeIndex - 1].checked).toEqual(selected);
+  }
+
+  function setupCascadingMode(): void {
+    component.showToolbar = true;
+    component.options = {
+      useCheckbox: true,
+      useTriState: true
+    };
+  }
+
+  function setupNonCascadingMode(): void {
+    component.showToolbar = true;
+    component.options = {
+      useCheckbox: true,
+      useTriState: false
+    };
+  }
+
+  function setupLeafSelectOnlyMode(): void {
+    setupNonCascadingMode();
+    component.selectLeafNodesOnly = true;
+  }
+
+  function setupSingleSelectMode(): void {
+    setupNonCascadingMode();
+    component.selectSingle = true;
+  }
   // #endregion
 
   beforeEach(() => {
@@ -109,7 +164,7 @@ describe('tree view', () => {
       expect(toolbar).toBeNull();
     });
 
-    it('should hide select all / clear all buttons when the tree view does not have checkboxes enabled', () => {
+    it('should hide select all / clear all buttons when useCheckbox is false', () => {
       component.showToolbar = true;
       component.options = {
         useCheckbox: false
@@ -123,10 +178,7 @@ describe('tree view', () => {
     });
 
     it('should show select all / clear all buttons when the tree view has checkboxes enabled', () => {
-      component.showToolbar = true;
-      component.options = {
-        useCheckbox: true
-      };
+      setupCascadingMode();
       fixture.detectChanges();
       const selectAllButton = getSelectAllButton();
       const clearAllButton = getClearAllButton();
@@ -136,37 +188,53 @@ describe('tree view', () => {
     });
 
     it('should select all checkboxes when select all is clicked', fakeAsync(() => {
-      component.showToolbar = true;
-      component.options = {
-        useCheckbox: true
-      };
+      setupNonCascadingMode();
       fixture.detectChanges();
+
       clickSelectAll();
 
-      const checkboxes = getCheckboxes();
-      Array.from(checkboxes).forEach((checkbox) => {
-        const input = checkbox.querySelector('input');
-        expect(input.checked).toEqual(true);
-      });
+      // Note: a "parent" node isn't considered "selected" in triState (cascading) mode.
+      // For this test, we have turned triState off, so testing selection is easier.
+      expectNodeToBeSelected(1, true);
+      expectCheckboxToBeChecked(1, true);
+
+      expectNodeToBeSelected(2, true);
+      expectCheckboxToBeChecked(2, true);
+
+      expectNodeToBeSelected(3, true);
+      expectCheckboxToBeChecked(3, true);
+
+      expectNodeToBeSelected(4, true);
+      expectCheckboxToBeChecked(4, true);
+
+      expectNodeToBeSelected(5, true);
+      expectCheckboxToBeChecked(5, true);
 
       fixture.destroy();
       flush();
     }));
 
     it('should clear all checkboxes when clear all is clicked', fakeAsync(() => {
-      component.showToolbar = true;
-      component.options = {
-        useCheckbox: true
-      };
+      setupCascadingMode();
       fixture.detectChanges();
+
       clickSelectAll();
       clickClearAll();
 
-      const checkboxes = getCheckboxes();
-      Array.from(checkboxes).forEach((checkbox) => {
-        const input = checkbox.querySelector('input');
-        expect(input.checked).toEqual(false);
-      });
+      expectNodeToBeSelected(1, false);
+      expectCheckboxToBeChecked(1, false);
+
+      expectNodeToBeSelected(2, false);
+      expectCheckboxToBeChecked(2, false);
+
+      expectNodeToBeSelected(3, false);
+      expectCheckboxToBeChecked(3, false);
+
+      expectNodeToBeSelected(4, false);
+      expectCheckboxToBeChecked(4, false);
+
+      expectNodeToBeSelected(5, false);
+      expectCheckboxToBeChecked(5, false);
 
       fixture.destroy();
       flush();
@@ -195,7 +263,7 @@ describe('tree view', () => {
         useCheckbox: true
       };
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
+      const checkboxes = getSkyCheckboxes();
 
       expect(checkboxes.length).not.toEqual(0);
     });
@@ -205,96 +273,82 @@ describe('tree view', () => {
         useCheckbox: false
       };
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
+      const skyCheckboxes = getSkyCheckboxes();
 
-      expect(checkboxes.length).toEqual(0);
+      expect(skyCheckboxes.length).toEqual(0);
     });
 
     it('should show a checked sky-checkbox when nodes are selected programatically', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true,
-        useTriState: false
-      };
+      setupNonCascadingMode();
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
-      const input = checkboxes[0].querySelector('input');
 
       // First node should be unchecked.
-      expect(input.checked).toBe(false);
+      expectNodeToBeSelected(1, false);
+      expectCheckboxToBeChecked(1, false);
 
       // Programatically select a node using the 3rd party API.
       fixture.nativeElement.querySelector('#updateStateButton').click();
       fixture.detectChanges();
 
-      // First node should now be hecked.
-      expect(input.checked).toBe(true);
+      // First node should now be checked.
+      expectNodeToBeSelected(1, true);
+      expectCheckboxToBeChecked(1, true);
 
       fixture.destroy();
       flush();
     }));
 
     it('should show indeterminate state when parent checkboxes are partially selected in cascade mode', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true
-      };
+      setupCascadingMode();
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
+      const skyCheckboxes = getSkyCheckboxes();
 
-      const parentCheckbox = checkboxes[0].querySelector('input');
-      const childCheckbox = checkboxes[1].querySelector('input');
+      const parentCheckbox = skyCheckboxes[0].querySelector('input');
+      const childCheckbox = skyCheckboxes[1].querySelector('input');
 
       // Select a child of the first parent.
       childCheckbox.click();
 
       // Expect the parent checkbox to be checked but also indeterminate.
       expect(parentCheckbox.checked).toBe(true);
-      expect(checkboxes[0]).toHaveCssClass('sky-checkbox-indeterminate');
+      expect(skyCheckboxes[0]).toHaveCssClass('sky-checkbox-indeterminate');
 
       fixture.destroy();
       flush();
     }));
 
     it('should select nodes when node content is clicked', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true
-      };
+      setupNonCascadingMode();
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
       const nodes = getNodeContents();
-      const checkbox = checkboxes[0].querySelector('input');
 
       nodes[0].click();
 
-      expect(checkbox.checked).toBe(true);
+      expectNodeToBeSelected(1, true);
+      expectCheckboxToBeChecked(1, true);
 
       fixture.destroy();
       flush();
     }));
 
-    it('should show selected class when node is selected', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true
-      };
+    it('should select nodes when checkbox is clicked', fakeAsync(() => {
+      setupNonCascadingMode();
       fixture.detectChanges();
-      const checkboxes = getCheckboxes();
-      const checkbox = checkboxes[0].querySelector('input');
-      const nodeWrappers = getNodeWrappers();
+      const checkboxes = getCheckboxInputs();
 
-      checkbox.click();
+      checkboxes[0].click();
 
-      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
+      expectNodeToBeSelected(1, true);
+      expectCheckboxToBeChecked(1, true);
 
       fixture.destroy();
       flush();
     }));
 
     it('should hide checkboxes and prevent parent node selection when selectLeafNodesOnly is true', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true
-      };
-      component.selectLeafNodesOnly = true;
+      setupLeafSelectOnlyMode();
       fixture.detectChanges();
-      const skyCheckboxes = getCheckboxes();
+      const skyCheckboxes = getSkyCheckboxes();
       const nodeWrappers = getNodeWrappers();
       const nodes = getNodeContents();
       const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
@@ -309,19 +363,18 @@ describe('tree view', () => {
       nodes[0].click();
 
       // Expect parent node NOT to be selected.
-      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expectNodeToBeSelected(1, false);
+      expectCheckboxToBeChecked(1, false);
 
       fixture.destroy();
       flush();
     }));
 
     it('should show and allow parent node selection when selectLeafNodesOnly is false', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true
-      };
+      setupNonCascadingMode();
       component.selectLeafNodesOnly = false;
       fixture.detectChanges();
-      const skyCheckboxes = getCheckboxes();
+      const skyCheckboxes = getSkyCheckboxes();
       const nodeWrappers = getNodeWrappers();
       const nodes = getNodeContents();
       const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
@@ -336,7 +389,38 @@ describe('tree view', () => {
       nodes[0].click();
 
       // Expect parent node to be selected.
-      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
+      expectNodeToBeSelected(1, true);
+      expectCheckboxToBeChecked(1, true);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should only select leaf nodes when clicking select all and selectLeafNodesOnly is true', fakeAsync(() => {
+      setupLeafSelectOnlyMode();
+      fixture.detectChanges();
+      const checkboxInputs = getCheckboxInputs();
+      clickSelectAll();
+
+      // United States (parent). Should not have a checkbox.
+      // Expect NOT to be selected.
+      expectNodeToBeSelected(1, false);
+
+      // California (leaf). Expect to be selected.
+      expectNodeToBeSelected(2, true);
+      expect(checkboxInputs[0].checked).toEqual(true);
+
+      // Indiana (parent). Should not have a checkbox.
+      // Expect NOT to be selected.
+      expectNodeToBeSelected(3, false);
+
+      // Adams (leaf). Expect to be selected.
+      expectNodeToBeSelected(4, true);
+      expect(checkboxInputs[1].checked).toEqual(true);
+
+      // Allen (leaf). Expect to be selected.
+      expectNodeToBeSelected(5, true);
+      expect(checkboxInputs[2].checked).toEqual(true);
 
       fixture.destroy();
       flush();
@@ -355,13 +439,9 @@ describe('tree view', () => {
     });
 
     it('should hide sky-checkboxes when selectSingle is true', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true,
-        useTriState: false
-      };
-      component.selectSingle = true;
+      setupSingleSelectMode();
       fixture.detectChanges();
-      const skyCheckboxes = getCheckboxes();
+      const skyCheckboxes = getSkyCheckboxes();
 
       expect(skyCheckboxes.length).toEqual(0);
 
@@ -370,73 +450,61 @@ describe('tree view', () => {
     }));
 
     it('should only let users select one node at a time when selectSingle is true', fakeAsync(() => {
-      component.options = {
-        useCheckbox: true,
-        useTriState: false
-      };
-      component.selectSingle = true;
+      setupSingleSelectMode();
       fixture.detectChanges();
-      const nodeWrappers = getNodeWrappers();
       const nodes = getNodeContents();
 
-      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[1]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expectNodeToBeSelected(1, false);
+      expectNodeToBeSelected(2, false);
+      expectNodeToBeSelected(3, false);
+      expectNodeToBeSelected(4, false);
+      expectNodeToBeSelected(5, false);
 
       // Click the first node.
       nodes[0].click();
       fixture.detectChanges();
 
       // Expect parent node to be selected.
-      expect(nodeWrappers[0]).toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[1]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(component.selectedLeafNodeIds['1']).toEqual(true);
-      expect(component.selectedLeafNodeIds['2']).toBeUndefined();
-      expect(component.selectedLeafNodeIds['3']).toBeUndefined();
-      expect(component.selectedLeafNodeIds['4']).toBeUndefined();
-      expect(component.selectedLeafNodeIds['5']).toBeUndefined();
+      expectNodeToBeSelected(1, true);
+      expectNodeToBeSelected(2, false);
+      expectNodeToBeSelected(3, false);
+      expectNodeToBeSelected(4, false);
+      expectNodeToBeSelected(5, false);
 
       // Click a second node.
       nodes[1].click();
       fixture.detectChanges();
 
       // Expect only second node to be selected.
-      expect(nodeWrappers[0]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[1]).toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[2]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[3]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(nodeWrappers[4]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(component.selectedLeafNodeIds['1']).toEqual(false);
-      expect(component.selectedLeafNodeIds['2']).toEqual(true);
-      expect(component.selectedLeafNodeIds['3']).toBeUndefined();
-      expect(component.selectedLeafNodeIds['4']).toBeUndefined();
-      expect(component.selectedLeafNodeIds['5']).toBeUndefined();
+      expectNodeToBeSelected(1, false);
+      expectNodeToBeSelected(2, true);
+      expectNodeToBeSelected(3, false);
+      expectNodeToBeSelected(4, false);
+      expectNodeToBeSelected(5, false);
 
       fixture.destroy();
       flush();
     }));
 
     it('should throw a console warning if selectSingle is used with a cascading tree', () => {
-      const warnSpy = spyOn(console, 'warn');
-      component.options = {
-        useCheckbox: true,
-        useTriState: true
-      };
+      setupCascadingMode();
       component.selectSingle = true;
+      const warnSpy = spyOn(console, 'warn');
       fixture.detectChanges();
 
       expect(warnSpy).toHaveBeenCalled();
     });
 
-    // TODO
-    it('should show console warning if both selectSingle and useTriState are true', fakeAsync(() => {
+    it('should hide select all/clear all buttons if selectSingle is true', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
 
-    }));
+      const selectAllButton = getSelectAllButton();
+      const clearAllButton = getClearAllButton();
+
+      expect(selectAllButton).toBeNull();
+      expect(clearAllButton).toBeNull();
+    });
   });
 
   describe('keyboard navigation', () => {
@@ -473,8 +541,6 @@ describe('tree view', () => {
       const nodes = getNodeContents();
       nodes[1].dispatchEvent(new Event('focus'));
       fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
       expect(nodes[1].tabIndex).toEqual(0);
@@ -482,13 +548,17 @@ describe('tree view', () => {
       expect(nodes[3].tabIndex).toEqual(-1);
       expect(nodes[4].tabIndex).toEqual(-1);
 
+      nodes[4].dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      expect(nodes[0].tabIndex).toEqual(-1);
+      expect(nodes[1].tabIndex).toEqual(-1);
+      expect(nodes[2].tabIndex).toEqual(-1);
+      expect(nodes[3].tabIndex).toEqual(-1);
+      expect(nodes[4].tabIndex).toEqual(0);
+
       fixture.destroy();
       flush();
-    }));
-
-    // TODO
-    it('should be able to navigate and activate nodes with the keyboard', fakeAsync(() => {
-
     }));
   });
 
