@@ -15,7 +15,7 @@
     display: flex;
     align-items: center;
     padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
-    border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for split-view active style.
+    border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for active style.
   }
 
   .node-content-wrapper {
