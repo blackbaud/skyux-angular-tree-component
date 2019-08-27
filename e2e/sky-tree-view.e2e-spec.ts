@@ -21,10 +21,11 @@ describe('Tree view', () => {
     });
   });
 
-  it('should match previous screenshot with context menus', (done) => {
-    SkyHostBrowser.scrollTo('#screenshot-tree-view-context-menus');
-    expect('#screenshot-tree-view-context-menus').toMatchBaselineScreenshot(done, {
-      screenshotName: 'screenshot-tree-view-context-menus'
+  it('should match previous screenshot with node active', (done) => {
+    SkyHostBrowser.scrollTo('#screenshot-tree-view-basic');
+    element.all(by.css('#screenshot-tree-view-basic .node-content-wrapper')).get(1).click();
+    expect('#screenshot-tree-view-basic').toMatchBaselineScreenshot(done, {
+      screenshotName: 'screenshot-tree-view-basic-with-node-active'
     });
   });
 
@@ -51,11 +52,11 @@ describe('Tree view', () => {
     });
   });
 
-  it('should match previous screenshot inside a split view', (done) => {
-    SkyHostBrowser.scrollTo('#screenshot-tree-view-split-view');
-    element.all(by.css('#screenshot-tree-view-split-view .node-content-wrapper')).get(1).click();
-    expect('#screenshot-tree-view-split-view').toMatchBaselineScreenshot(done, {
-      screenshotName: 'screenshot-tree-view-split-view'
+  it('should match previous screenshot with single select mode', (done) => {
+    SkyHostBrowser.scrollTo('#screenshot-tree-view-single-select');
+    element.all(by.css('#screenshot-tree-view-single-select .node-content-wrapper')).get(1).click();
+    expect('#screenshot-tree-view-single-select').toMatchBaselineScreenshot(done, {
+      screenshotName: 'screenshot-tree-view-single-select'
     });
   });
 });
