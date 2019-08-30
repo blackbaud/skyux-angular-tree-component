@@ -21,7 +21,7 @@ import {
 // Build will crash if we try to insert function calls inside the NgModule decorator.
 // To get around this, we just use a variable to refer to the .forRoot() function call.
 // https://github.com/angular/angular/issues/23609
-export const treeModuleForRoot = TreeModule.forRoot();
+const treeModuleForRoot = TreeModule.forRoot();
 
 @NgModule({
   imports: [

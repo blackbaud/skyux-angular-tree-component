@@ -5,13 +5,11 @@
   [style.padding-left]="node.getNodePadding()"
 >
 
-  <!-- Expander -->
   <tree-node-expander
     [node]="node"
   >
   </tree-node-expander>
 
-  <!-- Checkbox -->
   <sky-checkbox *ngIf="showCheckbox()"
     [checked]="isSelected"
     [id]="node.data.id"
@@ -21,15 +19,14 @@
   >
   </sky-checkbox>
 
-  <!-- Context Menu -->
   <ng-content select="sky-angular-tree-context-menu"></ng-content>
 
   <!-- Note: we've made changes to the click event, tabindex, and classes when compared to the original template. -->
   <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
   <div
     class="node-content-wrapper"
-    [attr.tabindex]="tabIndex"
     [allowDragoverStyling]="node.allowDragoverStyling()"
+    [attr.tabindex]="tabIndex"
     [treeAllowDrop]="node.allowDrop"
     [treeDrag]="node"
     [treeDragEnabled]="node.allowDrag()"

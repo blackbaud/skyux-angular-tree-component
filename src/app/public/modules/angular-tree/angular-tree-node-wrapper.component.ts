@@ -1,23 +1,23 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
   Optional,
-  ElementRef,
   ViewChild
 } from '@angular/core';
 
 import {
-  TREE_ACTIONS,
-  TreeModel,
-  TreeNode,
-  ITreeState
-} from 'angular-tree-component';
-
-import {
   SkyCheckboxChange
 } from '@skyux/forms';
+
+import {
+  ITreeState,
+  TREE_ACTIONS,
+  TreeModel,
+  TreeNode
+} from 'angular-tree-component';
 
 import {
   SkyAngularTreeWrapperComponent
