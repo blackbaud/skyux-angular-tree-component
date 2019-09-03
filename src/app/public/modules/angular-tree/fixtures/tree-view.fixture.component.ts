@@ -8,7 +8,10 @@ import {
   ITreeState,
   TreeComponent
 } from 'angular-tree-component';
-import { IDTypeDictionary } from 'angular-tree-component/dist/defs/api';
+
+import {
+  IDTypeDictionary
+} from 'angular-tree-component/dist/defs/api';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html'
@@ -27,8 +30,8 @@ export class SkyTreeViewFixtureComponent {
       children: [
         { id: 2, name: 'California' },
         { id: 3, name: 'Indiana', isExpanded: true, children: [
-          { id: 4, name: 'Adams' },
-          { id: 5, name: 'Allen' }
+            { id: 4, name: 'Adams' },
+            { id: 5, name: 'Allen' }
           ]
         }
       ]

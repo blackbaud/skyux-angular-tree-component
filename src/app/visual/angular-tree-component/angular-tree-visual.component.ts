@@ -85,7 +85,7 @@ export class SkyAngularTreeVisualComponent {
     console.log(name);
   }
 
-  public onStateChange(event: any) {
+  public onStateChange(event: any): void {
     console.log(event);
   }
 

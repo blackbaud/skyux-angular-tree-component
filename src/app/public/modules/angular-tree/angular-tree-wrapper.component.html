@@ -1,5 +1,6 @@
-<div class="sky-angular-tree-wrapper">
-
+<div
+  class="sky-angular-tree-wrapper"
+>
   <sky-angular-tree-toolbar *ngIf="showToolbar"
     [showSelectButtons]="showSelectButtons()"
     (clearAllClick)="onClearAllClick()"
@@ -8,7 +9,7 @@
     (selectAllClick)="onSelectAllClick()"
   >
   </sky-angular-tree-toolbar>
-
-  <ng-content select="tree-root"></ng-content>
-
+  <ng-content
+    select="tree-root"
+  ></ng-content>
 </div>

@@ -17,30 +17,30 @@ export class SkyTreeViewToolbarComponent {
   public showSelectButtons: boolean;
 
   @Output()
-  public clearAllClick: EventEmitter<void> = new EventEmitter<void>();
+  public clearAllClick = new EventEmitter<void>();
 
   @Output()
-  public collapseAllClick: EventEmitter<void> = new EventEmitter<void>();
+  public collapseAllClick = new EventEmitter<void>();
 
   @Output()
-  public expandAllClick: EventEmitter<void> = new EventEmitter<void>();
+  public expandAllClick = new EventEmitter<void>();
 
   @Output()
-  public selectAllClick: EventEmitter<void> = new EventEmitter<void>();
+  public selectAllClick = new EventEmitter<void>();
 
-  public onClearAllClick() {
+  public onClearAllClick(): void {
     this.clearAllClick.emit();
   }
 
-  public onCollapseAllClick() {
+  public onCollapseAllClick(): void {
     this.collapseAllClick.emit();
   }
 
-  public onExpandAllClick() {
+  public onExpandAllClick(): void {
     this.expandAllClick.emit();
   }
 
-  public onSelectAllClick() {
+  public onSelectAllClick(): void {
     this.selectAllClick.emit();
   }
 

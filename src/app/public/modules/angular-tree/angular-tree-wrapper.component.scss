@@ -14,7 +14,7 @@
   .node-wrapper {
     display: flex;
     align-items: center;
-    padding: 4px 5px; // Allows 2px of space for drop-slot, but total 10px between each node.
+    padding: 4px $sky-margin-half; // Allows 2px of space for drop-slot, but total 10px between each node.
     border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for active style.
   }
 
@@ -29,7 +29,7 @@
 
   // Toggle indicator
   .toggle-children-wrapper {
-    padding: 0 10px 0 0;
+    padding: 0 $sky-margin 0 0;
   }
 
   .toggle-children {
@@ -58,7 +58,7 @@
   .toggle-children-placeholder {
     width: 32px;
     height: 22px;
-    padding: 0 10px 0 0;
+    padding: 0 $sky-margin 0 0;
   }
 
   // Hover states
@@ -85,7 +85,7 @@
   }
 
   .sky-switch-control {
-    margin: 0 10px 0 0;
+    margin: 0 $sky-margin 0 0;
   }
 
   // TODO: Remove me when checkboxes support indeterminate!
@@ -98,6 +98,6 @@
 
   // Dropdowns
   .sky-angular-tree-context-menu {
-    margin: 0 5px 0 0;
+    margin: 0 $sky-margin-half 0 0;
   }
 }

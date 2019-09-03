@@ -75,21 +75,19 @@ describe('tree view', () => {
 
   function clickExpand(): void {
     getExpandButton().click();
-    // tick(); // Allow time to apply changes to all buttons.
   }
 
   function clickCollapse(): void {
     getCollapseButton().click();
-    // tick(); // Allow time to apply changes to all buttons.
   }
 
   // Selection helpers
-  // Note: checking for checkboxes and nodes should be separate. You may not have a checkbox for every node.
+  // Note: validating checkboxes vs nodes should be separate. You may not have a checkbox for every node.
   // For example: Leaf-node only mode will hide checkboxes for parents.
   // expectNodeToBeSelected() will check if the node has proper styles and the tree model is updated correctly.
   // expectCheckboxToBeChecked() will check if our custom implementation of sky-checkbox has the proper checked state.
 
-  // Use 1-based indexes!
+  // nodeIndex should use 1-based indexes!
   function expectNodeToBeSelected(nodeIndex: number, selected: boolean): void {
     const nodeWrappers = getNodeWrappers();
 
@@ -102,7 +100,7 @@ describe('tree view', () => {
     }
   }
 
-  // Use 1-based indexes!
+  // nodeIndex should use 1-based indexes!
   function expectCheckboxToBeChecked(nodeIndex: number, selected: boolean): void {
     const checkboxInputs = getCheckboxInputs();
     expect(checkboxInputs[nodeIndex - 1].checked).toEqual(selected);
@@ -239,7 +237,7 @@ describe('tree view', () => {
       flush();
     }));
 
-    fit('should send proper commands to API when expand all / collapse all buttons are clicked', fakeAsync(() => {
+    it('should send proper commands to API when expand all / collapse all buttons are clicked', fakeAsync(() => {
       component.showToolbar = true;
       fixture.detectChanges();
       const expandSpy = spyOn(component.treeComponent.treeModel, 'expandAll').and.callThrough();
@@ -562,8 +560,28 @@ describe('tree view', () => {
     }));
   });
 
-  it('should pass accessibility', async(() => {
-    fixture.detectChanges();
-    expect(fixture.nativeElement).toBeAccessible();
+  describe('accessibility', (() => {
+    it('should pass accessibility in basic setup', async(() => {
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toBeAccessible();
+    }));
+
+    it('should pass accessibility in multi-select mode', async(() => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toBeAccessible();
+    }));
+
+    it('should pass accessibility in single-select mode', async(() => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toBeAccessible();
+    }));
+
+    it('should pass accessibility in leaf-select-only mode', async(() => {
+      setupLeafSelectOnlyMode();
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toBeAccessible();
+    }));
   }));
 });
