@@ -128,11 +128,11 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
     return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
   }
 
-  public getSelectedClass(): boolean {
-    return this.isSelected && !this.isPartiallySelected && this.isSelectable();
+  public showSelectedClass(): boolean {
+    return this.isSelectable() && this.isSelected && !this.isPartiallySelected;
   }
 
-  public getActiveClass(): boolean {
+  public showActiveClass(): boolean {
     return this.node.isActive && !this.node.treeModel.options.useCheckbox;
   }
 
@@ -142,7 +142,9 @@ export class SkyAngularTreeNodeWrapperComponent implements OnInit {
   }
 
   private isSelectable(): boolean {
-    return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
+    if (this.skyAngularTreeWrapper) {
+      return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
+    }
   }
 
   private toggleSelected(node: TreeNode, tree: TreeModel, event: any): void {

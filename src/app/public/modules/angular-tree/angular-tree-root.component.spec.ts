@@ -1,8 +1,8 @@
 import {
   async,
+  ComponentFixture,
   fakeAsync,
   flush,
-  ComponentFixture,
   TestBed,
   tick
 } from '@angular/core/testing';
@@ -63,26 +63,24 @@ describe('tree view', () => {
 
   function clickSelectAll(): void {
     getSelectAllButton().click();
-    tick();
-    fixture.detectChanges();
+    tick(); // Allow time to apply changes to all buttons.
+    fixture.detectChanges(); // Update sky-checkbox.
   }
 
   function clickClearAll(): void {
     getClearAllButton().click();
-    tick();
-    fixture.detectChanges();
+    tick(); // Allow time to apply changes to all buttons.
+    fixture.detectChanges(); // Update sky-checkbox.
   }
 
   function clickExpand(): void {
     getExpandButton().click();
-    tick();
-    fixture.detectChanges();
+    // tick(); // Allow time to apply changes to all buttons.
   }
 
   function clickCollapse(): void {
     getCollapseButton().click();
-    tick();
-    fixture.detectChanges();
+    // tick(); // Allow time to apply changes to all buttons.
   }
 
   // Selection helpers
@@ -241,7 +239,7 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should send proper commands to API when expand all / collapse all buttons are clicked', fakeAsync(() => {
+    fit('should send proper commands to API when expand all / collapse all buttons are clicked', fakeAsync(() => {
       component.showToolbar = true;
       fixture.detectChanges();
       const expandSpy = spyOn(component.treeComponent.treeModel, 'expandAll').and.callThrough();
