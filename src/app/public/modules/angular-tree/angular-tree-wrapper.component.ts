@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  Input
+  Input,
+  OnInit
 } from '@angular/core';
 
 import {
+  KEYS,
   TreeComponent,
   TreeNode
 } from 'angular-tree-component';
@@ -17,7 +19,7 @@ import {
   styleUrls: ['./angular-tree-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyAngularTreeWrapperComponent implements AfterViewInit {
+export class SkyAngularTreeWrapperComponent implements AfterViewInit, OnInit {
 
   @Input()
   public selectLeafNodesOnly: boolean = false;
@@ -39,6 +41,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   private _showToolbar: boolean;
 
+  public ngOnInit() {
+    this.overrideActionMapping();
+  }
+
   public ngAfterViewInit(): void {
     if (this.selectSingle && this.treeComponent.treeModel.options.useTriState) {
       console.warn(
@@ -49,6 +55,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onClearAllClick(): void {
+    const focusedNode = this.treeComponent.treeModel.getFocusedNode();
     /* istanbul ignore else */
     if (!this.selectSingle) {
       this.treeComponent.treeModel.doForAll((node: TreeNode) => {
@@ -56,6 +63,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
         /* istanbul ignore else */
         if (selectable) {
           node.setIsSelected(false);
+          this.treeComponent.treeModel.setFocusedNode(focusedNode);
         }
       });
     }
@@ -70,6 +78,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onSelectAllClick(): void {
+    const focusedNode = this.treeComponent.treeModel.getFocusedNode();
     /* istanbul ignore else */
     if (!this.selectSingle) {
       this.treeComponent.treeModel.doForAll((node: TreeNode) => {
@@ -77,6 +86,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
         /* istanbul ignore else */
         if (selectable) {
           node.setIsSelected(true);
+          this.treeComponent.treeModel.setFocusedNode(focusedNode);
         }
       });
     }
@@ -84,5 +94,20 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   public showSelectButtons(): boolean {
     return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
+  }
+
+  private overrideActionMapping(): void {
+    const defaultActionMapping = this.treeComponent.treeModel.options.actionMapping;
+
+    // If checkbox mode is enabled, override space/enter key controls.
+    // We will manually control these in the toggleSelected() method below.
+    if (this.treeComponent.treeModel.options.useCheckbox) {
+      defaultActionMapping.keys[KEYS.SPACE] = undefined;
+      defaultActionMapping.keys[KEYS.ENTER] = undefined;
+    }
+
+    // Override left/right arrow keys to support navigating through interactive elements with keyboard.
+    defaultActionMapping.keys[KEYS.RIGHT] = undefined;
+    defaultActionMapping.keys[KEYS.LEFT] = undefined;
   }
 }

@@ -9,7 +9,11 @@
     (selectAllClick)="onSelectAllClick()"
   >
   </sky-angular-tree-toolbar>
-  <ng-content
-    select="tree-root"
-  ></ng-content>
+  <div
+    role="tree"
+  >
+    <ng-content
+      select="tree-root"
+    ></ng-content>
+  </div>
 </div>

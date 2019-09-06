@@ -1,0 +1,116 @@
+<div
+  [class]="node.getClass()"
+  [class.tree-node]="true"
+  [class.tree-node-active]="node.isActive"
+  [class.tree-node-collapsed]="node.isCollapsed && node.hasChildren"
+  [class.tree-node-expanded]="node.isExpanded && node.hasChildren"
+  [class.tree-node-focused]="node.isFocused"
+  [class.tree-node-leaf]="node.isLeaf"
+>
+
+  <tree-node-drop-slot *ngIf="index === 0"
+    [dropIndex]="node.index"
+    [node]="node.parent"
+  >
+  </tree-node-drop-slot>
+
+  <!-- #region <tree-node-wrapper> custom template --->
+  <div
+    class="node-wrapper"
+    role="treeitem"
+    [attr.aria-expanded]="node.isExpanded"
+    [class.sky-angular-tree-node-active]="showActiveClass()"
+    [class.sky-angular-tree-node-selected]="showSelectedClass()"
+    [style.padding-left]="node.getNodePadding()"
+  >
+
+    <!-- TODO: CSS -->
+    <!-- #region <tree-node-expander> custom template --->
+    <div class="sky-toggle-children-wrapper">
+      <button *ngIf="node.hasChildren"
+        class="sky-btn sky-btn-link"
+        tabindex="-1"
+        type="button"
+        [class.toggle-children-wrapper-expanded]="node.isExpanded"
+        [class.toggle-children-wrapper-collapsed]="node.isCollapsed"
+        (click)="node.mouseAction('expanderClick', $event)"
+      >
+        <sky-icon
+          icon="chevron-down"
+          size="sm"
+        >
+        </sky-icon>
+      </button>
+      <span
+        *ngIf="!node.hasChildren"
+        class="toggle-children-placeholder"
+      >
+      </span>
+    </div>
+    <!-- #endregion <tree-node-expander> --->
+
+    <sky-checkbox *ngIf="showCheckbox()"
+      tabindex="-1"
+      [checked]="isSelected"
+      [id]="node.data.id"
+      [label]="node.data.name"
+      [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
+      (change)="node.mouseAction('checkboxClick', $event)"
+    >
+    </sky-checkbox>
+      <!-- (change)="onCheckboxChange(node, $event)" -->
+
+    <!-- Note: we've made changes to the click event, tabindex, and classes when compared to the original template. -->
+    <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
+    <div
+      class="node-content-wrapper"
+      [allowDragoverStyling]="node.allowDragoverStyling()"
+      [attr.tabindex]="tabIndex"
+      [treeAllowDrop]="node.allowDrop"
+      [treeDrag]="node"
+      [treeDragEnabled]="node.allowDrag()"
+      (contextmenu)="node.mouseAction('contextMenu', $event)"
+      (dblclick)="node.mouseAction('dblClick', $event)"
+      (focus)="onFocus()"
+      (keydown.ArrowLeft)="onArrowLeft($event)"
+      (keydown.ArrowRight)="onArrowRight($event)"
+      (keydown.Enter)="onEnter($event)"
+      (keydown.Space)="onSpace($event)"
+      (treeDrop)="node.onDrop($event)"
+      (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
+      (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
+      (treeDropDragOver)="node.mouseAction('dragOver', $event)"
+      #nodeContentWrapper
+    >
+
+      <ng-content select="sky-angular-tree-context-menu"></ng-content>
+
+      <tree-node-content
+        [index]="index"
+        [node]="node"
+        [template]="templates?.treeNodeTemplate"
+        (click)="onNodeContentClick(node, $event)"
+      >
+      </tree-node-content>
+    </div>
+  </div>
+
+  <ng-container
+    [ngTemplateOutlet]="templates?.treeNodeWrapperTemplate"
+    [ngTemplateOutletContext]="{ $implicit: node, node: node, index: index, templates: templates }">
+  </ng-container>
+  <!-- #endregion <tree-node-wrapper> -->
+
+  <tree-node-children
+    [node]="node"
+    [templates]="templates"
+  >
+  </tree-node-children>
+
+  <tree-node-drop-slot
+    [dropIndex]="node.index + 1"
+    [node]="node.parent"
+  >
+  </tree-node-drop-slot>
+
+</div>

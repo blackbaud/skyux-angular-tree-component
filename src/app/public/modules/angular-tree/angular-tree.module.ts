@@ -11,6 +11,10 @@ import {
 } from 'angular-tree-component';
 
 import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
+import {
   SkyCheckboxModule
 } from '@skyux/forms';
 
@@ -27,12 +31,16 @@ import {
 } from '../shared/angular-tree-resources.module';
 
 import {
+  SkyAngularTreeAdapterService
+} from './angular-tree-adapter.service';
+
+import {
   SkyAngularTreeContextMenuComponent
 } from './angular-tree-context-menu.component';
 
 import {
-  SkyAngularTreeNodeWrapperComponent
-} from './angular-tree-node-wrapper.component';
+  SkyAngularTreeNodeComponent
+} from './angular-tree-node.component';
 
 import {
   SkyTreeViewToolbarComponent
@@ -45,7 +53,7 @@ import {
 @NgModule({
   declarations: [
     SkyAngularTreeContextMenuComponent,
-    SkyAngularTreeNodeWrapperComponent,
+    SkyAngularTreeNodeComponent,
     SkyAngularTreeWrapperComponent,
     SkyTreeViewToolbarComponent
   ],
@@ -57,9 +65,13 @@ import {
     SkyAngularTreeResourcesModule,
     TreeModule
   ],
+  providers: [
+    SkyCoreAdapterService,
+    SkyAngularTreeAdapterService
+  ],
   exports: [
     SkyAngularTreeContextMenuComponent,
-    SkyAngularTreeNodeWrapperComponent,
+    SkyAngularTreeNodeComponent,
     SkyAngularTreeWrapperComponent,
     SkyTreeViewToolbarComponent
   ]

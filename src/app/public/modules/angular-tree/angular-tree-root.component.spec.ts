@@ -502,6 +502,34 @@ describe('tree view', () => {
       expect(selectAllButton).toBeNull();
       expect(clearAllButton).toBeNull();
     });
+
+    it('should retain focus when select all is clicked', fakeAsync(() => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const expectedFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+
+      clickSelectAll();
+      const actualFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+
+      expect(actualFocusedNode).toEqual(expectedFocusedNode);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should retain focus when clear all is clicked', fakeAsync(() => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const expectedFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+
+      clickClearAll();
+      const actualFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+
+      expect(actualFocusedNode).toEqual(expectedFocusedNode);
+
+      fixture.destroy();
+      flush();
+    }));
   });
 
   describe('keyboard navigation', () => {
@@ -554,6 +582,117 @@ describe('tree view', () => {
       expect(nodes[2].tabIndex).toEqual(-1);
       expect(nodes[3].tabIndex).toEqual(-1);
       expect(nodes[4].tabIndex).toEqual(0);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    fit('should toggle active state with the enter key when useCheckbox is false', async(() => {
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      // Expect nothing to be active.
+      expect(component.activeNodeIds).toEqual({});
+      spy.calls.reset();
+
+      // Press "Space" on node.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'keydown', {
+        keyboardEventInit: {
+          key: 'Space'
+        }
+      });
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      fixture.detectChanges();
+
+      setTimeout(() => {
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith('foo');
+      });
+
+      // // Press "Space" again.
+      // SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
+      //   keyboardEventInit: {
+      //     key: 'Space'
+      //   }
+      // });
+      // tick();
+      // fixture.detectChanges();
+      // tick();
+      // fixture.detectChanges();
+      // tick();
+      // fixture.detectChanges();
+
+      // // Expect node to be un-activated.
+      // expect(component.activeNodeIds).toEqual([]);
+
+      // fixture.destroy();
+      // flush();
+    }));
+
+    it('should toggle select with the enter key when useCheckbox is true', fakeAsync(() => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+
+      // Expect nothing to be selected.
+      expectNodeToBeSelected(4, false);
+
+      // Press "Enter" on node.
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
+        keyboardEventInit: {
+          key: 'Enter'
+        }
+      });
+      fixture.detectChanges();
+
+      // Expect node to be selected.
+      expectNodeToBeSelected(4, true);
+
+      // Press "Enter" again.
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
+        keyboardEventInit: {
+          key: 'Enter'
+        }
+      });
+      fixture.detectChanges();
+
+      // Expect node to be de-selected.
+      expectNodeToBeSelected(4, false);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should toggle select with the space key when useCheckbox is true', fakeAsync(() => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const nodes = getNodeContents();
+
+      // Expect nothing to be selected.
+      expectNodeToBeSelected(4, false);
+
+      // Press "Space" on node.
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
+        keyboardEventInit: {
+          key: 'Space'
+        }
+      });
+      fixture.detectChanges();
+
+      // Expect node to be selected.
+      expectNodeToBeSelected(4, true);
+
+      // Press "Space" again.
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
+        keyboardEventInit: {
+          key: 'Space'
+        }
+      });
+      fixture.detectChanges();
+
+      // Expect node to be de-selected.
+      expectNodeToBeSelected(4, false);
 
       fixture.destroy();
       flush();

@@ -21,6 +21,9 @@
   .node-content-wrapper {
     padding: 0;
     cursor: pointer;
+    // TODO: IS THIS RIGHT?
+    display: flex;
+    align-items: center;
   }
 
   .tree-children, .tree-node-level-1.tree-node-leaf {
