@@ -723,15 +723,75 @@ describe('tree view', () => {
       flush();
     }));
 
-    xit('should expand nodes with left/right arrows', fakeAsync(() => {
+    // TODO: Also check for expander icon changing?
+    it('should expand nodes with left/right arrows', fakeAsync(() => {
       fixture.detectChanges();
+      tick();
+      const nodes = getNodeContentWrappers();
+
+      // Expect tree to start with both parent nodes expanded.
+      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
+      expect(component.expandedNodeIds[1]).toEqual(true);
+      expect(component.expandedNodeIds[3]).toEqual(true);
+
+      // Press left arrow key on first node.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyPressOnNode(nodes[0], 'ArrowLeft');
+
+      // Expect first element to no longer be expanded.
+      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
+      expect(component.expandedNodeIds[1]).toEqual(false);
+      expect(component.expandedNodeIds[3]).toEqual(true);
+
+      // Press right arrow key on first node.
+      keyPressOnNode(nodes[0], 'ArrowRight');
+
+      // Expect first element to no longer be expanded.
+      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
+      expect(component.expandedNodeIds[1]).toEqual(true);
+      expect(component.expandedNodeIds[3]).toEqual(true);
 
       fixture.destroy();
       flush();
     }));
 
-    xit('should move between nodes with up/down arrows', fakeAsync(() => {
+    it('should move between nodes with up/down arrows', fakeAsync(() => {
       fixture.detectChanges();
+      tick();
+      const nodes = getNodeContentWrappers();
+
+      // Expect tree to start with nothing focused.
+      expect(component.focusedNodeId).toBeNull();
+
+      // Press down arrow twice.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      // Note: We have to use a customEventInit, because keyboardEventInit doesn't support keyCodes yet :( .
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'keydown', {
+        customEventInit: {
+          key: 'ArrowDown',
+          keyCode: 40
+        }
+      });
+      SkyAppTestUtility.fireDomEvent(nodes[1], 'keydown', {
+        customEventInit: {
+          key: 'ArrowDown',
+          keyCode: 40
+        }
+      });
+
+      // Expect focus to be on third node.
+      expect(component.focusedNodeId).toEqual(3);
+
+      // Press right arrow key on first node.
+      SkyAppTestUtility.fireDomEvent(nodes[1], 'keydown', {
+        customEventInit: {
+          key: 'ArrowUp',
+          keyCode: 38
+        }
+      });
+
+      // Expect focus to be on second element.
+      expect(component.focusedNodeId).toEqual(2);
 
       fixture.destroy();
       flush();

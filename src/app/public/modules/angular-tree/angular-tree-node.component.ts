@@ -45,7 +45,7 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
   public set childFocusIndex(value: number) {
     if (value !== this._childFocusIndex) {
       this._childFocusIndex = value;
-      if (value !== undefined) {
+      if (this.focusableChildren.length > 0 && value !== undefined) {
         this.focusableChildren[value].focus();
       } else {
         this.nodeContentWrapperRef.nativeElement.focus();
@@ -192,18 +192,21 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
 
   // Cyle forward through interactive elements, and once user reaches the end, activate drill down.
   public onArrowRight(event: KeyboardEvent): void {
-    if (document.activeElement === event.target) {
+    if (document.activeElement !== event.target) {
+      return;
+    }
+
+    if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
+      this.node.treeModel.focusDrillDown();
+    } else {
       if (this.childFocusIndex === undefined) {
         this.childFocusIndex = 0;
       } else {
-        if (this.childFocusIndex < this.focusableChildren.length - 1) {
-          this.childFocusIndex++;
-        } else {
-          this.node.treeModel.focusDrillDown();
-        }
+        this.childFocusIndex++;
       }
-      event.stopPropagation();
     }
+
+    event.stopPropagation();
   }
 
   private isSelectable(): boolean {

@@ -20,6 +20,8 @@ export class SkyTreeViewFixtureComponent {
 
   public activeNodeIds: any;
 
+  public expandedNodeIds: IDTypeDictionary;
+
   public focusedNodeId: any;
 
   public nodes: any[] = [
@@ -64,6 +66,7 @@ export class SkyTreeViewFixtureComponent {
     this.selectedLeafNodeIds = treeState.selectedLeafNodeIds;
     this.focusedNodeId = treeState.focusedNodeId;
     this.activeNodeIds = treeState.activeNodeIds;
+    this.expandedNodeIds = treeState.expandedNodeIds;
   }
 
   public updateState(): void {
