@@ -25,6 +25,10 @@ describe('tree view', () => {
   let fixture: ComponentFixture<SkyTreeViewFixtureComponent>;
 
   // #region helpers
+  function getTreeWrapper(): HTMLElement {
+    return document.querySelector('.sky-angular-tree-wrapper');
+  }
+
   function getToolbar(): HTMLElement {
     return document.querySelector('.sky-angular-tree-toolbar') as HTMLElement;
   }
@@ -45,12 +49,16 @@ describe('tree view', () => {
     return document.querySelectorAll('sky-checkbox input');
   }
 
-  function getExpandButton(): HTMLElement {
+  function getExpandAllButton(): HTMLElement {
     return document.querySelector('.sky-angular-tree-expand-all-btn') as HTMLElement;
   }
 
-  function getCollapseButton(): HTMLElement {
+  function getCollapseAllButton(): HTMLElement {
     return document.querySelector('.sky-angular-tree-collapse-all-btn') as HTMLElement;
+  }
+
+  function getToggleChildrenButtons(): NodeListOf<HTMLElement> {
+    return document.querySelectorAll('.sky-toggle-children') as NodeListOf<HTMLElement>;
   }
 
   function getNodeContentWrappers(): NodeListOf<HTMLElement> {
@@ -83,11 +91,11 @@ describe('tree view', () => {
   }
 
   function clickExpand(): void {
-    getExpandButton().click();
+    getExpandAllButton().click();
   }
 
   function clickCollapse(): void {
-    getCollapseButton().click();
+    getCollapseAllButton().click();
   }
 
   // Selection helpers
@@ -159,6 +167,50 @@ describe('tree view', () => {
 
     fixture = TestBed.createComponent(SkyTreeViewFixtureComponent) as ComponentFixture<SkyTreeViewFixtureComponent>;
     component = fixture.componentInstance as SkyTreeViewFixtureComponent;
+  });
+
+  describe('general functionality', () => {
+    it('should show toggle children buttons for parent nodes', () => {
+      fixture.detectChanges();
+      const toggleChildrenButtons = getToggleChildrenButtons();
+      const unitedStates = toggleChildrenButtons[0].parentElement.parentElement.querySelector('tree-node-content');
+      const indiana = toggleChildrenButtons[1].parentElement.parentElement.querySelector('tree-node-content');
+
+      expect(toggleChildrenButtons.length).toEqual(2);
+      expect(unitedStates).toBeDefined();
+      expect(indiana).toBeDefined();
+      expect(unitedStates.textContent).toEqual('United States');
+      expect(indiana.textContent).toEqual('Indiana');
+    });
+
+    it('should expand/collapse nodes when clicking on the toggle children button', () => {
+      fixture.detectChanges();
+      const toggleChildrenButtons = getToggleChildrenButtons();
+
+      // Expect both parent nodes to start out expanded (United States & Indiana).
+      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
+      expect(component.expandedNodeIds[1]).toEqual(true);
+      expect(component.expandedNodeIds[3]).toEqual(true);
+
+      // Click United States toggle.
+      toggleChildrenButtons[0].click();
+
+      // Expect United States node to be collapsed.
+      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
+      expect(component.expandedNodeIds[1]).toEqual(false);
+      expect(component.expandedNodeIds[3]).toEqual(true);
+    });
+
+    it('should toggle between chevron icons when clicking on the toggle children button', () => {
+      fixture.detectChanges();
+      const toggleChildrenButtons = getToggleChildrenButtons();
+
+      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass('fa-chevron-down');
+
+      toggleChildrenButtons[0].click();
+
+      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass('fa-chevron-right');
+    });
   });
 
   describe('toolbar', () => {
@@ -723,7 +775,6 @@ describe('tree view', () => {
       flush();
     }));
 
-    // TODO: Also check for expander icon changing?
     it('should expand nodes with left/right arrows', fakeAsync(() => {
       fixture.detectChanges();
       tick();
@@ -800,37 +851,149 @@ describe('tree view', () => {
 
   describe('accessibility', (() => {
 
-    xit('should have role="tree" on tree element', fakeAsync(() => {
+    it('should have role="tree" on tree wrapper', () => {
       fixture.detectChanges();
-    }));
+      const tree = getTreeWrapper();
 
-    xit('should have proper labeling on tree element', fakeAsync(() => {
-      fixture.detectChanges();
-    }));
+      expect(tree.getAttribute('role')).toEqual('tree');
+    });
 
-    xit('should have role="treeitem" for each tree node', fakeAsync(() => {
+    it('should have role="treeitem" for each tree node', () => {
       fixture.detectChanges();
-    }));
+      const nodes = document.querySelectorAll('.tree-node');
 
-    xit('should have role="group" for each element that contains children', fakeAsync(() => {
-      fixture.detectChanges();
-    }));
+      nodes.forEach(node => {
+        expect(node.getAttribute('role')).toEqual('treeitem');
+      });
+    });
 
-    xit('should have proper aria-expanded attributes for each element that contains children', fakeAsync(() => {
+    it('should have role="group" for each element that contains children', () => {
       fixture.detectChanges();
-    }));
+      const childrenWrappers = document.querySelectorAll('tree-node-children');
 
-    xit('should have proper aria-multiselectable attributes when in mult-select mode', fakeAsync(() => {
-      fixture.detectChanges();
-    }));
+      childrenWrappers.forEach(wrapper => {
+        expect(wrapper.getAttribute('role')).toEqual('group');
+      });
+    });
 
-    xit('should have proper aria-selected attributes when in single-select mode', fakeAsync(() => {
+    it('should have proper aria-expanded attributes for elements that contains children', () => {
       fixture.detectChanges();
-    }));
+      const buttons = getToggleChildrenButtons();
+      const nodes = document.querySelectorAll('.tree-node');
 
-    xit('should not have selectable attributes on parent nodes when in leaf-select-only mode', fakeAsync(() => {
+      expect(nodes[0].getAttribute('aria-expanded')).toEqual('true');
+      expect(nodes[1].getAttribute('aria-expanded')).toBeNull();
+      expect(nodes[2].getAttribute('aria-expanded')).toEqual('true');
+      expect(nodes[3].getAttribute('aria-expanded')).toBeNull();
+      expect(nodes[4].getAttribute('aria-expanded')).toBeNull();
+
+      buttons[0].click();
+      expect(nodes[0].getAttribute('aria-expanded')).toEqual('false');
+      expect(nodes[1].getAttribute('aria-expanded')).toBeNull();
+      expect(nodes[2].getAttribute('aria-expanded')).toEqual('true');
+      expect(nodes[3].getAttribute('aria-expanded')).toBeNull();
+      expect(nodes[4].getAttribute('aria-expanded')).toBeNull();
+    });
+
+    it('should not set aria-multiselectable when checkboxes are disabled', () => {
       fixture.detectChanges();
-    }));
+      const tree = getTreeWrapper();
+
+      expect(tree.getAttribute('aria-multiselectable')).toBeNull();
+    });
+
+    it('should set aria-multiselectable to false when in single-select mode', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      const tree = getTreeWrapper();
+
+      expect(tree.getAttribute('aria-multiselectable')).toEqual('false');
+    });
+
+    it('should set aria-multiselectable to true when in mult-select mode', () => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const tree = getTreeWrapper();
+
+      expect(tree.getAttribute('aria-multiselectable')).toEqual('true');
+    });
+
+    it('should set aria-selected to true for the selected node and undefined for all other nodes when in single-select mode', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      const nodes = document.querySelectorAll('.tree-node');
+
+      expect(nodes[0].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[1].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[2].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[3].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[4].getAttribute('aria-selected')).toBeNull();
+
+      clickNode(0);
+      expect(nodes[0].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[1].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[2].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[3].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[4].getAttribute('aria-selected')).toBeNull();
+    });
+
+    it('should not have aria-selected attributes on parent nodes when in leaf-select-only mode', () => {
+      setupLeafSelectOnlyMode();
+      fixture.detectChanges();
+      const nodes = document.querySelectorAll('.tree-node');
+
+      expect(nodes[0].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[2].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
+
+      clickNode(1);
+      expect(nodes[0].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[2].getAttribute('aria-selected')).toBeNull();
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
+    });
+
+    it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
+      setupNonCascadingMode();
+      fixture.detectChanges();
+      const nodes = document.querySelectorAll('.tree-node');
+
+      expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[2].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
+
+      clickNode(0);
+      clickNode(2);
+      expect(nodes[0].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[2].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
+    });
+
+    it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      const nodes = document.querySelectorAll('.tree-node');
+
+      expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[2].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('false');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
+
+      clickNode(0);
+      expect(nodes[0].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[1].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[2].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[3].getAttribute('aria-selected')).toEqual('true');
+      expect(nodes[4].getAttribute('aria-selected')).toEqual('true');
+    });
 
     it('should pass accessibility in basic setup', async(() => {
       fixture.detectChanges();

@@ -1,5 +1,7 @@
 <div
   class="sky-angular-tree-wrapper"
+  role="tree"
+  [attr.aria-multiselectable]="multiselectable()"
 >
   <sky-angular-tree-toolbar *ngIf="showToolbar"
     [showSelectButtons]="showSelectButtons()"
@@ -9,11 +11,7 @@
     (selectAllClick)="onSelectAllClick()"
   >
   </sky-angular-tree-toolbar>
-  <div
-    role="tree"
-  >
-    <ng-content
-      select="tree-root"
-    ></ng-content>
-  </div>
+  <ng-content
+    select="tree-root"
+  ></ng-content>
 </div>

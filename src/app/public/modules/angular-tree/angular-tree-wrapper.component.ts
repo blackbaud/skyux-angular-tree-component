@@ -54,6 +54,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit, OnInit {
     }
   }
 
+  public multiselectable(): boolean {
+    return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
+  }
+
   public onClearAllClick(): void {
     const focusedNode = this.treeComponent.treeModel.getFocusedNode();
     /* istanbul ignore else */

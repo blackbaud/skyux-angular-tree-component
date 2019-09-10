@@ -20,14 +20,4 @@ export class SkyAngularTreeAdapterService {
     }
   }
 
-  public focusNext(element: HTMLElement): void {
-      const focusableElems = this.skyAdapterService.getFocusableChildren(element);
-
-      focusableElems.forEach((el: HTMLElement, index: number) => {
-        if (el === document.activeElement) {
-          focusableElems[index + 1].focus();
-        }
-      });
-  }
-
 }

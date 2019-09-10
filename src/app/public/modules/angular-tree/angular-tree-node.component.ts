@@ -10,10 +10,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCheckboxChange
-} from '@skyux/forms';
-
-import {
   ITreeState,
   TREE_ACTIONS,
   TreeNode
@@ -143,9 +139,23 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public onCheckboxChange(node: TreeNode, event: SkyCheckboxChange): void {
-    this.toggleSelected(event);
-    node.setIsActive(event.checked);
+  // If tree is set to single-select, set aria-selected to true for the selected node and undefined for all the others.
+  // For multiple-select trees, set aria-selected to node's selected value.
+  // If node cannot be selected, aria-selected should be undefined.
+  public ariaSelected(): boolean {
+    if (!this.skyAngularTreeWrapper) {
+      return;
+    }
+
+    if (this.skyAngularTreeWrapper.selectSingle) {
+      return this.isSelected ? true : undefined;
+    }
+
+    if (!this.isSelectable()) {
+      return;
+    }
+
+    return !!this.isSelected;
   }
 
   public showCheckbox(): boolean {
