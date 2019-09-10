@@ -99,12 +99,9 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit, OnInit {
   private overrideActionMapping(): void {
     const defaultActionMapping = this.treeComponent.treeModel.options.actionMapping;
 
-    // If checkbox mode is enabled, override space/enter key controls.
-    // We will manually control these in the toggleSelected() method below.
-    if (this.treeComponent.treeModel.options.useCheckbox) {
-      defaultActionMapping.keys[KEYS.SPACE] = undefined;
-      defaultActionMapping.keys[KEYS.ENTER] = undefined;
-    }
+    // Override space/enter key controls to manually control actions in the nodeDefaultAction() method.
+    defaultActionMapping.keys[KEYS.SPACE] = undefined;
+    defaultActionMapping.keys[KEYS.ENTER] = undefined;
 
     // Override left/right arrow keys to support navigating through interactive elements with keyboard.
     defaultActionMapping.keys[KEYS.RIGHT] = undefined;

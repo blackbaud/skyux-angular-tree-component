@@ -184,14 +184,15 @@
     <sky-angular-tree-wrapper>
       <tree-root
         [nodes]="nodes"
-        [options]="optionsCascading"
+        [options]="optionsNoncascading"
+        (stateChange)="onStateChange($event)"
       >
 
         <ng-template
-          #treeNodeFullTemplate
-          let-node
           let-index="index"
+          let-node
           let-templates="templates"
+          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"

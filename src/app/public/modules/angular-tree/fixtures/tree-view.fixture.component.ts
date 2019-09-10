@@ -46,6 +46,8 @@ export class SkyTreeViewFixtureComponent {
 
   public selectSingle: boolean;
 
+  public showContextMenus = false;
+
   public showInvalidTree = false;
 
   public showToolbar = false;

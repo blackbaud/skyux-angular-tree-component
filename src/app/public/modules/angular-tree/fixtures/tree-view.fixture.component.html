@@ -13,13 +13,30 @@
     <ng-template
       let-index="index"
       let-node
-      #treeNodeWrapperTemplate
+      let-templates="templates"
+      #treeNodeFullTemplate
     >
-      <sky-angular-tree-node-wrapper
+      <sky-angular-tree-node
         [index]="index"
         [node]="node"
+        [templates]="templates"
       >
-      </sky-angular-tree-node-wrapper>
+        <sky-angular-tree-context-menu *ngIf="showContextMenus">
+          <sky-dropdown
+            buttonType="context-menu"
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  FOO BAR
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-angular-tree-context-menu>
+      </sky-angular-tree-node>
     </ng-template>
   </tree-root>
 </sky-angular-tree-wrapper>
@@ -38,12 +55,14 @@
   <ng-template
     let-index="index"
     let-node
-    #treeNodeWrapperTemplate
+    let-templates="templates"
+    #treeNodeFullTemplate
   >
-    <sky-angular-tree-node-wrapper
+    <sky-angular-tree-node
       [index]="index"
       [node]="node"
+      [templates]="templates"
     >
-    </sky-angular-tree-node-wrapper>
+    </sky-angular-tree-node>
   </ng-template>
 </tree-root>

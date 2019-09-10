@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   TreeModule
 } from 'angular-tree-component';
 
@@ -22,6 +26,7 @@ import {
   imports: [
     CommonModule,
     SkyAngularTreeModule,
+    SkyDropdownModule,
     TreeModule.forRoot()
   ],
   declarations: [

@@ -53,8 +53,17 @@ describe('tree view', () => {
     return document.querySelector('.sky-angular-tree-collapse-all-btn') as HTMLElement;
   }
 
-  function getNodeContents(): NodeListOf<HTMLElement> {
+  function getNodeContentWrappers(): NodeListOf<HTMLElement> {
     return document.querySelectorAll('.node-content-wrapper');
+  }
+
+  function getNodeContents(): NodeListOf<HTMLElement> {
+    return document.querySelectorAll('tree-node-content');
+  }
+
+  function clickNode(index: number): void {
+    const nodes = getNodeContents();
+    nodes[index].click();
   }
 
   function getNodeWrappers(): NodeListOf<HTMLElement> {
@@ -130,6 +139,14 @@ describe('tree view', () => {
   function setupSingleSelectMode(): void {
     setupNonCascadingMode();
     component.selectSingle = true;
+  }
+
+  function keyPressOnNode(node: HTMLElement, eventName: string): void {
+    SkyAppTestUtility.fireDomEvent(node, 'keydown', {
+      keyboardEventInit: {
+        key: eventName
+      }
+    });
   }
   // #endregion
 
@@ -317,9 +334,8 @@ describe('tree view', () => {
     it('should select nodes when node content is clicked', fakeAsync(() => {
       setupNonCascadingMode();
       fixture.detectChanges();
-      const nodes = getNodeContents();
 
-      nodes[0].click();
+      clickNode(0);
 
       expectNodeToBeSelected(1, true);
       expectCheckboxToBeChecked(1, true);
@@ -347,7 +363,6 @@ describe('tree view', () => {
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
       const nodeWrappers = getNodeWrappers();
-      const nodes = getNodeContents();
       const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
       const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
@@ -357,7 +372,7 @@ describe('tree view', () => {
       expect(indianaCheckbox).toBeNull();
 
       // Click the parent node.
-      nodes[0].click();
+      clickNode(0);
 
       // Expect parent node NOT to be selected.
       expectNodeToBeSelected(1, false);
@@ -373,7 +388,6 @@ describe('tree view', () => {
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
       const nodeWrappers = getNodeWrappers();
-      const nodes = getNodeContents();
       const unitedStatesCheckbox = nodeWrappers[0].querySelector('input');
       const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
@@ -383,7 +397,7 @@ describe('tree view', () => {
       expect(indianaCheckbox).not.toBeNull();
 
       // Click the parent node.
-      nodes[0].click();
+      clickNode(0);
 
       // Expect parent node to be selected.
       expectNodeToBeSelected(1, true);
@@ -449,7 +463,6 @@ describe('tree view', () => {
     it('should only let users select one node at a time when selectSingle is true', fakeAsync(() => {
       setupSingleSelectMode();
       fixture.detectChanges();
-      const nodes = getNodeContents();
 
       expectNodeToBeSelected(1, false);
       expectNodeToBeSelected(2, false);
@@ -458,8 +471,7 @@ describe('tree view', () => {
       expectNodeToBeSelected(5, false);
 
       // Click the first node.
-      nodes[0].click();
-      fixture.detectChanges();
+      clickNode(0);
 
       // Expect parent node to be selected.
       expectNodeToBeSelected(1, true);
@@ -469,8 +481,7 @@ describe('tree view', () => {
       expectNodeToBeSelected(5, false);
 
       // Click a second node.
-      nodes[1].click();
-      fixture.detectChanges();
+      clickNode(1);
 
       // Expect only second node to be selected.
       expectNodeToBeSelected(1, false);
@@ -535,7 +546,7 @@ describe('tree view', () => {
   describe('keyboard navigation', () => {
     it('should initialize with only the first node being tabbable', () => {
       fixture.detectChanges();
-      const nodes = getNodeContents();
+      const nodes = getNodeContentWrappers();
 
       expect(nodes[0].tabIndex).toEqual(0);
       expect(nodes[1].tabIndex).toEqual(-1);
@@ -544,29 +555,24 @@ describe('tree view', () => {
       expect(nodes[4].tabIndex).toEqual(-1);
     });
 
-    it('should register focus properties with TreeModel when a node is given focus', fakeAsync(() => {
+    it('should register focus properties with TreeModel when a node is given focus', () => {
       fixture.detectChanges();
-      const nodes = getNodeContents();
+      const nodes = getNodeContentWrappers();
 
       expect(component.treeComponent.treeModel.isFocused).toEqual(false);
       expect(component.treeComponent.treeModel.focusedNodeId).toBeNull();
 
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      fixture.detectChanges();
 
       expect(component.treeComponent.treeModel.isFocused).toEqual(true);
       expect(component.treeComponent.treeModel.focusedNodeId).toEqual(1);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should give the focussed node a tabIndex of 0, and the rest a tabIndex of -1', fakeAsync(() => {
+    it('should give the focused node a tabIndex of 0, and the rest a tabIndex of -1', () => {
       fixture.detectChanges();
-      const nodes = getNodeContents();
+      const nodes = getNodeContentWrappers();
 
       SkyAppTestUtility.fireDomEvent(nodes[1], 'focus');
-      fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
       expect(nodes[1].tabIndex).toEqual(0);
@@ -575,124 +581,157 @@ describe('tree view', () => {
       expect(nodes[4].tabIndex).toEqual(-1);
 
       SkyAppTestUtility.fireDomEvent(nodes[4], 'focus');
-      fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
       expect(nodes[1].tabIndex).toEqual(-1);
       expect(nodes[2].tabIndex).toEqual(-1);
       expect(nodes[3].tabIndex).toEqual(-1);
       expect(nodes[4].tabIndex).toEqual(0);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    fit('should toggle active state with the enter key when useCheckbox is false', async(() => {
+    it('should toggle active state with the enter key when useCheckbox is false', () => {
       fixture.detectChanges();
-      const nodes = getNodeContents();
-      const spy = spyOn(component, 'onStateChange').and.callThrough();
+      const nodes = getNodeContentWrappers();
 
       // Expect nothing to be active.
       expect(component.activeNodeIds).toEqual({});
-      spy.calls.reset();
 
-      // Press "Space" on node.
-      SkyAppTestUtility.fireDomEvent(nodes[0], 'keydown', {
-        keyboardEventInit: {
-          key: 'Space'
-        }
-      });
-      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      // Press "Enter" on first node.
+      keyPressOnNode(nodes[0], 'Enter');
+
+      // Expect first node to be active, and nothing to be selected.
+      expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
+      expect(component.activeNodeIds[1]).toEqual(true);
+      expect(component.selectedLeafNodeIds).toEqual({});
+
+      // Press "Enter" again.
+      keyPressOnNode(nodes[0], 'Enter');
+
+      // Expect node to be un-activated.
+      expect(Object.keys(component.activeNodeIds)).toEqual([]);
+      expect(component.activeNodeIds[1]).not.toBeDefined();
+      expect(component.selectedLeafNodeIds).toEqual({});
+    });
+
+    it('should toggle active state with the space key when useCheckbox is false', () => {
       fixture.detectChanges();
+      const nodes = getNodeContentWrappers();
 
-      setTimeout(() => {
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith('foo');
-      });
+      // Expect nothing to be active.
+      expect(component.activeNodeIds).toEqual({});
 
-      // // Press "Space" again.
-      // SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
-      //   keyboardEventInit: {
-      //     key: 'Space'
-      //   }
-      // });
-      // tick();
-      // fixture.detectChanges();
-      // tick();
-      // fixture.detectChanges();
-      // tick();
-      // fixture.detectChanges();
+      // Press "Space" on first node.
+      keyPressOnNode(nodes[0], 'Space');
 
-      // // Expect node to be un-activated.
-      // expect(component.activeNodeIds).toEqual([]);
+      // Expect first node to be active, and nothing to be selected.
+      expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
+      expect(component.activeNodeIds[1]).toEqual(true);
+      expect(component.selectedLeafNodeIds).toEqual({});
 
-      // fixture.destroy();
-      // flush();
-    }));
+      // Press "Space" again.
+      keyPressOnNode(nodes[0], 'Space');
 
-    it('should toggle select with the enter key when useCheckbox is true', fakeAsync(() => {
+      // Expect node to be un-activated.
+      expect(Object.keys(component.activeNodeIds)).toEqual([]);
+      expect(component.activeNodeIds[1]).not.toBeDefined();
+      expect(component.selectedLeafNodeIds).toEqual({});
+    });
+
+    it('should toggle select with the enter key when useCheckbox is true', () => {
       setupCascadingMode();
       fixture.detectChanges();
-      const nodes = getNodeContents();
+      const nodes = getNodeContentWrappers();
 
       // Expect nothing to be selected.
       expectNodeToBeSelected(4, false);
 
       // Press "Enter" on node.
-      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
-        keyboardEventInit: {
-          key: 'Enter'
-        }
-      });
-      fixture.detectChanges();
+      keyPressOnNode(nodes[3], 'Enter');
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Enter" again.
-      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
-        keyboardEventInit: {
-          key: 'Enter'
-        }
-      });
-      fixture.detectChanges();
+      keyPressOnNode(nodes[3], 'Enter');
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should toggle select with the space key when useCheckbox is true', fakeAsync(() => {
+    it('should toggle select with the space key when useCheckbox is true', () => {
       setupCascadingMode();
       fixture.detectChanges();
-      const nodes = getNodeContents();
+      const nodes = getNodeContentWrappers();
 
       // Expect nothing to be selected.
       expectNodeToBeSelected(4, false);
 
       // Press "Space" on node.
-      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
-        keyboardEventInit: {
-          key: 'Space'
-        }
-      });
-      fixture.detectChanges();
+      keyPressOnNode(nodes[3], 'Space');
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Space" again.
-      SkyAppTestUtility.fireDomEvent(nodes[3], 'keydown', {
-        keyboardEventInit: {
-          key: 'Space'
-        }
-      });
-      fixture.detectChanges();
+      keyPressOnNode(nodes[3], 'Space');
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
+    });
+
+    it('should disable tabbing for all node children', fakeAsync(() => {
+      component.showContextMenus = true;
+      fixture.detectChanges();
+      tick();
+      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+
+      expect(dropdownButtons[0].tabIndex).toEqual(-1);
+      expect(dropdownButtons[1].tabIndex).toEqual(-1);
+      expect(dropdownButtons[2].tabIndex).toEqual(-1);
+      expect(dropdownButtons[3].tabIndex).toEqual(-1);
+      expect(dropdownButtons[4].tabIndex).toEqual(-1);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should move between focusable children elements with left/right arrows', fakeAsync(() => {
+      component.showContextMenus = true;
+      fixture.detectChanges();
+      tick();
+      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const nodes = getNodeContentWrappers();
+
+      // Press right arrow key on first node.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyPressOnNode(nodes[0], 'ArrowRight');
+      fixture.detectChanges();
+      tick();
+
+      // Expect first child element to be selected (dropdown menu).
+      expect(document.activeElement).toEqual(dropdownButtons[0]);
+
+      // Press left arrow key.
+      keyPressOnNode(dropdownButtons[0], 'ArrowLeft');
+      fixture.detectChanges();
+      tick();
+
+      // Active focus should move back to first node.
+      expect(document.activeElement).toEqual(nodes[0]);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    xit('should expand nodes with left/right arrows', fakeAsync(() => {
+      fixture.detectChanges();
+
+      fixture.destroy();
+      flush();
+    }));
+
+    xit('should move between nodes with up/down arrows', fakeAsync(() => {
+      fixture.detectChanges();
 
       fixture.destroy();
       flush();
@@ -700,6 +739,39 @@ describe('tree view', () => {
   });
 
   describe('accessibility', (() => {
+
+    xit('should have role="tree" on tree element', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have proper labeling on tree element', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have role="treeitem" for each tree node', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have role="group" for each element that contains children', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have proper aria-expanded attributes for each element that contains children', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have proper aria-multiselectable attributes when in mult-select mode', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should have proper aria-selected attributes when in single-select mode', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
+    xit('should not have selectable attributes on parent nodes when in leaf-select-only mode', fakeAsync(() => {
+      fixture.detectChanges();
+    }));
+
     it('should pass accessibility in basic setup', async(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement).toBeAccessible();

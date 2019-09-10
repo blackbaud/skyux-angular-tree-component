@@ -148,13 +148,6 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     node.setIsActive(event.checked);
   }
 
-  public onNodeContentClick(node: TreeNode, event: any): void {
-    if (this.node.options.useCheckbox && this.isSelectable()) {
-      this.toggleSelected(event);
-    }
-    this.node.mouseAction('click', event);
-  }
-
   public showCheckbox(): boolean {
     // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
     return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
@@ -174,12 +167,11 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     this.childFocusIndex = undefined;
   }
 
-  public onEnter(event: KeyboardEvent): void {
-    this.toggleSelected(event);
-  }
-
-  public onSpace(event: KeyboardEvent): void {
-    this.toggleSelected(event);
+  public nodeDefaultAction(event: any): void {
+    if (this.node.options.useCheckbox && this.isSelectable()) {
+      this.toggleSelected(event);
+    }
+    this.node.mouseAction('click', event);
   }
 
   // Cycle backwards through interactive elements, and once user reaches the end, activate drill up.
