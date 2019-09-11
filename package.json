@@ -21,6 +21,7 @@
   "peerDependencies": {
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
+    "@skyux/core": "^3.6.0",
     "@skyux/i18n": "^3.7.0",
     "@skyux/indicators": "^3.0.0",
     "@skyux/layout": "^3.2.0",

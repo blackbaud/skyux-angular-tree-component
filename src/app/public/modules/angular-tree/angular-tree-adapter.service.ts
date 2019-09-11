@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
+import {
+  Injectable
+} from '@angular/core';
+
+import {
+  SkyCoreAdapterService
+} from '@skyux/core';
 
 @Injectable()
 export class SkyAngularTreeAdapterService {
