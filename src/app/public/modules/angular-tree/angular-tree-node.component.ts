@@ -1,17 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
   Optional,
-  ViewChild,
-  AfterViewInit
+  ViewChild
 } from '@angular/core';
 
 import {
   ITreeState,
-  TREE_ACTIONS,
   TreeNode
 } from 'angular-tree-component';
 
@@ -27,7 +26,7 @@ import {
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html'
 })
-export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
+export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   @Input()
   public index: number;
@@ -93,9 +92,9 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
   @ViewChild('nodeContentWrapper')
   public nodeContentWrapperRef: ElementRef;
 
-  private _childFocusIndex: number;
-
   private focusableChildren: HTMLElement[];
+
+  private _childFocusIndex: number;
 
   private _isPartiallySelected: boolean;
 
@@ -139,9 +138,9 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // If tree is set to single-select, set aria-selected to true for the selected node and undefined for all the others.
-  // For multiple-select trees, set aria-selected to node's selected value.
-  // If node cannot be selected, aria-selected should be undefined.
+  // If single-select, set aria-selected=true for the selected node and undefined for all the others.
+  // For multiple-select, set aria-selected to either true or false.
+  // If node cannot be selected, aria-selected should be undefined (e.g. parent nodes in leaf-select-only mode).
   public ariaSelected(): boolean {
     if (!this.skyAngularTreeWrapper) {
       return;
@@ -177,14 +176,8 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     this.childFocusIndex = undefined;
   }
 
-  public nodeDefaultAction(event: any): void {
-    if (this.node.options.useCheckbox && this.isSelectable()) {
-      this.toggleSelected(event);
-    }
-    this.node.mouseAction('click', event);
-  }
-
-  // Cycle backwards through interactive elements, and once user reaches the end, activate drill up.
+  // Cycle backwards through interactive child elements
+  // If user reaches the beginning, activate drill up.
   public onArrowLeft(event: KeyboardEvent): void {
     if (document.activeElement === event.target) {
       if (this.childFocusIndex !== undefined) {
@@ -200,7 +193,8 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Cyle forward through interactive elements, and once user reaches the end, activate drill down.
+  // Cyle forward through interactive child elements.
+  // If user reaches the end, activate drill down.
   public onArrowRight(event: KeyboardEvent): void {
     if (document.activeElement !== event.target) {
       return;
@@ -223,18 +217,5 @@ export class SkyAngularTreeNodeComponent implements OnInit, AfterViewInit {
     if (this.skyAngularTreeWrapper) {
       return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
     }
-  }
-
-  private toggleSelected(event: any): void {
-    // If single selection only is enabled and user is selecting this node, first de-select all other nodes.
-    if (this.skyAngularTreeWrapper.selectSingle && !this.isSelected) {
-      const selectedNodes = this.node.treeModel.selectedLeafNodes;
-      selectedNodes
-        .forEach((n: TreeNode) => {
-          n.setIsSelected(false);
-        });
-    }
-
-    TREE_ACTIONS.TOGGLE_SELECTED(this.node.treeModel, this.node, event);
   }
 }

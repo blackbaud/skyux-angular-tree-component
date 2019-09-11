@@ -74,8 +74,6 @@
       (focus)="onFocus()"
       (keydown.ArrowLeft)="onArrowLeft($event)"
       (keydown.ArrowRight)="onArrowRight($event)"
-      (keydown.Enter)="nodeDefaultAction($event)"
-      (keydown.Space)="nodeDefaultAction($event)"
       (treeDrop)="node.onDrop($event)"
       (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
       (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
@@ -89,7 +87,7 @@
         [index]="index"
         [node]="node"
         [template]="templates?.treeNodeTemplate"
-        (click)="nodeDefaultAction($event)"
+        (click)="node.mouseAction('click', $event)"
       >
       </tree-node-content>
     </div>

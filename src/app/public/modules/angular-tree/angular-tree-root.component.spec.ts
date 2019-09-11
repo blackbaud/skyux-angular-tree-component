@@ -149,12 +149,14 @@ describe('tree view', () => {
     component.selectSingle = true;
   }
 
-  function keyPressOnNode(node: HTMLElement, eventName: string): void {
+  function keyPressOnNode(node: HTMLElement, eventName: string, keyCode: number): void {
     SkyAppTestUtility.fireDomEvent(node, 'keydown', {
-      keyboardEventInit: {
-        key: eventName
+      customEventInit: {
+        key: eventName,
+        keyCode: keyCode
       }
     });
+    fixture.detectChanges();
   }
   // #endregion
 
@@ -649,7 +651,8 @@ describe('tree view', () => {
       expect(component.activeNodeIds).toEqual({});
 
       // Press "Enter" on first node.
-      keyPressOnNode(nodes[0], 'Enter');
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyPressOnNode(nodes[0], 'Enter', 13);
 
       // Expect first node to be active, and nothing to be selected.
       expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
@@ -657,7 +660,7 @@ describe('tree view', () => {
       expect(component.selectedLeafNodeIds).toEqual({});
 
       // Press "Enter" again.
-      keyPressOnNode(nodes[0], 'Enter');
+      keyPressOnNode(nodes[0], 'Enter', 13);
 
       // Expect node to be un-activated.
       expect(Object.keys(component.activeNodeIds)).toEqual([]);
@@ -673,7 +676,8 @@ describe('tree view', () => {
       expect(component.activeNodeIds).toEqual({});
 
       // Press "Space" on first node.
-      keyPressOnNode(nodes[0], 'Space');
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyPressOnNode(nodes[0], 'Space', 32);
 
       // Expect first node to be active, and nothing to be selected.
       expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
@@ -681,7 +685,7 @@ describe('tree view', () => {
       expect(component.selectedLeafNodeIds).toEqual({});
 
       // Press "Space" again.
-      keyPressOnNode(nodes[0], 'Space');
+      keyPressOnNode(nodes[0], 'Space', 32);
 
       // Expect node to be un-activated.
       expect(Object.keys(component.activeNodeIds)).toEqual([]);
@@ -698,13 +702,14 @@ describe('tree view', () => {
       expectNodeToBeSelected(4, false);
 
       // Press "Enter" on node.
-      keyPressOnNode(nodes[3], 'Enter');
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
+      keyPressOnNode(nodes[3], 'Enter', 13);
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Enter" again.
-      keyPressOnNode(nodes[3], 'Enter');
+      keyPressOnNode(nodes[3], 'Enter', 13);
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
@@ -719,13 +724,14 @@ describe('tree view', () => {
       expectNodeToBeSelected(4, false);
 
       // Press "Space" on node.
-      keyPressOnNode(nodes[3], 'Space');
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
+      keyPressOnNode(nodes[3], 'Space', 32);
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Space" again.
-      keyPressOnNode(nodes[3], 'Space');
+      keyPressOnNode(nodes[3], 'Space', 32);
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
@@ -756,17 +762,13 @@ describe('tree view', () => {
 
       // Press right arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'ArrowRight');
-      fixture.detectChanges();
-      tick();
+      keyPressOnNode(nodes[0], 'ArrowRight', 39);
 
       // Expect first child element to be selected (dropdown menu).
       expect(document.activeElement).toEqual(dropdownButtons[0]);
 
       // Press left arrow key.
-      keyPressOnNode(dropdownButtons[0], 'ArrowLeft');
-      fixture.detectChanges();
-      tick();
+      keyPressOnNode(dropdownButtons[0], 'ArrowLeft', 37);
 
       // Active focus should move back to first node.
       expect(document.activeElement).toEqual(nodes[0]);
@@ -787,7 +789,7 @@ describe('tree view', () => {
 
       // Press left arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'ArrowLeft');
+      keyPressOnNode(nodes[0], 'ArrowLeft', 37);
 
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
@@ -795,7 +797,7 @@ describe('tree view', () => {
       expect(component.expandedNodeIds[3]).toEqual(true);
 
       // Press right arrow key on first node.
-      keyPressOnNode(nodes[0], 'ArrowRight');
+      keyPressOnNode(nodes[0], 'ArrowRight', 39);
 
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
