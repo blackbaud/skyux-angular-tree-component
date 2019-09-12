@@ -92,7 +92,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   @ViewChild('nodeContentWrapper')
   public nodeContentWrapperRef: ElementRef;
 
-  private focusableChildren: HTMLElement[];
+  private focusableChildren: HTMLElement[] = [];
 
   private _childFocusIndex: number;
 

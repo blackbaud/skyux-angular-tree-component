@@ -150,6 +150,8 @@ describe('tree view', () => {
   }
 
   function keyPressOnNode(node: HTMLElement, eventName: string, keyCode: number): void {
+    // Note: We have to use a customEventInit, because the angular-tree-component library goess off of keyCode,
+    // which the keyboardEventInit doesn't support yet :( .
     SkyAppTestUtility.fireDomEvent(node, 'keydown', {
       customEventInit: {
         key: eventName,
@@ -308,7 +310,7 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should send proper commands to API when expand all / collapse all buttons are clicked', fakeAsync(() => {
+    it('should send proper commands to API when expand all / collapse all buttons are clicked', () => {
       component.showToolbar = true;
       fixture.detectChanges();
       const expandSpy = spyOn(component.treeComponent.treeModel, 'expandAll').and.callThrough();
@@ -319,10 +321,7 @@ describe('tree view', () => {
 
       clickCollapse();
       expect(collapseSpy).toHaveBeenCalledTimes(1);
-
-      fixture.destroy();
-      flush();
-    }));
+    });
   });
 
   describe('select mode', () => {
@@ -346,7 +345,7 @@ describe('tree view', () => {
       expect(skyCheckboxes.length).toEqual(0);
     });
 
-    it('should show a checked sky-checkbox when nodes are selected programatically', fakeAsync(() => {
+    it('should show a checked sky-checkbox when nodes are selected programatically', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
 
@@ -361,12 +360,9 @@ describe('tree view', () => {
       // First node should now be checked.
       expectNodeToBeSelected(1, true);
       expectCheckboxToBeChecked(1, true);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should show indeterminate state when parent checkboxes are partially selected in cascade mode', fakeAsync(() => {
+    it('should show indeterminate state when parent checkboxes are partially selected in cascade mode', () => {
       setupCascadingMode();
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
@@ -380,12 +376,9 @@ describe('tree view', () => {
       // Expect the parent checkbox to be checked but also indeterminate.
       expect(parentCheckbox.checked).toBe(true);
       expect(skyCheckboxes[0]).toHaveCssClass('sky-checkbox-indeterminate');
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should select nodes when node content is clicked', fakeAsync(() => {
+    it('should select nodes when node content is clicked', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
 
@@ -393,12 +386,9 @@ describe('tree view', () => {
 
       expectNodeToBeSelected(1, true);
       expectCheckboxToBeChecked(1, true);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should select nodes when checkbox is clicked', fakeAsync(() => {
+    it('should select nodes when checkbox is clicked', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
       const checkboxes = getCheckboxInputs();
@@ -407,12 +397,9 @@ describe('tree view', () => {
 
       expectNodeToBeSelected(1, true);
       expectCheckboxToBeChecked(1, true);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should hide checkboxes and prevent parent node selection when selectLeafNodesOnly is true', fakeAsync(() => {
+    it('should hide checkboxes and prevent parent node selection when selectLeafNodesOnly is true', () => {
       setupLeafSelectOnlyMode();
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
@@ -431,12 +418,9 @@ describe('tree view', () => {
       // Expect parent node NOT to be selected.
       expectNodeToBeSelected(1, false);
       expectCheckboxToBeChecked(1, false);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should show and allow parent node selection when selectLeafNodesOnly is false', fakeAsync(() => {
+    it('should show and allow parent node selection when selectLeafNodesOnly is false', () => {
       setupNonCascadingMode();
       component.selectLeafNodesOnly = false;
       fixture.detectChanges();
@@ -456,10 +440,7 @@ describe('tree view', () => {
       // Expect parent node to be selected.
       expectNodeToBeSelected(1, true);
       expectCheckboxToBeChecked(1, true);
-
-      fixture.destroy();
-      flush();
-    }));
+    });
 
     it('should only select leaf nodes when clicking select all and selectLeafNodesOnly is true', fakeAsync(() => {
       setupLeafSelectOnlyMode();
@@ -503,18 +484,15 @@ describe('tree view', () => {
       expect(warnSpy).toHaveBeenCalled();
     });
 
-    it('should hide sky-checkboxes when selectSingle is true', fakeAsync(() => {
+    it('should hide sky-checkboxes when selectSingle is true', () => {
       setupSingleSelectMode();
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
 
       expect(skyCheckboxes.length).toEqual(0);
+    });
 
-      fixture.destroy();
-      flush();
-    }));
-
-    it('should only let users select one node at a time when selectSingle is true', fakeAsync(() => {
+    it('should only let users select one node at a time when selectSingle is true', () => {
       setupSingleSelectMode();
       fixture.detectChanges();
 
@@ -543,10 +521,7 @@ describe('tree view', () => {
       expectNodeToBeSelected(3, false);
       expectNodeToBeSelected(4, false);
       expectNodeToBeSelected(5, false);
-
-      fixture.destroy();
-      flush();
-    }));
+    });
 
     it('should throw a console warning if selectSingle is used with a cascading tree', () => {
       setupCascadingMode();
@@ -740,7 +715,7 @@ describe('tree view', () => {
     it('should disable tabbing for all node children', fakeAsync(() => {
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick();
+      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].tabIndex).toEqual(-1);
@@ -756,7 +731,7 @@ describe('tree view', () => {
     it('should move between focusable children elements with left/right arrows', fakeAsync(() => {
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick();
+      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
@@ -779,7 +754,7 @@ describe('tree view', () => {
 
     it('should expand nodes with left/right arrows', fakeAsync(() => {
       fixture.detectChanges();
-      tick();
+      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const nodes = getNodeContentWrappers();
 
       // Expect tree to start with both parent nodes expanded.
@@ -808,9 +783,8 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should move between nodes with up/down arrows', fakeAsync(() => {
+    it('should move between nodes with up/down arrows', () => {
       fixture.detectChanges();
-      tick();
       const nodes = getNodeContentWrappers();
 
       // Expect tree to start with nothing focused.
@@ -818,37 +792,18 @@ describe('tree view', () => {
 
       // Press down arrow twice.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      // Note: We have to use a customEventInit, because keyboardEventInit doesn't support keyCodes yet :( .
-      SkyAppTestUtility.fireDomEvent(nodes[0], 'keydown', {
-        customEventInit: {
-          key: 'ArrowDown',
-          keyCode: 40
-        }
-      });
-      SkyAppTestUtility.fireDomEvent(nodes[1], 'keydown', {
-        customEventInit: {
-          key: 'ArrowDown',
-          keyCode: 40
-        }
-      });
+      keyPressOnNode(nodes[0], 'ArrowDown', 40);
+      keyPressOnNode(nodes[0], 'ArrowDown', 40);
 
       // Expect focus to be on third node.
       expect(component.focusedNodeId).toEqual(3);
 
       // Press right arrow key on first node.
-      SkyAppTestUtility.fireDomEvent(nodes[1], 'keydown', {
-        customEventInit: {
-          key: 'ArrowUp',
-          keyCode: 38
-        }
-      });
+      keyPressOnNode(nodes[0], 'ArrowUp', 38);
 
       // Expect focus to be on second element.
       expect(component.focusedNodeId).toEqual(2);
-
-      fixture.destroy();
-      flush();
-    }));
+    });
   });
 
   describe('accessibility', (() => {
