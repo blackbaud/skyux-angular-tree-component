@@ -179,6 +179,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   // Cycle backwards through interactive child elements
   // If user reaches the beginning, activate drill up.
   public onArrowLeft(event: KeyboardEvent): void {
+    /* istanbul ignore else */
     if (document.activeElement === event.target) {
       if (this.childFocusIndex !== undefined) {
         if (this.childFocusIndex === 0) {
@@ -196,21 +197,20 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   // Cyle forward through interactive child elements.
   // If user reaches the end, activate drill down.
   public onArrowRight(event: KeyboardEvent): void {
-    if (document.activeElement !== event.target) {
-      return;
-    }
-
-    if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
-      this.node.treeModel.focusDrillDown();
-    } else {
-      if (this.childFocusIndex === undefined) {
-        this.childFocusIndex = 0;
+    /* istanbul ignore else */
+    if (document.activeElement === event.target) {
+      if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
+        this.node.treeModel.focusDrillDown();
       } else {
-        this.childFocusIndex++;
+        if (this.childFocusIndex === undefined) {
+          this.childFocusIndex = 0;
+        } else {
+          this.childFocusIndex++;
+        }
       }
-    }
 
-    event.stopPropagation();
+      event.stopPropagation();
+    }
   }
 
   private isSelectable(): boolean {

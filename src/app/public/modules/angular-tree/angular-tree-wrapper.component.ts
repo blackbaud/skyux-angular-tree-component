@@ -14,6 +14,10 @@ import {
   TreeNode
 } from 'angular-tree-component';
 
+import {
+  IDTypeDictionary
+} from 'angular-tree-component/dist/defs/api';
+
 @Component({
   selector: 'sky-angular-tree-wrapper',
   templateUrl: './angular-tree-wrapper.component.html',
@@ -37,6 +41,8 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     return this._showToolbar || false;
   }
 
+  public selectableNodeIds: IDTypeDictionary;
+
   @ContentChild(TreeComponent)
   public treeComponent: TreeComponent;
 
@@ -57,17 +63,13 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onClearAllClick(): void {
-    const focusedNode = this.treeComponent.treeModel.getFocusedNode();
     /* istanbul ignore else */
     if (!this.selectSingle) {
-      this.treeComponent.treeModel.doForAll((node: TreeNode) => {
-        const selectable = node.isSelectable && !(node.hasChildren && this.selectLeafNodesOnly);
-        /* istanbul ignore else */
-        if (selectable) {
-          node.setIsSelected(false);
-          this.treeComponent.treeModel.setFocusedNode(focusedNode);
-        }
-      });
+      const currentState = this.treeComponent.treeModel.getState();
+      this.treeComponent.state = {
+        ...currentState,
+        selectedLeafNodeIds: {}
+      };
     }
   }
 
@@ -80,17 +82,29 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onSelectAllClick(): void {
-    const focusedNode = this.treeComponent.treeModel.getFocusedNode();
     /* istanbul ignore else */
     if (!this.selectSingle) {
-      this.treeComponent.treeModel.doForAll((node: TreeNode) => {
-        const selectable = node.isSelectable && !(node.hasChildren && this.selectLeafNodesOnly);
-        /* istanbul ignore else */
+
+      // Get a list of all node ids that are selectable.
+      this.selectableNodeIds = {};
+      let getSelectableNodeIds = (node: TreeNode) => {
+        const selectable = node.isSelectable() && !(node.hasChildren && this.selectLeafNodesOnly);
         if (selectable) {
-          node.setIsSelected(true);
-          this.treeComponent.treeModel.setFocusedNode(focusedNode);
+          this.selectableNodeIds[node.id] = true;
         }
-      });
+        if (!node.children) {
+          return;
+        }
+        node.children.forEach(child => getSelectableNodeIds(child));
+      };
+      getSelectableNodeIds(this.treeComponent.treeModel.virtualRoot);
+
+      // Update tree state with new list of selected node ids.
+      const currentState = this.treeComponent.treeModel.getState();
+      this.treeComponent.state = {
+        ...currentState,
+        selectedLeafNodeIds: this.selectableNodeIds
+      };
     }
   }
 
@@ -120,7 +134,9 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
     // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
     // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
+    /* istanbul ignore next */
     defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
+    /* istanbul ignore next */
     defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
   }
 
