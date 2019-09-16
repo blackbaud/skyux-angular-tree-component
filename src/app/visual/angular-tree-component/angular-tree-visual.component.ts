@@ -9,7 +9,7 @@ import {
 } from 'angular-tree-component';
 
 import {
-  IDTypeDictionary
+  IDTypeDictionary, ITreeState
 } from 'angular-tree-component/dist/defs/api';
 
 @Component({
@@ -20,33 +20,7 @@ import {
 })
 export class SkyAngularTreeVisualComponent {
 
-  public nodes: any[] = [
-    {
-      id: 1,
-      name: 'United States',
-      isExpanded: true,
-      children: [
-        { id: 2, name: 'Alabama' },
-        { id: 3, name: 'California' },
-        { id: 14, name: 'Indiana', isExpanded: true, children: [
-          { id: 15, name: 'Adams' },
-          { id: 16, name: 'Allen' },
-          { id: 17, name: 'Bartholomew' }
-          ]
-        }
-      ]
-    },
-    {
-      id: 24,
-      name: 'Canada',
-      isExpanded: true,
-      children: [
-        { id: 25, name: 'Alberta' },
-        { id: 26, name: 'British Columbia' },
-        { id: 27, name: 'Manitoba' }
-      ]
-    }
-  ];
+  public activeNodeIds: string[] = [];
 
   public dropdownItems: any = [
     { name: 'Insert an item at this level', disabled: false },
@@ -63,6 +37,38 @@ export class SkyAngularTreeVisualComponent {
     animateExpand: true
   };
 
+  public expandedNodeIds: string[] = [];
+
+  public focusedNodeId: string;
+
+  public nodes: any[] = [
+    {
+      id: 1,
+      name: 'United States',
+      isExpanded: true,
+      children: [
+        { id: 2, name: 'Alabama' },
+        { id: 3, name: 'California' },
+        { id: 4, name: 'Indiana', isExpanded: true, children: [
+          { id: 5, name: 'Adams' },
+          { id: 6, name: 'Allen' },
+          { id: 7, name: 'Bartholomew' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 8,
+      name: 'Canada',
+      isExpanded: true,
+      children: [
+        { id: 9, name: 'Alberta' },
+        { id: 10, name: 'British Columbia' },
+        { id: 11, name: 'Manitoba' }
+      ]
+    }
+  ];
+
   public optionsCascading: ITreeOptions = {
     animateExpand: true,
     useCheckbox: true,
@@ -77,25 +83,25 @@ export class SkyAngularTreeVisualComponent {
 
   public selectedNodeIds: string[] = [];
 
-  public onSelectionChange(event: any): void {
-    this.updateSelectedNodeIds(event.treeModel.selectedLeafNodeIds);
-  }
-
   public actionClicked(name: string, node: TreeNode): void {
     console.log(name);
   }
 
-  public onStateChange(event: any): void {
-    console.log(event);
+  public onStateChange(event: ITreeState): void {
+    this.expandedNodeIds = this.getDictionaryValue(event.expandedNodeIds);
+    this.selectedNodeIds = this.getDictionaryValue(event.selectedLeafNodeIds);
+    this.activeNodeIds = this.getDictionaryValue(event.activeNodeIds);
+    this.focusedNodeId = event.focusedNodeId ? event.focusedNodeId.toString() : undefined;
   }
 
-  private updateSelectedNodeIds(selectedLeafNodeIds: IDTypeDictionary): void {
-    this.selectedNodeIds = [];
-    for (let key in selectedLeafNodeIds) {
-      if (selectedLeafNodeIds[key] && selectedLeafNodeIds[key]) {
-        this.selectedNodeIds.push(key);
+  private getDictionaryValue(dictionary: IDTypeDictionary): string[] {
+    const returnValue: string[] = [];
+    for (let key in dictionary) {
+      if (dictionary[key] && dictionary[key]) {
+        returnValue.push(key);
       }
     }
+    return returnValue;
   }
 
 }

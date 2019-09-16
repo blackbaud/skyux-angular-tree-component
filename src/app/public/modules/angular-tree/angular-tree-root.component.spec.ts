@@ -149,6 +149,10 @@ describe('tree view', () => {
     component.selectSingle = true;
   }
 
+  function setupReadOnlyMode(): void {
+    component.readOnly = true;
+  }
+
   function keyPressOnNode(node: HTMLElement, eventName: string, keyCode: number): void {
     // Note: We have to use a customEventInit, because the angular-tree-component library goess off of keyCode,
     // which the keyboardEventInit doesn't support yet :( .
@@ -321,6 +325,26 @@ describe('tree view', () => {
 
       clickCollapse();
       expect(collapseSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('read-only mode', () => {
+    it('should not activate node when clicked', () => {
+      setupReadOnlyMode();
+      fixture.detectChanges();
+
+      clickNode(0);
+
+      expect(component.activeNodeIds).toEqual({});
+    });
+
+    it('should not select node when clicked', () => {
+      setupReadOnlyMode();
+      fixture.detectChanges();
+
+      clickNode(0);
+
+      expectNodeToBeSelected(1, false);
     });
   });
 

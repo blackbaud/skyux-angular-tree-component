@@ -27,6 +27,9 @@ import {
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   @Input()
+  public readOnly: boolean = false;
+
+  @Input()
   public selectLeafNodesOnly: boolean = false;
 
   @Input()
@@ -117,6 +120,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   private nodeDefaultAction(tree: TreeModel, node: TreeNode, event: any): void {
+    if (this.readOnly) {
+      return;
+    }
+
     if (node.options.useCheckbox && this.isSelectable(node)) {
       this.toggleSelected(node, event);
     } else {

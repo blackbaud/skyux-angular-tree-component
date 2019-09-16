@@ -42,6 +42,8 @@ export class SkyTreeViewFixtureComponent {
 
   public options: ITreeOptions;
 
+  public readOnly = false;
+
   public selectedLeafNodeIds: IDTypeDictionary;
 
   public selectLeafNodesOnly: boolean;

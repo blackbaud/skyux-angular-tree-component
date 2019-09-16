@@ -10,6 +10,8 @@
     cursor: initial;
   }
 
+  // TODO: Drop slot?
+
   // Tree & Nodes
   .node-wrapper {
     display: flex;
@@ -19,55 +21,30 @@
   }
 
   .node-content-wrapper {
-    padding: 0;
-    cursor: pointer;
-    // TODO: IS THIS RIGHT?
     display: flex;
     align-items: center;
+    padding: 0;
+    cursor: pointer;
   }
 
   .tree-children, .tree-node-level-1.tree-node-leaf {
-    padding-left: 35px;
+    padding-left: 30px;
   }
 
   // Toggle indicator
-  .toggle-children-wrapper {
-    padding: 0 $sky-margin 0 0;
-  }
-
-  .toggle-children {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font: normal normal normal 14px/1 FontAwesome;
-    background-image: none;
-    width: 22px;
-    height: 22px;
-  }
-
-  .toggle-children:before {
-    position: absolute;
-    content: "\f054";
-  }
-
-  .toggle-children-wrapper-expanded .toggle-children {
-    transform: initial;
-  }
-
-  .toggle-children-wrapper-expanded .toggle-children:before {
-    content: "\f078";
+  .sky-toggle-children {
+    min-height: 19px;
+    min-width: 20px;
+    margin: 0 $sky-margin 0 0;
+    padding: 0;
+    line-height: 1;
   }
 
   .toggle-children-placeholder {
-    width: 32px;
-    height: 22px;
-    padding: 0 $sky-margin 0 0;
-  }
-
-  // Hover states
-  .node-content-wrapper:hover {
-    box-shadow: none;
-    background: none;
+    display: inline-block;
+    height: 19px;
+    width: 20px;
+    margin: 0 $sky-margin 0 0;
   }
 
   // Selected states
@@ -99,8 +76,26 @@
     font-size: 14px;
   }
 
-  // Dropdowns
+  // Context Menus
   .sky-angular-tree-context-menu {
-    margin: 0 $sky-margin-half 0 0;
+    margin: 0 $sky-margin 0 0;
+  }
+
+  // Drag & Drop
+  .node-drop-slot {
+    display: block;
+    height: 2px
+  }
+  .node-drop-slot.is-dragging-over {
+    height: 20px;
+    background: $sky-background-color-neutral-light;
+    border: 1px solid $sky-border-color-neutral-light;
+  }
+}
+
+// Read-only mode
+.sky-angular-tree-wrapper.sky-angular-tree-read-only ::ng-deep {
+  .node-content-wrapper {
+    cursor: initial;
   }
 }

@@ -31,6 +31,36 @@
     </sky-angular-tree-wrapper>
   </div>
 
+  <h2>Read-only mode</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-tree-view-basic"
+  >
+    <sky-angular-tree-wrapper
+      [readOnly]="true"
+    >
+      <tree-root
+        [nodes]="nodes"
+        [options]="basicOptions"
+        #treeReadOnly
+      >
+        <ng-template
+          let-index="index"
+          let-node
+          let-templates="templates"
+          #treeNodeFullTemplate
+        >
+          <sky-angular-tree-node
+            [index]="index"
+            [node]="node"
+            [templates]="templates"
+          >
+          </sky-angular-tree-node>
+        </ng-template>
+      </tree-root>
+    </sky-angular-tree-wrapper>
+  </div>
+
   <h2>Checkboxes and context menus</h2>
   <div
     id="screenshot-tree-view-context-menus-and-checkboxes"
@@ -200,15 +230,28 @@
   <div
     class="sky-padding-even-default"
   >
-    <p>
-      <b>Selected nodes:</b> {{ selectedNodeIds }}
-    </p>
+    <table>
+        <tr>
+          <th>Selected node ids</th>
+          <td>{{ selectedNodeIds }}</td>
+        </tr>
+        <tr>
+          <th>Expanded node ids</th>
+          <td>{{ expandedNodeIds }}</td>
+        </tr>
+        <tr>
+          <th>Active node ids</th>
+          <td>{{ activeNodeIds }}</td>
+        </tr>
+        <tr>
+          <th>Focused node id</th>
+          <td>{{ focusedNodeId }}</td>
+        </tr>
+    </table>
     <sky-angular-tree-wrapper>
       <tree-root
         [nodes]="nodes"
         [options]="optionsCascading"
-        (deselect)="onSelectionChange($event)"
-        (select)="onSelectionChange($event)"
         (stateChange)="onStateChange($event)"
         #treeEvents
       >
