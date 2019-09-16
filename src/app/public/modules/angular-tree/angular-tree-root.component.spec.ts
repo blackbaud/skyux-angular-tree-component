@@ -819,7 +819,8 @@ describe('tree view', () => {
       fixture.detectChanges();
       const nodes = document.querySelectorAll('.tree-node');
 
-      nodes.forEach(node => {
+      const nodeList: Array<Element> = Array.prototype.slice.call(nodes);
+      nodeList.forEach(node => {
         expect(node.getAttribute('role')).toEqual('treeitem');
       });
     });
@@ -828,7 +829,8 @@ describe('tree view', () => {
       fixture.detectChanges();
       const childrenWrappers = document.querySelectorAll('tree-node-children');
 
-      childrenWrappers.forEach(wrapper => {
+      const wrappersList: Array<Element> = Array.prototype.slice.call(childrenWrappers);
+      wrappersList.forEach(wrapper => {
         expect(wrapper.getAttribute('role')).toEqual('group');
       });
     });
