@@ -934,6 +934,24 @@ describe('tree view', () => {
       expect(nodes[4].getAttribute('aria-expanded')).toBeNull();
     });
 
+    it('should set aria-current to true for the active node and undefined for all other nodes', () => {
+      fixture.detectChanges();
+      const nodes = document.querySelectorAll('.tree-node');
+
+      expect(nodes[0].getAttribute('aria-current')).toBeNull();
+      expect(nodes[1].getAttribute('aria-current')).toBeNull();
+      expect(nodes[2].getAttribute('aria-current')).toBeNull();
+      expect(nodes[3].getAttribute('aria-current')).toBeNull();
+      expect(nodes[4].getAttribute('aria-current')).toBeNull();
+
+      clickNode(0);
+      expect(nodes[0].getAttribute('aria-current')).toEqual('true');
+      expect(nodes[1].getAttribute('aria-current')).toBeNull();
+      expect(nodes[2].getAttribute('aria-current')).toBeNull();
+      expect(nodes[3].getAttribute('aria-current')).toBeNull();
+      expect(nodes[4].getAttribute('aria-current')).toBeNull();
+    });
+
     it('should not set aria-multiselectable when checkboxes are disabled', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();

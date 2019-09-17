@@ -1,5 +1,6 @@
 <div
   role="treeitem"
+  [attr.aria-current]="node.isActive"
   [attr.aria-expanded]="node.isExpanded"
   [attr.aria-selected]="ariaSelected()"
   [class]="node.getClass()"
