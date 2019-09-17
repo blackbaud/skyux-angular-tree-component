@@ -113,7 +113,7 @@ describe('tree view', () => {
       expect(component.selectedLeafNodeIds[nodeIndex]).toEqual(true);
     } else {
       expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass('sky-angular-tree-node-selected');
-      expect(component.selectedLeafNodeIds[nodeIndex] || false).toEqual(false);
+      expect(!!component.selectedLeafNodeIds[nodeIndex]).toEqual(false);
     }
   }
 
@@ -153,13 +153,14 @@ describe('tree view', () => {
     component.readOnly = true;
   }
 
-  function keyPressOnNode(node: HTMLElement, eventName: string, keyCode: number): void {
+  function keyDownOnElement(node: HTMLElement, eventName: string, keyCode: number): void {
     // Note: We have to use a customEventInit, because the angular-tree-component library goess off of keyCode,
     // which the keyboardEventInit doesn't support yet :( .
     SkyAppTestUtility.fireDomEvent(node, 'keydown', {
       customEventInit: {
         key: eventName,
-        keyCode: keyCode
+        keyCode: keyCode,
+        which: keyCode
       }
     });
     fixture.detectChanges();
@@ -651,7 +652,7 @@ describe('tree view', () => {
 
       // Press "Enter" on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'Enter', 13);
+      keyDownOnElement(nodes[0], 'Enter', 13);
 
       // Expect first node to be active, and nothing to be selected.
       expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
@@ -659,7 +660,7 @@ describe('tree view', () => {
       expect(component.selectedLeafNodeIds).toEqual({});
 
       // Press "Enter" again.
-      keyPressOnNode(nodes[0], 'Enter', 13);
+      keyDownOnElement(nodes[0], 'Enter', 13);
 
       // Expect node to be un-activated.
       expect(Object.keys(component.activeNodeIds)).toEqual([]);
@@ -676,7 +677,7 @@ describe('tree view', () => {
 
       // Press "Space" on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'Space', 32);
+      keyDownOnElement(nodes[0], 'Space', 32);
 
       // Expect first node to be active, and nothing to be selected.
       expect(Object.keys(component.activeNodeIds)).toEqual(['1']);
@@ -684,7 +685,7 @@ describe('tree view', () => {
       expect(component.selectedLeafNodeIds).toEqual({});
 
       // Press "Space" again.
-      keyPressOnNode(nodes[0], 'Space', 32);
+      keyDownOnElement(nodes[0], 'Space', 32);
 
       // Expect node to be un-activated.
       expect(Object.keys(component.activeNodeIds)).toEqual([]);
@@ -702,13 +703,13 @@ describe('tree view', () => {
 
       // Press "Enter" on node.
       SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
-      keyPressOnNode(nodes[3], 'Enter', 13);
+      keyDownOnElement(nodes[3], 'Enter', 13);
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Enter" again.
-      keyPressOnNode(nodes[3], 'Enter', 13);
+      keyDownOnElement(nodes[3], 'Enter', 13);
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
@@ -724,13 +725,13 @@ describe('tree view', () => {
 
       // Press "Space" on node.
       SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
-      keyPressOnNode(nodes[3], 'Space', 32);
+      keyDownOnElement(nodes[3], 'Space', 32);
 
       // Expect node to be selected.
       expectNodeToBeSelected(4, true);
 
       // Press "Space" again.
-      keyPressOnNode(nodes[3], 'Space', 32);
+      keyDownOnElement(nodes[3], 'Space', 32);
 
       // Expect node to be de-selected.
       expectNodeToBeSelected(4, false);
@@ -739,7 +740,7 @@ describe('tree view', () => {
     it('should disable tabbing for all node children', fakeAsync(() => {
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].tabIndex).toEqual(-1);
@@ -755,19 +756,19 @@ describe('tree view', () => {
     it('should move between focusable children elements with left/right arrows', fakeAsync(() => {
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
       // Press right arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'ArrowRight', 39);
+      keyDownOnElement(nodes[0], 'ArrowRight', 39);
 
       // Expect first child element to be selected (dropdown menu).
       expect(document.activeElement).toEqual(dropdownButtons[0]);
 
       // Press left arrow key.
-      keyPressOnNode(dropdownButtons[0], 'ArrowLeft', 37);
+      keyDownOnElement(dropdownButtons[0], 'ArrowLeft', 37);
 
       // Active focus should move back to first node.
       expect(document.activeElement).toEqual(nodes[0]);
@@ -778,7 +779,7 @@ describe('tree view', () => {
 
     it('should expand nodes with left/right arrows', fakeAsync(() => {
       fixture.detectChanges();
-      tick(); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const nodes = getNodeContentWrappers();
 
       // Expect tree to start with both parent nodes expanded.
@@ -788,7 +789,7 @@ describe('tree view', () => {
 
       // Press left arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'ArrowLeft', 37);
+      keyDownOnElement(nodes[0], 'ArrowLeft', 37);
 
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
@@ -796,7 +797,7 @@ describe('tree view', () => {
       expect(component.expandedNodeIds[3]).toEqual(true);
 
       // Press right arrow key on first node.
-      keyPressOnNode(nodes[0], 'ArrowRight', 39);
+      keyDownOnElement(nodes[0], 'ArrowRight', 39);
 
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
@@ -816,18 +817,73 @@ describe('tree view', () => {
 
       // Press down arrow twice.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
-      keyPressOnNode(nodes[0], 'ArrowDown', 40);
-      keyPressOnNode(nodes[0], 'ArrowDown', 40);
+      keyDownOnElement(nodes[0], 'ArrowDown', 40);
+      keyDownOnElement(nodes[0], 'ArrowDown', 40);
 
       // Expect focus to be on third node.
       expect(component.focusedNodeId).toEqual(3);
 
       // Press right arrow key on first node.
-      keyPressOnNode(nodes[0], 'ArrowUp', 38);
+      keyDownOnElement(nodes[0], 'ArrowUp', 38);
 
       // Expect focus to be on second element.
       expect(component.focusedNodeId).toEqual(2);
     });
+
+    it('should prevent enter key from bubbling beyond sky-angular-tree-context-menu element', fakeAsync(() => {
+      component.showContextMenus = true;
+      setupNonCascadingMode();
+      fixture.detectChanges();
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const nodes = getNodeContentWrappers();
+
+      // Set focus on first dropdown.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyDownOnElement(nodes[0], 'ArrowRight', 39);
+
+      // Press "Enter" on node.
+      keyDownOnElement(dropdownButtons[0], 'Enter', 13);
+
+      // Expect node NOT to be selected.
+      expectNodeToBeSelected(1, false);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should prevent arrow keys from bubbling beyond sky-angular-tree-context-menu element', fakeAsync(() => {
+      component.showContextMenus = true;
+      setupNonCascadingMode();
+      fixture.detectChanges();
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const nodes = getNodeContentWrappers();
+
+      // Open fourth dropdown with arrow keys.
+      SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
+      keyDownOnElement(nodes[3], 'ArrowRight', 39);
+      keyDownOnElement(dropdownButtons[3], 'ArrowDown', 40);
+
+      // Expect fourth node to still be focused.
+      expect(component.focusedNodeId).toEqual(4);
+
+      // Navigate down context menu with arrow keys.
+      keyDownOnElement(dropdownButtons[3], 'ArrowDown', 40);
+      keyDownOnElement(dropdownButtons[3], 'ArrowDown', 40);
+
+      // Expect fourth node to still be focused.
+      expect(component.focusedNodeId).toEqual(4);
+
+      // Navigate down context menu with arrow keys.
+      keyDownOnElement(dropdownButtons[3], 'ArrowUp', 38);
+
+      // Expect fourth node to still be focused.
+      expect(component.focusedNodeId).toEqual(4);
+
+      fixture.destroy();
+      flush();
+    }));
   });
 
   describe('accessibility', (() => {

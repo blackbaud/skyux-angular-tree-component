@@ -135,7 +135,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     setTimeout(() => {
       this.focusableChildren = this.adapterService.getFocusableChildren(this.nodeContentWrapperRef.nativeElement);
       this.adapterService.setTabIndexOfFocusableElems(this.nodeContentWrapperRef.nativeElement, -1);
-    });
+    }, 1000);
   }
 
   // If single-select, set aria-selected=true for the selected node and undefined for all the others.
