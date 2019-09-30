@@ -188,7 +188,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           this.childFocusIndex--;
         }
       } else {
-        this.node.treeModel.focusDrillUp();
+        this.node.setIsExpanded(false);
       }
       event.stopPropagation();
       event.preventDefault();
@@ -201,7 +201,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     /* istanbul ignore else */
     if (document.activeElement === event.target) {
       if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
-        this.node.treeModel.focusDrillDown();
+        this.node.setIsExpanded(true);
       } else {
         if (this.childFocusIndex === undefined) {
           this.childFocusIndex = 0;
