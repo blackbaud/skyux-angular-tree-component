@@ -4,12 +4,13 @@ import {
 } from '@angular/core';
 
 import {
-  TreeNode,
-  ITreeOptions
+  ITreeOptions,
+  TreeNode
 } from 'angular-tree-component';
 
 import {
-  IDTypeDictionary, ITreeState
+  IDTypeDictionary,
+  ITreeState
 } from 'angular-tree-component/dist/defs/api';
 
 @Component({

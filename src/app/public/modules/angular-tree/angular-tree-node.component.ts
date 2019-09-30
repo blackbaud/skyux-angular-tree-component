@@ -191,6 +191,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
         this.node.treeModel.focusDrillUp();
       }
       event.stopPropagation();
+      event.preventDefault();
     }
   }
 
@@ -208,8 +209,8 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           this.childFocusIndex++;
         }
       }
-
       event.stopPropagation();
+      event.preventDefault();
     }
   }
 

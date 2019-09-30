@@ -43,8 +43,7 @@
         >
         </sky-icon>
       </button>
-      <span
-        *ngIf="!node.hasChildren"
+      <span *ngIf="!node.hasChildren"
         class="toggle-children-placeholder"
       >
       </span>
@@ -82,7 +81,9 @@
       #nodeContentWrapper
     >
 
-      <ng-content select="sky-angular-tree-context-menu"></ng-content>
+      <ng-content
+        select="sky-angular-tree-context-menu"
+      ></ng-content>
 
       <tree-node-content
         [index]="index"

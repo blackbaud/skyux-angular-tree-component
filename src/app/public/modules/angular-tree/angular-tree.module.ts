@@ -7,10 +7,6 @@ import {
 } from '@angular/core';
 
 import {
-  TreeModule
-} from 'angular-tree-component';
-
-import {
   SkyCoreAdapterService
 } from '@skyux/core';
 
@@ -25,6 +21,10 @@ import {
 import {
   SkyToolbarModule
 } from '@skyux/layout';
+
+import {
+  TreeModule
+} from 'angular-tree-component';
 
 import {
   SkyAngularTreeResourcesModule
@@ -59,15 +59,15 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyAngularTreeResourcesModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyToolbarModule,
-    SkyAngularTreeResourcesModule,
     TreeModule
   ],
   providers: [
-    SkyCoreAdapterService,
-    SkyAngularTreeAdapterService
+    SkyAngularTreeAdapterService,
+    SkyCoreAdapterService
   ],
   exports: [
     SkyAngularTreeContextMenuComponent,
