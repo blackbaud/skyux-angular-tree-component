@@ -50,16 +50,6 @@
     </div>
     <!-- #endregion <tree-node-expander> --->
 
-    <sky-checkbox *ngIf="showCheckbox()"
-      tabindex="-1"
-      [checked]="isSelected"
-      [id]="node.data.id"
-      [label]="node.data.name"
-      [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
-      (change)="node.mouseAction('checkboxClick', $event)"
-    >
-    </sky-checkbox>
-
     <!-- Note: we've made changes to the click event, tabindex, and classes when compared to the original template. -->
     <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
     <div
@@ -80,6 +70,14 @@
       (treeDropDragOver)="node.mouseAction('dragOver', $event)"
       #nodeContentWrapper
     >
+      <sky-checkbox *ngIf="showCheckbox()"
+        [checked]="isSelected"
+        [id]="node.data.id"
+        [label]="node.data.name"
+        [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
+        (change)="node.mouseAction('checkboxClick', $event)"
+      >
+      </sky-checkbox>
 
       <ng-content
         select="sky-angular-tree-context-menu"
