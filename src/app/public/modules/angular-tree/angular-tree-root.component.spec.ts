@@ -498,15 +498,15 @@ describe('tree view', () => {
     }));
 
     it('should throw a console warning if sky-angular-tree-wrapper component is not found', () => {
-      const warnSpy = spyOn(console, 'warn');
+      const errorSpy = spyOn(console, 'error');
       fixture.detectChanges();
 
-      expect(warnSpy).not.toHaveBeenCalled();
+      expect(errorSpy).not.toHaveBeenCalled();
 
       component.showInvalidTree = true;
       fixture.detectChanges();
 
-      expect(warnSpy).toHaveBeenCalled();
+      expect(errorSpy).toHaveBeenCalled();
     });
 
     it('should hide sky-checkboxes when selectSingle is true', () => {
