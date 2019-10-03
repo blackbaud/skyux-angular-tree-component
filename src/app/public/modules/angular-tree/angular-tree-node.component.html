@@ -79,9 +79,11 @@
       >
       </sky-checkbox>
 
-      <ng-content
-        select="sky-angular-tree-context-menu"
-      ></ng-content>
+      <sky-angular-tree-context-menu>
+        <ng-content
+          select="sky-dropdown"
+        ></ng-content>
+      </sky-angular-tree-context-menu>
 
       <tree-node-content
         [index]="index"
