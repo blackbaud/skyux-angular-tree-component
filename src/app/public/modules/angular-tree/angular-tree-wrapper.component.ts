@@ -47,7 +47,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   public selectableNodeIds: IDTypeDictionary;
 
   @ContentChild(TreeComponent)
-  public treeComponent: TreeComponent;
+  private treeComponent: TreeComponent;
 
   private _showToolbar: boolean;
 

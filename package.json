@@ -70,6 +70,7 @@
     "@types/lodash": "^4.14.136",
     "angular-tree-component": "8.4.0",
     "codelyzer": "4.5.0",
+    "core-js": "2.6.9",
     "microedge-rxstate": "3.0.0",
     "rxjs": "6.5.2",
     "rxjs-compat": "6.5.2",

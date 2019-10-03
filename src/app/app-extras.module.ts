@@ -16,7 +16,7 @@ import {
 
 import {
   SkyAngularTreeModule
-} from './public/modules/angular-tree/angular-tree.module';
+} from './public';
 
 // Build will crash if we try to insert function calls inside the NgModule decorator.
 // To get around this, we just use a variable to refer to the .forRoot() function call.

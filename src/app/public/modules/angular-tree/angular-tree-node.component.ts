@@ -89,8 +89,8 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     return this._tabIndex;
   }
 
-  @ViewChild('nodeContentWrapper')
-  public nodeContentWrapperRef: ElementRef;
+  @ViewChild('nodeContentWrapper', { read: ElementRef })
+  private nodeContentWrapperRef: ElementRef;
 
   private focusableChildren: HTMLElement[] = [];
 
@@ -110,7 +110,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   public ngOnInit(): void {
     if (!this.skyAngularTreeWrapper) {
-      console.warn(`<sky-angular-tree-node-wrapper> should be wrapped inside a <sky-angular-tree-wrapper> component.`);
+      console.error(`<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`);
     }
 
     // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
