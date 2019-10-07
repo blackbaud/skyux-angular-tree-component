@@ -131,7 +131,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    // Wait for node to render, then reset all child tabIndexes to -1.
+    // Wait 1s for the node to render, then reset all child tabIndexes to -1.
     setTimeout(() => {
       this.focusableChildren = this.adapterService.getFocusableChildren(this.nodeContentWrapperRef.nativeElement);
       this.adapterService.setTabIndexOfFocusableElems(this.nodeContentWrapperRef.nativeElement, -1);
