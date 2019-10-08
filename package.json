@@ -1,6 +1,6 @@
 {
   "name": "@skyux/angular-tree-component",
-  "version": "1.0.0-alpha",
+  "version": "3.0.0-alpha.0",
   "description": "SKYUX styles and utilities to be used with angular-tree-view",
   "main": "bundles/bundle.umd.js",
   "module": "index.ts",
