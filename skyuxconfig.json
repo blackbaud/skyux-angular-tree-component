@@ -1,0 +1,22 @@
+{
+  "name": "skyux-angular-tree-component",
+  "$schema": "./node_modules/@skyux/config/skyuxconfig-schema.json",
+  "mode": "easy",
+  "compileMode": "aot",
+  "plugins": [
+    "@skyux-sdk/builder-plugin-skyux"
+  ],
+  "testSettings": {
+    "e2e": {
+      "browserSet": "speedy"
+    },
+    "unit": {
+      "browserSet": "paranoid"
+    }
+  },
+  "app": {
+    "styles": [
+      "src/app/visual-styles.scss"
+    ]
+  }
+}
