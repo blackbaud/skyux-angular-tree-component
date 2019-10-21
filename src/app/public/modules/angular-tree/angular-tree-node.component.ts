@@ -160,10 +160,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   public showCheckbox(): boolean {
     // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
-    return !this.skyAngularTreeWrapper.readOnly &&
-          this.node.options.useCheckbox &&
-          this.isSelectable() &&
-          !this.skyAngularTreeWrapper.selectSingle;
+    return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
   }
 
   public showSelectedClass(): boolean {
