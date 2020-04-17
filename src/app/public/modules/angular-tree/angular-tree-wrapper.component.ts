@@ -120,6 +120,13 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   private nodeDefaultAction(tree: TreeModel, node: TreeNode, event: any): void {
+    // Ignore keystrokes on interactive elements inside the tree node.
+    const key = event.key ? event.key.toLowerCase() : undefined;
+    const nodeId = event.target.getAttribute('data-node-id');
+    if ((key === 'enter' || key === ' ') && nodeId !== node.id.toString()) {
+      return;
+    }
+
     if (this.readOnly) {
       return;
     }
@@ -145,6 +152,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
     /* istanbul ignore next */
     defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
+    /* istanbul ignore next */
+    defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event) => undefined;
+    /* istanbul ignore next */
+    defaultActionMapping.keys[KEYS.UP] = (tree, node, $event) => undefined;
   }
 
   private toggleSelected(node: TreeNode, event: any): void {

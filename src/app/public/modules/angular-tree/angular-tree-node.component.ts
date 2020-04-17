@@ -177,6 +177,28 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     this.childFocusIndex = undefined;
   }
 
+  // Focus on next node.
+  public onArrowDown(event: KeyboardEvent): void {
+    /* istanbul ignore else */
+    if (document.activeElement === event.target) {
+      const nextNode = this.node.findNextNode();
+      if (nextNode) {
+        nextNode.focus();
+      }
+    }
+  }
+
+  // Focus on previous node.
+  public onArrowUp(event: KeyboardEvent): void {
+    /* istanbul ignore else */
+    if (document.activeElement === event.target) {
+      const previousNode = this.node.findPreviousNode();
+      if (previousNode) {
+        previousNode.focus();
+      }
+    }
+  }
+
   // Cycle backwards through interactive child elements
   // If user reaches the beginning, activate drill up.
   public onArrowLeft(event: KeyboardEvent): void {
