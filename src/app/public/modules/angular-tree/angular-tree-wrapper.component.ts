@@ -120,13 +120,6 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   private nodeDefaultAction(tree: TreeModel, node: TreeNode, event: any): void {
-    // Ignore keystrokes on interactive elements inside the tree node.
-    const key = event.key ? event.key.toLowerCase() : undefined;
-    const nodeId = event.target.getAttribute('data-node-id');
-    if ((key === 'enter' || key === ' ') && nodeId !== node.id.toString()) {
-      return;
-    }
-
     if (this.readOnly) {
       return;
     }
@@ -136,15 +129,37 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     } else {
       TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, event);
     }
+
+    return;
+  }
+
+  private onKeyDownAction(tree: TreeModel, node: TreeNode, event: any): void {
+    const targetNodeId = event.target.getAttribute('data-node-id');
+
+    // Key press did not happen on the node.
+    if (targetNodeId !== node.id.toString()) {
+
+      // angular-tree-component will preventDefault() on anything using a key action handler,
+      // thus stopping "enter" and "space" keys to throw "click" events on interactive elements.
+      // This logic ensures components looking for "clicks" on those keystrokes still work (dropdown component).
+      // https://github.com/500tech/angular-tree-component/blob/master/lib/models/tree.model.ts#L341
+      if (event.defaultPrevented) {
+        event.target.click();
+      }
+
+      return;
+    }
+
+    this.nodeDefaultAction(tree, node, event);
   }
 
   private overrideActionMapping(): void {
     const defaultActionMapping = this.treeComponent.treeModel.options.actionMapping;
 
     // Override default click/enter/space action to check for unsupported options (leaf node, single-select).
-    defaultActionMapping.mouse.click = (tree, node, $event) => this.nodeDefaultAction(tree, node, event);
-    defaultActionMapping.keys[KEYS.SPACE] = (tree, node, $event) => this.nodeDefaultAction(tree, node, event);
-    defaultActionMapping.keys[KEYS.ENTER] = (tree, node, $event) => this.nodeDefaultAction(tree, node, event);
+    defaultActionMapping.mouse.click = (tree, node, event) => this.nodeDefaultAction(tree, node, event);
+    defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event) => this.onKeyDownAction(tree, node, event);
+    defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event) => this.onKeyDownAction(tree, node, event);
 
     // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
     // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
