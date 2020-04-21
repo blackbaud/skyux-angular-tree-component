@@ -28,9 +28,9 @@ const treeModuleForRoot = TreeModule.forRoot();
     treeModuleForRoot
   ],
   exports: [
+    SkyAngularTreeModule,
     SkyAppLinkModule,
     SkyDropdownModule,
-    SkyAngularTreeModule,
     TreeModule
   ]
 })
