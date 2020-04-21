@@ -1,3 +1,13 @@
+# 4.0.0-rc.0 (2020-04-21)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#15](https://github.com/blackbaud/skyux-angular-tree-component/pull/15)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#15](https://github.com/blackbaud/skyux-angular-tree-component/pull/15)
+
 # 3.0.0 (2020-04-20)
 
 - Major version release.
