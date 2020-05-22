@@ -13,6 +13,7 @@
 
 ### New features
 
+- Added support for `@angular/core@^9`. [#15](https://github.com/blackbaud/skyux-angular-tree-component/pull/15)
 - Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#15](https://github.com/blackbaud/skyux-angular-tree-component/pull/15)
 
 ### Breaking changes
