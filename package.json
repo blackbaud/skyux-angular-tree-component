@@ -1,6 +1,6 @@
 {
   "name": "@skyux/angular-tree-component",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "SKYUX styles and utilities to be used with angular-tree-view",
   "scripts": {
     "build": "skyux build-public-library",
