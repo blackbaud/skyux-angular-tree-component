@@ -18,6 +18,10 @@ import {
   IDTypeDictionary
 } from 'angular-tree-component/dist/defs/api';
 
+/**
+ * Wraps the Angular `tree-root` component. For information about the `tree-root` component, see the
+ * [Angular tree component documentation](https://angular2-tree.readme.io/docs).
+ */
 @Component({
   selector: 'sky-angular-tree-wrapper',
   templateUrl: './angular-tree-wrapper.component.html',
@@ -26,15 +30,41 @@ import {
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
+  /**
+   * Indicates whether to render the tree view in read-only mode.
+   * This mode disables selected and active states on the tree view nodes.
+   * @default false
+   */
   @Input()
   public readOnly: boolean = false;
 
+  /**
+   * Indicates whether to use leaf-only selection mode. For tree views with checkboxes,
+   * this mode limits user selections to leaf nodes and prevents users from selecting parent nodes.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public selectLeafNodesOnly: boolean = false;
 
+  /**
+   * Indicates whether to use single-select mode. For tree views with checkboxes,
+   * this mode limits user selections to one node at a time.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public selectSingle: boolean = false;
 
+  /**
+   * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
+   * The select and clear all buttons only appear when you enable checkboxes.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public set showToolbar(value: boolean) {
     this._showToolbar = value;
@@ -44,6 +74,9 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     return this._showToolbar || false;
   }
 
+  /**
+   * @internal
+   */
   public selectableNodeIds: IDTypeDictionary;
 
   @ContentChild(TreeComponent)
@@ -51,6 +84,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   private _showToolbar: boolean;
 
+  /**
+   * Angular's AfterViewInit lifecycle hook.
+   * @internal
+   */
   public ngAfterViewInit(): void {
     if (this.selectSingle && this.treeComponent.treeModel.options.useTriState) {
       console.warn(
@@ -61,10 +98,16 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     this.overrideActionMapping();
   }
 
+  /**
+   * @internal
+   */
   public multiselectable(): boolean {
     return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
   }
 
+  /**
+   * @internal
+   */
   public onClearAllClick(): void {
     /* istanbul ignore else */
     if (!this.selectSingle) {
@@ -76,14 +119,23 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @internal
+   */
   public onCollapseAllClick(): void {
     this.treeComponent.treeModel.collapseAll();
   }
 
+  /**
+   * @internal
+   */
   public onExpandAllClick(): void {
     this.treeComponent.treeModel.expandAll();
   }
 
+  /**
+   * @internal
+   */
   public onSelectAllClick(): void {
     /* istanbul ignore else */
     if (!this.selectSingle) {
@@ -111,6 +163,9 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @internal
+   */
   public showSelectButtons(): boolean {
     return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
   }
