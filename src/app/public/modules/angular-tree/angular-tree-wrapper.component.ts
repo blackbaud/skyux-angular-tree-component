@@ -74,9 +74,6 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     return this._showToolbar || false;
   }
 
-  /**
-   * @internal
-   */
   public selectableNodeIds: IDTypeDictionary;
 
   @ContentChild(TreeComponent)
@@ -84,10 +81,6 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   private _showToolbar: boolean;
 
-  /**
-   * Angular's AfterViewInit lifecycle hook.
-   * @internal
-   */
   public ngAfterViewInit(): void {
     if (this.selectSingle && this.treeComponent.treeModel.options.useTriState) {
       console.warn(
@@ -98,16 +91,10 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     this.overrideActionMapping();
   }
 
-  /**
-   * @internal
-   */
   public multiselectable(): boolean {
     return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
   }
 
-  /**
-   * @internal
-   */
   public onClearAllClick(): void {
     /* istanbul ignore else */
     if (!this.selectSingle) {
@@ -119,23 +106,14 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public onCollapseAllClick(): void {
     this.treeComponent.treeModel.collapseAll();
   }
 
-  /**
-   * @internal
-   */
   public onExpandAllClick(): void {
     this.treeComponent.treeModel.expandAll();
   }
 
-  /**
-   * @internal
-   */
   public onSelectAllClick(): void {
     /* istanbul ignore else */
     if (!this.selectSingle) {
@@ -163,9 +141,6 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public showSelectButtons(): boolean {
     return this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle;
   }

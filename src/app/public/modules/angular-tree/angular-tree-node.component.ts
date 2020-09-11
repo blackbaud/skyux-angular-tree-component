@@ -22,6 +22,13 @@ import {
   SkyAngularTreeWrapperComponent
 } from './angular-tree-wrapper.component';
 
+/**
+ * Replaces the default tree node template with a SKY UX node. You must wrap this component in an `ng-template` tag with the
+ * template reference variable `#treeNodeFullTemplate`. For information about tree node templates, see the
+ * [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
+ * To display context menus with actions for individual items in hierarchical lists, place dropdown components inside the
+ * Angular tree node component. The Angular tree node component automatically handles styling and positioning for context menus.
+ */
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html'
@@ -35,8 +42,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   public index: number;
 
   /**
-   * Specifies the `node` property from the parent `ng-template`. This property accepts `TreeNode` values.
-   * For information about the `TreeNode` object, see the
+   * Specifies the `node` property from the parent `ng-template`. For information about the `TreeNode` object, see the
    * [Angular tree component documentation](https://angular2-tree.readme.io/docs/api).
    */
   @Input()
@@ -48,9 +54,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   @Input()
   public templates: any;
 
-  /**
-   * @internal
-   */
   public set childFocusIndex(value: number) {
     if (value !== this._childFocusIndex) {
       this._childFocusIndex = value;
@@ -62,16 +65,10 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public get childFocusIndex(): number {
     return this._childFocusIndex;
   }
 
-  /**
-   * @internal
-   */
   public set focused(value: boolean) {
     this.tabIndex = value ? 0 : -1;
     if (value) {
@@ -79,9 +76,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public set isPartiallySelected(value: boolean) {
     if (value !== this._isPartiallySelected) {
       this._isPartiallySelected = value;
@@ -89,16 +83,10 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public get isPartiallySelected(): boolean {
     return this._isPartiallySelected;
   }
 
-  /**
-   * @internal
-   */
   public set isSelected(value: boolean) {
     if (value !== this._isSelected) {
       this._isSelected = value;
@@ -106,23 +94,14 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /**
-   * @internal
-   */
   public get isSelected(): boolean {
     return this._isSelected;
   }
 
-  /**
-   * @internal
-   */
   public set tabIndex(value: number) {
     this._tabIndex = value;
   }
 
-  /**
-   * @internal
-   */
   public get tabIndex(): number {
     return this._tabIndex;
   }
@@ -146,10 +125,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     @Optional() private skyAngularTreeWrapper: SkyAngularTreeWrapperComponent
   ) { }
 
-  /**
-   * Angular's ngOnInit lifecycle hook.
-   * @internal
-   */
   public ngOnInit(): void {
     if (!this.skyAngularTreeWrapper) {
       console.error(`<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`);
@@ -172,10 +147,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /**
-   * Angular's ngAfterViewInit lifecycle hook.
-   * @internal
-   */
   public ngAfterViewInit(): void {
     // Wait 1s for the node to render, then reset all child tabIndexes to -1.
     // Units smaller than 1s may consistently fail if there are many nodes, or multiple trees are on the same screen.
@@ -207,40 +178,25 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     return !!this.isSelected;
   }
 
-  /**
-   * @internal
-   */
   public showCheckbox(): boolean {
     // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
     return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
   }
 
-  /**
-   * @internal
-   */
   public showSelectedClass(): boolean {
     return this.isSelectable() && this.isSelected && !this.isPartiallySelected;
   }
 
-  /**
-   * @internal
-   */
   public showActiveClass(): boolean {
     return this.node.isActive && !this.node.treeModel.options.useCheckbox;
   }
 
-  /**
-   * @internal
-   */
   public onFocus(): void {
     this.node.treeModel.setFocus(true);
     this.node.focus();
     this.childFocusIndex = undefined;
   }
 
-  /**
-   * @internal
-   */
   public onKeyDown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (document.activeElement === event.target) {
