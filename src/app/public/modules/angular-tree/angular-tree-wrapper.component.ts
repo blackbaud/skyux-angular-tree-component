@@ -53,7 +53,6 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * Indicates whether to use single-select mode. For tree views with
    * [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes),
    * this mode limits user selections to one node at a time.
-   * .
    * @default false
    */
   @Input()
