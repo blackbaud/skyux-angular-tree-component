@@ -12,38 +12,6 @@
       (selectionChange)="onDemoSelectionChange($event)"
     >
       <sky-docs-demo-control-panel-section>
-        <sky-docs-demo-control-panel-radio-group
-          heading="Modes"
-          propertyName="treeMode"
-          [choices]="treeModeChoices"
-          [initialValue]="'navigation'"
-        >
-        </sky-docs-demo-control-panel-radio-group>
-      </sky-docs-demo-control-panel-section>
-
-      <sky-docs-demo-control-panel-section>
-        <sky-docs-demo-control-panel-radio-group *ngIf="demoSettings.treeMode === 'selection'"
-          heading="Selection modes"
-          propertyName="treeSelectMode"
-          [choices]="selectModeChoices"
-          [initialValue]="'multi'"
-        >
-        </sky-docs-demo-control-panel-radio-group>
-        <sky-docs-demo-control-panel-checkbox *ngIf="demoSettings.treeMode === 'selection' && !demoSettings.enableCascading"
-          label="Leaf-node selection only"
-          propertyName="selectLeafNodesOnly"
-          [checked]="false"
-        >
-        </sky-docs-demo-control-panel-checkbox>
-        <sky-docs-demo-control-panel-checkbox *ngIf="demoSettings.treeMode === 'selection' && !demoSettings.selectLeafNodesOnly"
-          label="Enable cascading"
-          propertyName="enableCascading"
-          [checked]="false"
-        >
-        </sky-docs-demo-control-panel-checkbox>
-      </sky-docs-demo-control-panel-section>
-
-      <sky-docs-demo-control-panel-section>
         <sky-docs-demo-control-panel-checkbox
           label="Include toolbar"
           propertyName="toolbar"
@@ -56,7 +24,42 @@
           [checked]="false"
         >
         </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Modes"
+          propertyName="treeMode"
+          [choices]="treeModeChoices"
+          [initialValue]="'navigation'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
       </sky-docs-demo-control-panel-section>
+
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Selection options"
+          propertyName="treeSelectMode"
+          [choices]="selectModeChoices"
+          [disabled]="demoSettings.treeMode && demoSettings.treeMode !== 'selection'"
+          [initialValue]="'multi'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+        <sky-docs-demo-control-panel-checkbox
+          label="Leaf-node selection only"
+          propertyName="selectLeafNodesOnly"
+          [checked]="demoSettings.selectLeafNodesOnly"
+          [disabled]="demoSettings.treeMode !== 'selection' || demoSettings.enableCascading"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Enable cascading"
+          propertyName="enableCascading"
+          [checked]="demoSettings.enableCascading"
+          [disabled]="demoSettings.treeMode !== 'selection' || demoSettings.selectLeafNodesOnly || demoSettings.selectSingle"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+
+      <!-- <sky-docs-demo-control-panel-section>
+      </sky-docs-demo-control-panel-section> -->
     </sky-docs-demo-control-panel>
     <sky-angular-tree-wrapper
       [readOnly]="demoSettings.readOnly"
@@ -107,7 +110,7 @@
     }"
   >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/angular-tree/basic"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/angular-tree/advanced"
     >
     </sky-docs-code-example>
   </sky-docs-code-examples>

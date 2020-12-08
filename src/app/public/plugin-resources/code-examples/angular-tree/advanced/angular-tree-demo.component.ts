@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -19,8 +20,19 @@ import {
 } from 'angular-tree-component';
 
 @Component({
-  selector: 'app-angular-tree-demo',
-  templateUrl: './angular-tree-demo.component.html'
+  selector: 'app-angular-tree-component-demo',
+  styles: [`
+    .app-demo-container {
+      border: 1px solid #cdcfd2;
+      padding: 20px;
+
+      .angular-tree-component {
+        background: #fff;
+      }
+    }`
+  ],
+  templateUrl: './angular-tree-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AngularTreeDemoComponent implements OnInit {
 

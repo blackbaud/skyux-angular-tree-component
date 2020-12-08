@@ -47,6 +47,10 @@ export class AngularTreeDocsComponent {
 
   public demoSettings: any = {};
 
+  public enableCascadingCheckbox: boolean = false;
+
+  public selectLeafNodesOnlyCheckbox: boolean = false;
+
   public dropdownItems: any = [
     { name: 'Insert an item at this level', disabled: false },
     { name: 'Insert an item under this level', disabled: false },
