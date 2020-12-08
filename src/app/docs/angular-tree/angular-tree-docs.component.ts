@@ -47,10 +47,6 @@ export class AngularTreeDocsComponent {
 
   public demoSettings: any = {};
 
-  public enableCascadingCheckbox: boolean = false;
-
-  public selectLeafNodesOnlyCheckbox: boolean = false;
-
   public dropdownItems: any = [
     { name: 'Insert an item at this level', disabled: false },
     { name: 'Insert an item under this level', disabled: false },
@@ -104,15 +100,15 @@ export class AngularTreeDocsComponent {
     useTriState: false
   };
 
+  public selectModeChoices: SkyDocsDemoControlPanelRadioChoice[] = [
+    { value: 'multi', label: 'Multi-select' },
+    { value: 'single', label: 'Single-select' }
+  ];
+
   public treeModeChoices: SkyDocsDemoControlPanelRadioChoice[] = [
     { value: 'navigation', label: 'Navigation' },
     { value: 'readOnly', label: 'Read-only' },
     { value: 'selection', label: 'Selection' }
-  ];
-
-  public selectModeChoices: SkyDocsDemoControlPanelRadioChoice[] = [
-    { value: 'multi', label: 'Multi-select' },
-    { value: 'single', label: 'Single-select' }
   ];
 
   public treeOptions: ITreeOptions = {
