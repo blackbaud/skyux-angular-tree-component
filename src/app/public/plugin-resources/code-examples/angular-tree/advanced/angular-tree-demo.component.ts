@@ -108,8 +108,8 @@ export class AngularTreeDemoComponent implements OnInit {
         },
         { name: 'Dogs', isExpanded: true, children: [
           { name: 'Beagle' },
-          { name: 'German Shepard' },
-          { name: 'Labrador Retriever' }
+          { name: 'German shepherd' },
+          { name: 'Labrador retriever' }
           ]
         }
       ]
