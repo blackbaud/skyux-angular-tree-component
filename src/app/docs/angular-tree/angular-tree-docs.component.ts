@@ -80,7 +80,7 @@ export class AngularTreeDocsComponent {
           isExpanded: true,
           children: [
             { id: 7, name: 'Beagle' },
-            { id: 8, name: 'German shepard' },
+            { id: 8, name: 'German shepherd' },
             { id: 9, name: 'Labrador retriever' }
           ]
         }
