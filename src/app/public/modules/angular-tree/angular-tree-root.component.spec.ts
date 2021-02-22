@@ -78,6 +78,10 @@ describe('tree view', () => {
     return document.querySelectorAll('.node-wrapper');
   }
 
+  function getTogglePlaceholder(): NodeListOf<HTMLElement> {
+    return document.querySelectorAll('.toggle-children-placeholder');
+  }
+
   function clickSelectAll(): void {
     getSelectAllButton().click();
     tick(); // Allow time to apply changes to all buttons.
@@ -433,7 +437,7 @@ describe('tree view', () => {
       const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
       // Expect only leaf nodes should have checkboxes.
-      expect(skyCheckboxes.length).toEqual(3);
+      expect(skyCheckboxes.length).toEqual(4);
       expect(unitedStatesCheckbox).toBeNull();
       expect(indianaCheckbox).toBeNull();
 
@@ -455,7 +459,7 @@ describe('tree view', () => {
       const indianaCheckbox = nodeWrappers[2].querySelector('input');
 
       // Expect all nodes to have checkboxes.
-      expect(skyCheckboxes.length).toEqual(5);
+      expect(skyCheckboxes.length).toEqual(6);
       expect(unitedStatesCheckbox).not.toBeNull();
       expect(indianaCheckbox).not.toBeNull();
 
@@ -496,6 +500,24 @@ describe('tree view', () => {
       fixture.destroy();
       flush();
     }));
+
+    it('should show toggle child placeholders for leaf nodes when selectLeafNodesOnly is false', () => {
+      setupNonCascadingMode();
+      component.selectLeafNodesOnly = false;
+      fixture.detectChanges();
+      const togglePlaceholder = getTogglePlaceholder();
+
+      expect(togglePlaceholder.length).toEqual(4);
+    });
+
+    it('should not show toggle child placeholders for leaf nodes when selectLeafNodesOnly is true', () => {
+      setupNonCascadingMode();
+      component.selectLeafNodesOnly = true;
+      fixture.detectChanges();
+      const togglePlaceholder = getTogglePlaceholder();
+
+      expect(togglePlaceholder.length).toEqual(0);
+    });
 
     it('should throw a console warning if sky-angular-tree-wrapper component is not found', () => {
       const errorSpy = spyOn(console, 'error');

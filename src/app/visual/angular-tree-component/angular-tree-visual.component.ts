@@ -55,7 +55,8 @@ export class SkyAngularTreeVisualComponent {
           { id: 6, name: 'Allen' },
           { id: 7, name: 'Bartholomew' }
           ]
-        }
+        },
+        { id: 13, name: 'Florida' }
       ]
     },
     {
@@ -75,7 +76,7 @@ export class SkyAngularTreeVisualComponent {
       ]
     },
     {
-      id: 143,
+      id: 14,
       name: 'Argentina',
       isExpanded: true,
       children: []
