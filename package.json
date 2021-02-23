@@ -1,6 +1,6 @@
 {
   "name": "@skyux/angular-tree-component",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "SKYUX styles and utilities to be used with angular-tree-view",
   "scripts": {
     "build": "skyux build-public-library",
@@ -57,7 +57,7 @@
     "@skyux/i18n": "4.0.3",
     "@skyux/indicators": "4.7.1",
     "@skyux/inline-form": "4.1.0",
-    "@skyux/layout": "4.4.2",
+    "@skyux/layout": "4.4.3",
     "@skyux/lists": "4.5.1",
     "@skyux/lookup": "4.8.3",
     "@skyux/modals": "4.5.1",
