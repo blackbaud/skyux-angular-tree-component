@@ -1,6 +1,6 @@
 # 4.0.2 (2021-02-23)
 
-- Fixed the angular tree component to have proper indenting for child nodes wihtout children. [#37](https://github.com/blackbaud/skyux-angular-tree-component/pull/37)
+- Fixed the angular tree component to have proper indenting for child nodes without children. [#37](https://github.com/blackbaud/skyux-angular-tree-component/pull/37)
 
 # 4.0.1 (2020-08-05)
 
