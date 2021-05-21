@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  TreeModule
+} from '@circlon/angular-tree-component';
+
+import {
   SkyCoreAdapterService
 } from '@skyux/core';
 
@@ -21,10 +25,6 @@ import {
 import {
   SkyToolbarModule
 } from '@skyux/layout';
-
-import {
-  TreeModule
-} from 'angular-tree-component';
 
 import {
   SkyAngularTreeResourcesModule

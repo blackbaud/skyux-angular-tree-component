@@ -9,12 +9,9 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  ITreeOptions,
   TreeModel
-} from 'angular-tree-component';
-
-import {
-  ITreeOptions
-} from 'angular-tree-component/dist/defs/api';
+} from '@circlon/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-docs',

@@ -17,7 +17,7 @@ import {
   ITreeState,
   TreeModel,
   TreeNode
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-component-demo',

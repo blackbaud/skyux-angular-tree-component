@@ -6,12 +6,12 @@ import {
 import {
   ITreeOptions,
   TreeNode
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 import {
   IDTypeDictionary,
   ITreeState
-} from 'angular-tree-component/dist/defs/api';
+} from '@circlon/angular-tree-component/lib/defs/api';
 
 @Component({
   selector: 'sky-angular-tree-visual',

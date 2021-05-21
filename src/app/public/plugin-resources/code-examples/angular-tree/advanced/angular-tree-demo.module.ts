@@ -29,26 +29,22 @@ import {
 
 import {
   TreeModule
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 import {
   AngularTreeDemoComponent
 } from './angular-tree-demo.component';
 
-// Store the result of the `forRoot` call in a variable to support AoT compilation.
-// See: https://github.com/angular/angular/issues/23609
-const treeModuleForRoot = TreeModule.forRoot();
-
 @NgModule({
   imports: [
-    treeModuleForRoot,
     CommonModule,
     ReactiveFormsModule,
     SkyAngularTreeModule,
     SkyCheckboxModule,
     SkyDropdownModule,
     SkyFluidGridModule,
-    SkyRadioModule
+    SkyRadioModule,
+    TreeModule
   ],
   declarations: [
     AngularTreeDemoComponent
