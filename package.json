@@ -6,7 +6,8 @@
     "build": "skyux build-public-library",
     "start": "skyux serve --hmr",
     "test": "skyux test --coverage library --logFormat none",
-    "test:visual": "skyux e2e --logFormat none"
+    "test:visual": "skyux e2e --logFormat none",
+    "postinstall": "ngcc"
   },
   "keywords": [],
   "author": "Blackbaud",
