@@ -16,12 +16,12 @@
     "url": "https://github.com/blackbaud/skyux-angular-tree-component"
   },
   "peerDependencies": {
-    "@angular/common": "^9.1.9",
-    "@angular/core": "^9.1.9",
-    "@skyux/core": "^4.1.0",
-    "@skyux/i18n": "^4.0.0",
-    "@skyux/indicators": "^4.0.0",
-    "@skyux/layout": "^4.0.0",
+    "@angular/common": "^9.1.9|| ^12",
+    "@angular/core": "^9.1.9|| ^12",
+    "@skyux/core": "^4.1.0 || ^5.0.0-alpha.0",
+    "@skyux/i18n": "^4.0.0 || ^5.0.0-alpha.0",
+    "@skyux/indicators": "^4.0.0 || ^5.0.0-alpha.0",
+    "@skyux/layout": "^4.0.0 || ^5.0.0-alpha.0",
     "@circlon/angular-tree-component": "^11.0.3"
   },
   "dependencies": {},
