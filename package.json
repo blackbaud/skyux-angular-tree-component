@@ -6,8 +6,7 @@
     "build": "skyux build-public-library",
     "start": "skyux serve --hmr",
     "test": "skyux test --coverage library --logFormat none",
-    "test:visual": "skyux e2e --logFormat none",
-    "postinstall": "ngcc"
+    "test:visual": "skyux e2e --logFormat none"
   },
   "keywords": [],
   "author": "Blackbaud",
@@ -23,7 +22,7 @@
     "@skyux/i18n": "^4.0.0 || ^5.0.0-alpha.0",
     "@skyux/indicators": "^4.0.0 || ^5.0.0-alpha.0",
     "@skyux/layout": "^4.0.0 || ^5.0.0-alpha.0",
-    "@circlon/angular-tree-component": "^11.0.3"
+    "@circlon/angular-tree-component": "^9.0.0"
   },
   "dependencies": {},
   "devDependencies": {
@@ -43,7 +42,7 @@
     "@blackbaud/skyux-lib-media": "4.0.0",
     "@blackbaud/skyux-lib-restricted-view": "4.2.1",
     "@blackbaud/skyux-lib-stache": "4.2.2",
-    "@circlon/angular-tree-component": "11.0.4",
+    "@circlon/angular-tree-component": "9.0.3",
     "@skyux-sdk/builder": "4.8.2",
     "@skyux-sdk/builder-plugin-skyux": "4.1.4",
     "@skyux-sdk/e2e": "4.0.2",
