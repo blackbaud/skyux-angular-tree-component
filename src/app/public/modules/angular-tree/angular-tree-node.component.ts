@@ -34,7 +34,10 @@ import {
  */
 @Component({
   selector: 'sky-angular-tree-node',
-  templateUrl: './angular-tree-node.component.html'
+  templateUrl: './angular-tree-node.component.html',
+  providers: [
+    SkyAngularTreeAdapterService
+  ]
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
