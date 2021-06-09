@@ -31,10 +31,6 @@ import {
 } from '../shared/angular-tree-resources.module';
 
 import {
-  SkyAngularTreeAdapterService
-} from './angular-tree-adapter.service';
-
-import {
   SkyAngularTreeContextMenuComponent
 } from './angular-tree-context-menu.component';
 
@@ -66,7 +62,6 @@ import {
     TreeModule
   ],
   providers: [
-    SkyAngularTreeAdapterService,
     SkyCoreAdapterService
   ],
   exports: [
