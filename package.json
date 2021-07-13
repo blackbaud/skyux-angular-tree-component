@@ -6,7 +6,8 @@
     "build": "skyux build-public-library",
     "start": "skyux serve --hmr",
     "test": "skyux test --coverage library --logFormat none",
-    "test:visual": "skyux e2e --logFormat none"
+    "test:visual": "skyux e2e --logFormat none",
+    "postinstall": "ngcc"
   },
   "keywords": [],
   "author": "Blackbaud",
@@ -61,7 +62,7 @@
     "@skyux/layout": "4.7.1",
     "@skyux/lists": "4.8.0",
     "@skyux/lookup": "4.17.0",
-    "@skyux/modals": "4.5.4",
+    "@skyux/modals": "4.5.5",
     "@skyux/omnibar-interop": "4.0.1",
     "@skyux/popovers": "4.5.3",
     "@skyux/router": "4.2.2",
