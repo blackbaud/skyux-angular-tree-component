@@ -1,3 +1,10 @@
+# 5.0.0-beta.0 (2021-07-13)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#40](https://github.com/blackbaud/skyux-angular-tree-component/pull/40)
+- Added support for `@circlon/angular-tree-component@^11`. [#40](https://github.com/blackbaud/skyux-angular-tree-component/pull/40)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#40](https://github.com/blackbaud/skyux-angular-tree-component/pull/40)
+
 # 4.0.2 (2021-02-23)
 
 - Fixed the Angular tree component to properly indent child nodes without children. [#37](https://github.com/blackbaud/skyux-angular-tree-component/pull/37)
