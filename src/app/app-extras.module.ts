@@ -24,10 +24,17 @@ import {
 } from '@circlon/angular-tree-component';
 
 import {
+  SkyAngularTreeForRootCompatModule
+} from './public/modules/shared/angular-tree-for-root-compat.module';
+
+import {
   SkyAngularTreeModule
 } from './public/public_api';
 
 @NgModule({
+  imports: [
+    SkyAngularTreeForRootCompatModule
+  ],
   exports: [
     SkyAngularTreeModule,
     SkyCodeModule,

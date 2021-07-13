@@ -11,10 +11,6 @@ import {
 } from '@circlon/angular-tree-component';
 
 import {
-  SkyCoreAdapterService
-} from '@skyux/core';
-
-import {
   SkyCheckboxModule
 } from '@skyux/forms';
 
@@ -29,10 +25,6 @@ import {
 import {
   SkyAngularTreeResourcesModule
 } from '../shared/angular-tree-resources.module';
-
-import {
-  SkyAngularTreeAdapterService
-} from './angular-tree-adapter.service';
 
 import {
   SkyAngularTreeContextMenuComponent
@@ -64,10 +56,6 @@ import {
     SkyIconModule,
     SkyToolbarModule,
     TreeModule
-  ],
-  providers: [
-    SkyAngularTreeAdapterService,
-    SkyCoreAdapterService
   ],
   exports: [
     SkyAngularTreeContextMenuComponent,
