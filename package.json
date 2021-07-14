@@ -48,7 +48,6 @@
     "@skyux-sdk/builder-plugin-skyux": "4.2.0",
     "@skyux-sdk/e2e": "4.0.2",
     "@skyux-sdk/testing": "4.3.0",
-    "@skyux/angular-tree-component": "4.0.2",
     "@skyux/animations": "4.0.1",
     "@skyux/assets": "4.0.1",
     "@skyux/config": "4.4.0",
