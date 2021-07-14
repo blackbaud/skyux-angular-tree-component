@@ -7,11 +7,11 @@ import {
   ITreeOptions,
   ITreeState,
   TreeComponent
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 import {
   IDTypeDictionary
-} from 'angular-tree-component/dist/defs/api';
+} from '@circlon/angular-tree-component/lib/defs/api';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html'

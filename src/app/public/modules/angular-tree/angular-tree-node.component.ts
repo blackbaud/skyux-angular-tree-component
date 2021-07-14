@@ -12,7 +12,7 @@ import {
 import {
   ITreeState,
   TreeNode
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 import {
   SkyAngularTreeAdapterService

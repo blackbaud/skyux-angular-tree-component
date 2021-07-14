@@ -12,7 +12,7 @@ import {
 
 import {
   TreeModule
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
 
 import {
   SkyAngularTreeModule
@@ -27,7 +27,7 @@ import {
     CommonModule,
     SkyAngularTreeModule,
     SkyDropdownModule,
-    TreeModule.forRoot()
+    TreeModule
   ],
   declarations: [
     SkyTreeViewFixtureComponent

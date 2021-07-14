@@ -21,20 +21,19 @@ import {
 
 import {
   TreeModule
-} from 'angular-tree-component';
+} from '@circlon/angular-tree-component';
+
+import {
+  SkyAngularTreeForRootCompatModule
+} from './public/modules/shared/angular-tree-for-root-compat.module';
 
 import {
   SkyAngularTreeModule
 } from './public/public_api';
 
-// Build will crash if we try to insert function calls inside the NgModule decorator.
-// To get around this, we just use a variable to refer to the .forRoot() function call.
-// https://github.com/angular/angular/issues/23609
-const treeModuleForRoot = TreeModule.forRoot();
-
 @NgModule({
   imports: [
-    treeModuleForRoot
+    SkyAngularTreeForRootCompatModule
   ],
   exports: [
     SkyAngularTreeModule,
