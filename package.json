@@ -1,6 +1,6 @@
 {
   "name": "@skyux/angular-tree-component",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "SKYUX styles and utilities to be used with angular-tree-view",
   "scripts": {
     "build": "skyux build-public-library",
@@ -64,8 +64,8 @@
     "@skyux/omnibar-interop": "4.0.1",
     "@skyux/popovers": "4.5.3",
     "@skyux/router": "4.2.2",
-    "@skyux/tabs": "4.6.7",
-    "@skyux/theme": "4.19.0",
+    "@skyux/tabs": "4.6.8",
+    "@skyux/theme": "4.20.0",
     "angular-tree-component": "8.5.6",
     "codelyzer": "5.2.2",
     "rxjs": "6.6.7",
