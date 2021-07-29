@@ -1,4 +1,4 @@
-# 4.0.3 (2021-07-28)
+# 4.0.3 (2021-07-29)
 
 - Fixed the Angular tree component to fire the `stateChange` event once on click. [#42](https://github.com/blackbaud/skyux-angular-tree-component/pull/42)
 
