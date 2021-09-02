@@ -27,8 +27,8 @@ import {
 } from 'angular-tree-component';
 
 import {
-  SkyAngularTreeResourcesModule
-} from '../shared/angular-tree-resources.module';
+  SkyAngularTreeComponentResourcesModule
+} from '../shared/sky-angular-tree-component-resources.module';
 
 import {
   SkyAngularTreeContextMenuComponent
@@ -55,7 +55,7 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyAngularTreeResourcesModule,
+    SkyAngularTreeComponentResourcesModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyToolbarModule,
