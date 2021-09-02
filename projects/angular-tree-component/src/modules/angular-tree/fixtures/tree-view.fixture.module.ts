@@ -11,10 +11,6 @@ import {
 } from '@skyux/popovers';
 
 import {
-  TreeModule
-} from 'angular-tree-component';
-
-import {
   SkyAngularTreeModule
 } from '../angular-tree.module';
 
@@ -26,8 +22,7 @@ import {
   imports: [
     CommonModule,
     SkyAngularTreeModule,
-    SkyDropdownModule,
-    TreeModule.forRoot()
+    SkyDropdownModule
   ],
   declarations: [
     SkyTreeViewFixtureComponent
