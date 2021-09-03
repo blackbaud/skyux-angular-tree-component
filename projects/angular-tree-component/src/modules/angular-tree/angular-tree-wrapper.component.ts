@@ -172,6 +172,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
       // thus stopping "enter" and "space" keys to throw "click" events on interactive elements.
       // This logic ensures components looking for "clicks" on those keystrokes still work (dropdown component).
       // https://github.com/500tech/angular-tree-component/blob/master/lib/models/tree.model.ts#L341
+      /* istanbul ignore else */
       if (event.defaultPrevented) {
         event.target.click();
       }

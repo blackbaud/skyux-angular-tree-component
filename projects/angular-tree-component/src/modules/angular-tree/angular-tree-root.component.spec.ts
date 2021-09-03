@@ -814,7 +814,45 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should move between focusable children elements with left/right arrows', fakeAsync(() => {
+    it('should move between focusable children elements with Left/Right keys', fakeAsync(() => {
+      setupCascadingMode();
+      component.showContextMenus = true;
+      fixture.detectChanges();
+      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const checkboxInputs = getCheckboxInputs();
+      const nodes = getNodeContentWrappers();
+
+      // Press right arrow key on first node.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyDownOnElement(nodes[0], 'Right', 39);
+
+      // Expect first child element to be selected (checkbox).
+      expect(document.activeElement).toEqual(checkboxInputs[0]);
+
+      // Press right arrow key on first node.
+      keyDownOnElement(checkboxInputs[0], 'Right', 39);
+
+      // Expect second child element to be selected (dropdown menu).
+      expect(document.activeElement).toEqual(dropdownButtons[0]);
+
+      // Press left arrow key.
+      keyDownOnElement(dropdownButtons[0], 'Left', 37);
+
+      // Active focus should move back to first child element (checkbox).
+      expect(document.activeElement).toEqual(checkboxInputs[0]);
+
+      // Press left arrow key.
+      keyDownOnElement(checkboxInputs[0], 'Left', 37);
+
+      // Active focus should move back to first node.
+      expect(document.activeElement).toEqual(nodes[0]);
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should move between focusable children elements with ArrowLeft/ArrowRight keys', fakeAsync(() => {
       setupCascadingMode();
       component.showContextMenus = true;
       fixture.detectChanges();
@@ -883,7 +921,29 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should move between nodes with up/down arrows', () => {
+    it('should move between nodes with Up/Down keys', () => {
+      fixture.detectChanges();
+      const nodes = getNodeContentWrappers();
+
+      // Expect tree to start with nothing focused.
+      expect(component.focusedNodeId).toBeNull();
+
+      // Press down arrow twice.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      keyDownOnElement(nodes[0], 'Down', 40);
+      keyDownOnElement(nodes[1], 'Down', 40);
+
+      // Expect focus to be on third node.
+      expect(component.focusedNodeId).toEqual(3);
+
+      // Press up arrow key on third node.
+      keyDownOnElement(nodes[2], 'Up', 38);
+
+      // Expect focus to be on second element.
+      expect(component.focusedNodeId).toEqual(2);
+    });
+
+    it('should move between nodes with ArrowUp/ArrowDown keys', () => {
       fixture.detectChanges();
       const nodes = getNodeContentWrappers();
 
