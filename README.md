@@ -1,5 +1,3 @@
-# @skyux/angular-tree-component
+# @skyux/angular-tree-component Workspace
 
-[![npm](https://img.shields.io/npm/v/@skyux/angular-tree-component.svg)](https://www.npmjs.com/package/@skyux/angular-tree-component)
-![SKY UX CI](https://github.com/blackbaud/skyux-angular-tree-component/workflows/SKY%20UX%20CI/badge.svg)
-[![coverage](https://codecov.io/gh/blackbaud/skyux-angular-tree-component/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/gh/blackbaud/skyux-angular-tree-component/branch/master)
+For information about `@skyux/angular-tree-component` please visit the library's README file, located at `projects/angular-tree-component/README.md`.
