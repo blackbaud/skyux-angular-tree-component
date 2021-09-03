@@ -65,10 +65,8 @@ import {
     SkyCoreAdapterService
   ],
   exports: [
-    SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeComponent,
-    SkyAngularTreeWrapperComponent,
-    SkyTreeViewToolbarComponent
+    SkyAngularTreeWrapperComponent
   ]
 })
 export class SkyAngularTreeModule { }
