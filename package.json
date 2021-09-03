@@ -26,7 +26,6 @@
     "@blackbaud/auth-client": "^2.48.0",
     "@blackbaud/skyux-builder-plugin-code-block": "^1.1.0",
     "@circlon/angular-tree-component": "^11.0.4",
-    "@skyux/angular-tree-component": "^4.0.2",
     "@skyux/animations": "^5.0.0-beta.2",
     "@skyux/assets": "^5.0.0-beta.0",
     "@skyux/config": "^5.0.0-beta.1",
