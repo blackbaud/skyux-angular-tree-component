@@ -5,6 +5,7 @@ import {
 import {
   NgModule
 } from '@angular/core';
+import { TreeModule } from '@circlon/angular-tree-component';
 
 import {
   SkyDropdownModule
@@ -22,12 +23,11 @@ import {
   imports: [
     CommonModule,
     SkyAngularTreeModule,
-    SkyDropdownModule
+    SkyDropdownModule,
+    TreeModule
   ],
   declarations: [
     SkyTreeViewFixtureComponent
-  ],
-  exports: [
   ]
 })
 export class SkyTreeViewFixturesModule { }
