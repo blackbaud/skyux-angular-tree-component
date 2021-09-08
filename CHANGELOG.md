@@ -1,3 +1,9 @@
+# 5.0.0-beta.0 (2021-09-08)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#46](https://github.com/blackbaud/skyux-angular-tree-component/pull/46)
+- Migrated to Angular CLI. [#46](https://github.com/blackbaud/skyux-angular-tree-component/pull/46)
+
 # 4.0.3 (2021-07-29)
 
 - Fixed the Angular tree component to fire the `stateChange` event once on click. [#42](https://github.com/blackbaud/skyux-angular-tree-component/pull/42)
