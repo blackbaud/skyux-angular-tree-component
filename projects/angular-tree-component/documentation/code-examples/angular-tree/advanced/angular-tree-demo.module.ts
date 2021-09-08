@@ -12,7 +12,7 @@ import {
 
 import {
   SkyAngularTreeModule
-} from '@skyux/angular-tree-component';
+} from 'projects/angular-tree-component/src/public-api';
 
 import {
   SkyCheckboxModule,
