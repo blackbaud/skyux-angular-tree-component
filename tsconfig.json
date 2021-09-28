@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@skyux/angular-tree-component": [
+        "projects/angular-tree-component/src/public-api.ts"
+      ],
       "angular-tree-component": [
         "dist/angular-tree-component/angular-tree-component",
         "dist/angular-tree-component"
