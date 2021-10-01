@@ -2,7 +2,7 @@
 
 ### New features
 
-- Added support for Angular 12. [#45](https://github.com/blackbaud/skyux-tiles/pull/45)
+- Added support for Angular 12. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
 
 ### Breaking changes
 
