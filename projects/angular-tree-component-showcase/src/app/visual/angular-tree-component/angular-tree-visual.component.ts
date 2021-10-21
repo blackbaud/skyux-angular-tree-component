@@ -14,9 +14,8 @@ import {
 } from '@circlon/angular-tree-component/lib/defs/api';
 
 @Component({
-  selector: 'sky-angular-tree-visual',
+  selector: 'app-angular-tree-visual',
   templateUrl: './angular-tree-visual.component.html',
-  styleUrls: ['./angular-tree-visual.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyAngularTreeVisualComponent {
