@@ -1,6 +1,6 @@
 # 5.0.1 (2021-10-25)
 
-- Fixed single select mode to only emit once when user makes a selection. [#52](https://github.com/blackbaud/skyux-angular-tree-component/pull/52)
+- Fixed single select mode to only emit once when a user makes a selection. [#52](https://github.com/blackbaud/skyux-angular-tree-component/pull/52)
 
 # 5.0.0 (2021-10-01)
 
