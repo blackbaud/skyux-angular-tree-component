@@ -1,25 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import {
-  ITreeOptions,
-  TreeNode
-} from '@circlon/angular-tree-component';
+import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
 
 import {
   IDTypeDictionary,
-  ITreeState
+  ITreeState,
 } from '@circlon/angular-tree-component/lib/defs/api';
 
 @Component({
   selector: 'app-angular-tree-visual',
   templateUrl: './angular-tree-visual.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAngularTreeVisualComponent {
-
   public activeNodeIds: string[] = [];
 
   public dropdownItems: any = [
@@ -30,11 +23,11 @@ export class SkyAngularTreeVisualComponent {
     { name: 'Move left', disabled: false },
     { name: 'Move right', disabled: false },
     { name: 'Edit', disabled: false },
-    { name: 'Delete', disabled: false }
+    { name: 'Delete', disabled: false },
   ];
 
   public basicOptions: ITreeOptions = {
-    animateExpand: true
+    animateExpand: true,
   };
 
   public expandedNodeIds: string[] = [];
@@ -49,20 +42,24 @@ export class SkyAngularTreeVisualComponent {
       children: [
         { id: 2, name: 'Alabama' },
         { id: 3, name: 'California' },
-        { id: 4, name: 'Indiana', isExpanded: true, children: [
-          { id: 5, name: 'Adams' },
-          { id: 6, name: 'Allen' },
-          { id: 7, name: 'Bartholomew' }
-          ]
+        {
+          id: 4,
+          name: 'Indiana',
+          isExpanded: true,
+          children: [
+            { id: 5, name: 'Adams' },
+            { id: 6, name: 'Allen' },
+            { id: 7, name: 'Bartholomew' },
+          ],
         },
-        { id: 13, name: 'Florida' }
-      ]
+        { id: 13, name: 'Florida' },
+      ],
     },
     {
       id: 12,
       name: 'Mexico',
       isExpanded: true,
-      children: []
+      children: [],
     },
     {
       id: 8,
@@ -71,27 +68,27 @@ export class SkyAngularTreeVisualComponent {
       children: [
         { id: 9, name: 'Alberta' },
         { id: 10, name: 'British Columbia' },
-        { id: 11, name: 'Manitoba' }
-      ]
+        { id: 11, name: 'Manitoba' },
+      ],
     },
     {
       id: 14,
       name: 'Argentina',
       isExpanded: true,
-      children: []
-    }
+      children: [],
+    },
   ];
 
   public optionsCascading: ITreeOptions = {
     animateExpand: true,
     useCheckbox: true,
-    useTriState: true
+    useTriState: true,
   };
 
   public optionsNoncascading: ITreeOptions = {
     animateExpand: true,
     useCheckbox: true,
-    useTriState: false
+    useTriState: false,
   };
 
   public selectedNodeIds: string[] = [];
@@ -104,7 +101,9 @@ export class SkyAngularTreeVisualComponent {
     this.expandedNodeIds = this.getDictionaryValue(event.expandedNodeIds);
     this.selectedNodeIds = this.getDictionaryValue(event.selectedLeafNodeIds);
     this.activeNodeIds = this.getDictionaryValue(event.activeNodeIds);
-    this.focusedNodeId = event.focusedNodeId ? event.focusedNodeId.toString() : undefined;
+    this.focusedNodeId = event.focusedNodeId
+      ? event.focusedNodeId.toString()
+      : undefined;
   }
 
   private getDictionaryValue(dictionary: IDTypeDictionary): string[] {
@@ -116,5 +115,4 @@ export class SkyAngularTreeVisualComponent {
     }
     return returnValue;
   }
-
 }

@@ -1,19 +1,10 @@
-<div
-  class="app-screenshot"
->
+<div class="app-screenshot">
   <h1>Sky tree view</h1>
 
   <h2>Basic</h2>
-  <div
-    class="sky-padding-even-default"
-    id="screenshot-tree-view-basic"
-  >
+  <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
     <sky-angular-tree-wrapper>
-      <tree-root
-        [nodes]="nodes"
-        [options]="basicOptions"
-        #treeBasic
-      >
+      <tree-root [nodes]="nodes" [options]="basicOptions" #treeBasic>
         <ng-template
           let-index="index"
           let-node
@@ -32,18 +23,9 @@
   </div>
 
   <h2>Read-only mode</h2>
-  <div
-    class="sky-padding-even-default"
-    id="screenshot-tree-view-basic"
-  >
-    <sky-angular-tree-wrapper
-      [readOnly]="true"
-    >
-      <tree-root
-        [nodes]="nodes"
-        [options]="basicOptions"
-        #treeReadOnly
-      >
+  <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
+    <sky-angular-tree-wrapper [readOnly]="true">
+      <tree-root [nodes]="nodes" [options]="basicOptions" #treeReadOnly>
         <ng-template
           let-index="index"
           let-node
@@ -67,10 +49,7 @@
     class="sky-padding-even-default"
   >
     <sky-angular-tree-wrapper>
-      <tree-root
-        [nodes]="nodes"
-        [options]="optionsNoncascading"
-      >
+      <tree-root [nodes]="nodes" [options]="optionsNoncascading">
         <ng-template
           let-index="index"
           let-node
@@ -82,9 +61,7 @@
             [node]="node"
             [templates]="templates"
           >
-            <sky-dropdown
-              buttonType="context-menu"
-            >
+            <sky-dropdown buttonType="context-menu">
               <sky-dropdown-menu>
                 <sky-dropdown-item *ngFor="let item of dropdownItems">
                   <button
@@ -107,14 +84,8 @@
     id="screenshot-tree-view-cascading-checkboxes"
     class="sky-padding-even-default"
   >
-    <sky-angular-tree-wrapper
-      [showToolbar]="true"
-    >
-      <tree-root
-        [nodes]="nodes"
-        [options]="optionsCascading"
-        #treeCascading
-      >
+    <sky-angular-tree-wrapper [showToolbar]="true">
+      <tree-root [nodes]="nodes" [options]="optionsCascading" #treeCascading>
         <ng-template
           let-index="index"
           let-node
@@ -137,9 +108,7 @@
     id="screenshot-tree-view-non-cascading-checkboxes"
     class="sky-padding-even-default"
   >
-    <sky-angular-tree-wrapper
-      [showToolbar]="true"
-    >
+    <sky-angular-tree-wrapper [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
         [options]="optionsNoncascading"
@@ -167,10 +136,7 @@
     id="screenshot-tree-view-leaf-selection-only"
     class="sky-padding-even-default"
   >
-    <sky-angular-tree-wrapper
-      [selectLeafNodesOnly]="true"
-      [showToolbar]="true"
-    >
+    <sky-angular-tree-wrapper [selectLeafNodesOnly]="true" [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
         [options]="optionsNoncascading"
@@ -194,14 +160,8 @@
   </div>
 
   <h2>Checkboxes (single select)</h2>
-  <div
-    id="screenshot-tree-view-single-select"
-    class="sky-padding-even-default"
-  >
-    <sky-angular-tree-wrapper
-      [selectSingle]="true"
-      [showToolbar]="true"
-    >
+  <div id="screenshot-tree-view-single-select" class="sky-padding-even-default">
+    <sky-angular-tree-wrapper [selectSingle]="true" [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
         [options]="optionsNoncascading"
@@ -225,26 +185,24 @@
   </div>
 
   <h2>Binding to events</h2>
-  <div
-    class="sky-padding-even-default"
-  >
+  <div class="sky-padding-even-default">
     <table>
-        <tr>
-          <th>Selected node ids</th>
-          <td>{{ selectedNodeIds }}</td>
-        </tr>
-        <tr>
-          <th>Expanded node ids</th>
-          <td>{{ expandedNodeIds }}</td>
-        </tr>
-        <tr>
-          <th>Active node ids</th>
-          <td>{{ activeNodeIds }}</td>
-        </tr>
-        <tr>
-          <th>Focused node id</th>
-          <td>{{ focusedNodeId }}</td>
-        </tr>
+      <tr>
+        <th>Selected node ids</th>
+        <td>{{ selectedNodeIds }}</td>
+      </tr>
+      <tr>
+        <th>Expanded node ids</th>
+        <td>{{ expandedNodeIds }}</td>
+      </tr>
+      <tr>
+        <th>Active node ids</th>
+        <td>{{ activeNodeIds }}</td>
+      </tr>
+      <tr>
+        <th>Focused node id</th>
+        <td>{{ focusedNodeId }}</td>
+      </tr>
     </table>
     <sky-angular-tree-wrapper>
       <tree-root

@@ -8,16 +8,13 @@ import { RouterModule } from '@angular/router';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @NgModule({
-  declarations: [
-    SkyAngularTreeVisualComponent,
-    VisualComponent
-  ],
+  declarations: [SkyAngularTreeVisualComponent, VisualComponent],
   imports: [
     CommonModule,
     SkyAngularTreeModule,
     SkyDropdownModule,
     RouterModule,
-    TreeModule
-  ]
+    TreeModule,
+  ],
 })
-export class VisualModule { }
+export class VisualModule {}
