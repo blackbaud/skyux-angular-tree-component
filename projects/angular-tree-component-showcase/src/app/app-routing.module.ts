@@ -6,16 +6,16 @@ import { VisualComponent } from './visual/visual.component';
 const routes: Routes = [
   {
     path: '',
-    component: VisualComponent
+    component: VisualComponent,
   },
   {
     path: 'visual/angular-tree-component',
-    component: SkyAngularTreeVisualComponent
-  }
+    component: SkyAngularTreeVisualComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
